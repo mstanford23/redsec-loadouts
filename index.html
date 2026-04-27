@@ -159,6 +159,36 @@
   .bw-preview { background: var(--bg-2); border: 1px solid var(--line); padding: 32px 24px; min-height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
   .bw-empty { font-family: var(--mono); font-size: 12px; color: var(--text-dim); letter-spacing: 0.2em; }
   .bw-svg { width: 100%; max-width: 540px; height: auto; display: block; margin: 0 auto; }
+  .bw-photo-wrap {
+    width: 100%; max-width: 480px; min-height: 160px; display: flex; align-items: center; justify-content: center;
+    background: radial-gradient(ellipse at center, rgba(255,107,26,0.08), transparent 70%);
+    padding: 12px; margin: 0 auto;
+  }
+  .bw-photo {
+    width: 100%; max-width: 460px; height: auto; max-height: 220px; object-fit: contain; display: block;
+    filter: drop-shadow(0 4px 16px rgba(255,107,26,0.15)) drop-shadow(0 0 20px rgba(0,0,0,0.6));
+    transition: filter 0.2s;
+  }
+  .bw-photo:hover { filter: drop-shadow(0 4px 20px rgba(255,107,26,0.3)) drop-shadow(0 0 24px rgba(0,0,0,0.7)); }
+
+  .bw-active-row {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; justify-content: center; padding: 0 12px;
+  }
+  .bw-active-empty {
+    margin-top: 14px; font-family: var(--mono); font-size: 10px; color: var(--text-dim);
+    letter-spacing: 0.15em; text-align: center;
+  }
+  .bw-active-chip {
+    display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px 4px 4px;
+    background: rgba(255, 107, 26, 0.08); border: 1px solid var(--olive);
+    font-family: var(--sans); font-size: 11px; color: var(--text);
+    animation: chipIn 0.25s ease-out;
+  }
+  .bw-active-chip-slot {
+    font-family: var(--mono); font-size: 8px; color: var(--olive); letter-spacing: 0.2em;
+    background: var(--bg); padding: 3px 6px; border: 1px solid var(--line); font-weight: 700;
+  }
+  @keyframes chipIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
   .bw-name { font-size: 28px; font-weight: 900; letter-spacing: -0.01em; margin-top: 16px; text-align: center; }
   .bw-meta-row { display: flex; gap: 12px; margin-top: 8px; align-items: center; flex-wrap: wrap; justify-content: center; }
   .bw-meta-cat { font-family: var(--mono); font-size: 10px; color: var(--olive); letter-spacing: 0.2em; text-transform: uppercase; }
@@ -1362,6 +1392,47 @@
     }));
   }
 
+  // Real weapon images scraped from Battlefield Fandom Wiki (MediaWiki API).
+  // Mix of in-game portal icons and real-world reference photos. CORS-open via Wikia CDN.
+  // null entries fall back to procedural SVG below.
+  const WEAPON_IMAGES = {
+    "M433": "https://static.wikia.nocookie.net/battlefield/images/d/d7/HK433_IRL.png/revision/latest/scale-to-width-down/400",
+    "B36A4": "https://static.wikia.nocookie.net/battlefield/images/9/90/BF6_B36A4_Portal_Icon.png/revision/latest/scale-to-width-down/400",
+    "SOR-556 MK2": "https://static.wikia.nocookie.net/battlefield/images/b/b3/BF6_SOR-556_Mk2_Portal_Icon.png/revision/latest/scale-to-width-down/400",
+    "AK4D": "https://static.wikia.nocookie.net/battlefield/images/a/a8/BF6_AK4D_Portal_Icon.png/revision/latest/scale-to-width-down/400",
+    "TR-7": "https://static.wikia.nocookie.net/battlefield/images/1/16/Tavor_7_IRL.jpg/revision/latest/scale-to-width-down/400",
+    "KORD 6P67": "https://static.wikia.nocookie.net/battlefield/images/1/1d/BF6_KORD_6P67_Portal_Icon.png/revision/latest/scale-to-width-down/400",
+    "NVO-228E": "https://static.wikia.nocookie.net/battlefield/images/6/65/Galil_ACE_32_IRL.jpg/revision/latest/scale-to-width-down/400",
+    "L85A3": "https://static.wikia.nocookie.net/battlefield/images/6/64/BF6_L85A3_Portal_Icon.png/revision/latest/scale-to-width-down/400",
+    "AK-205": "https://static.wikia.nocookie.net/battlefield/images/4/4c/AK-205_IRL.jpg/revision/latest/scale-to-width-down/400",
+    "QBZ-192": "https://static.wikia.nocookie.net/battlefield/images/f/f2/BF6_QBZ-192_Portal_Icon.png/revision/latest/scale-to-width-down/400",
+    "SG-554R": "https://static.wikia.nocookie.net/battlefield/images/2/2d/BF6_SG_553R_Portal_Icon.png/revision/latest/scale-to-width-down/400",
+    "SOR-300SC": "https://static.wikia.nocookie.net/battlefield/images/b/b6/FN_SCAR-SC_IRL.jpg/revision/latest/scale-to-width-down/400",
+    "SGX": "https://static.wikia.nocookie.net/battlefield/images/2/20/BF6_SGX_Portal_Icon.png/revision/latest/scale-to-width-down/400",
+    "PW5A3": "https://static.wikia.nocookie.net/battlefield/images/5/5d/BF6_PW5A3_Portal_Icon.png/revision/latest/scale-to-width-down/400",
+    "PW7A2": "https://static.wikia.nocookie.net/battlefield/images/0/0d/BF6_PW7A2_Portal_Icon.png/revision/latest/scale-to-width-down/400",
+    "UMG-40": "https://static.wikia.nocookie.net/battlefield/images/2/2a/BF6_UMG-40_Portal_Icon.png/revision/latest/scale-to-width-down/400",
+    "USG-90": "https://static.wikia.nocookie.net/battlefield/images/2/22/BF6_USG-90_Portal_Icon.png/revision/latest/scale-to-width-down/400",
+    "KV9": "https://static.wikia.nocookie.net/battlefield/images/1/12/BF6_KV9_Portal_Icon.png/revision/latest/scale-to-width-down/400",
+    "SL9": "https://static.wikia.nocookie.net/battlefield/images/3/3a/BF6_SL9_Portal_Icon.png/revision/latest/scale-to-width-down/400",
+    "L110": "https://static.wikia.nocookie.net/battlefield/images/c/c5/BF6_L110_Portal_Icon.png/revision/latest/scale-to-width-down/400",
+    "M60": "https://static.wikia.nocookie.net/battlefield/images/e/e9/M60.jpg/revision/latest/scale-to-width-down/400",
+    "RPKM": "https://static.wikia.nocookie.net/battlefield/images/0/03/BF6_RPKM_Portal_Icon.png/revision/latest/scale-to-width-down/400",
+    "M250": "https://static.wikia.nocookie.net/battlefield/images/1/14/M250_IRL.jpg/revision/latest/scale-to-width-down/400",
+    "M240L": "https://static.wikia.nocookie.net/battlefield/images/5/58/BF6_M240L_Portal_Icon.png/revision/latest/scale-to-width-down/400",
+    "M39 EMR": "https://static.wikia.nocookie.net/battlefield/images/c/c8/PrecisionEMR-1-.jpg/revision/latest",
+    "SVDM": "https://static.wikia.nocookie.net/battlefield/images/d/d4/BF6_SVDM_Portal_Icon.png/revision/latest/scale-to-width-down/400",
+    "M2010 ESR": "https://static.wikia.nocookie.net/battlefield/images/5/56/M2010_ESR_IRL.jpg/revision/latest/scale-to-width-down/400",
+    "SV-98": "https://static.wikia.nocookie.net/battlefield/images/9/91/Sv98-l.jpg/revision/latest/scale-to-width-down/400",
+    "PSR": "https://static.wikia.nocookie.net/battlefield/images/a/ae/Barrett_MRAD_IRL.jpg/revision/latest/scale-to-width-down/400",
+    "Mini Scout": "https://static.wikia.nocookie.net/battlefield/images/5/5a/Q_Mini_Fix_IRL.jpg/revision/latest/scale-to-width-down/400",
+    "M87A1": "https://static.wikia.nocookie.net/battlefield/images/7/75/BF6_M87A1_Portal_Icon.png/revision/latest/scale-to-width-down/400",
+    "M1014": "https://static.wikia.nocookie.net/battlefield/images/7/71/BenelliM4IRL.jpg/revision/latest/scale-to-width-down/400",
+    "18.5 KS-K": "https://static.wikia.nocookie.net/battlefield/images/d/d6/BF6_18.5KS-K_Portal_Icon.png/revision/latest/scale-to-width-down/400",
+    "P18": "https://static.wikia.nocookie.net/battlefield/images/4/43/M18_IRL.png/revision/latest/scale-to-width-down/400",
+    "ES-5-7": "https://static.wikia.nocookie.net/battlefield/images/9/93/BF6_ES_5.7_Portal_Icon.png/revision/latest/scale-to-width-down/400"
+  };
+
   // SVG defs reused across renders (gradients for the metallic / polymer look)
   const SVG_DEFS = `<defs>
     <linearGradient id="metalDk" x1="0" y1="0" x2="0" y2="1">
@@ -1711,14 +1782,34 @@
     const el = document.getElementById('bw-preview');
     if (!bs.weapon) { el.innerHTML = '<div class="bw-empty">// SELECT A WEAPON ABOVE</div>'; return; }
     const w = bs.weapon;
+    const imgUrl = WEAPON_IMAGES[w.name];
+    const svgFallback = svgForWeapon(w, bs.equipped).replace(/"/g, '&quot;');
+    const visual = imgUrl
+      ? `<img class="bw-photo" src="${imgUrl}" alt="${w.name}" loading="lazy" onerror="this.outerHTML=this.dataset.fb" data-fb="${svgFallback}"/>`
+      : svgForWeapon(w, bs.equipped);
+
+    // Equipped attachment chips — visible feedback that updates as you change attachments
+    const equippedChips = SLOT_ORDER.map(slot => {
+      const idx = bs.equipped[slot];
+      if (idx == null) return '';
+      const a = ATTACHMENT_DATA[slot][idx];
+      if (!a || a.cost === 0) return ''; // hide neutral / "None" picks
+      return `<span class="bw-active-chip"><span class="bw-active-chip-slot">${slot.slice(0,3).toUpperCase()}</span>${a.name}</span>`;
+    }).filter(Boolean).join('');
+    const chipsRow = equippedChips
+      ? `<div class="bw-active-row">${equippedChips}</div>`
+      : `<div class="bw-active-empty">// no attachments equipped</div>`;
+
     el.innerHTML = `
-      ${svgForWeapon(w, bs.equipped)}
+      <div class="bw-photo-wrap">${visual}</div>
       <div class="bw-name">${w.name}</div>
       <div class="bw-meta-row">
         <span class="bw-meta-cat">${w.category}</span>
         <span class="bw-meta-tier">${w.tier}-Tier</span>
         ${w.meta ? '<span class="bw-meta-tier" style="color:var(--green);border-color:var(--green)">META</span>' : ''}
+        ${imgUrl ? '' : '<span class="bw-meta-tier" style="color:var(--text-dim);border-color:var(--text-dim)">PROC SVG</span>'}
       </div>
+      ${chipsRow}
     `;
   }
 
