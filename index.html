@@ -6,19 +6,19 @@
 <title>REDSEC // Loadout Matrix</title>
 <style>
   :root {
-    --bg: #0a0d0a;
-    --bg-2: #11161a;
-    --bg-3: #1a2026;
-    --line: #2a3138;
-    --olive: #c4d447;
-    --olive-dim: #7a8a2e;
-    --red: #ff4438;
-    --red-dim: #aa2a22;
-    --green: #4ade80;
+    --bg: #0a0806;
+    --bg-2: #18120e;
+    --bg-3: #221814;
+    --line: #33261c;
+    --olive: #ff6b1a;
+    --olive-dim: #b54a10;
+    --red: #ff3050;
+    --red-dim: #a01c30;
+    --green: #5fe874;
     --green-dim: #2a8a4a;
-    --amber: #fbbf24;
-    --text: #e8ecdf;
-    --text-dim: #8a9080;
+    --amber: #ffd24a;
+    --text: #f4ece0;
+    --text-dim: #a09080;
     --mono: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
     --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
@@ -26,8 +26,8 @@
   html, body { background: var(--bg); color: var(--text); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
   body {
     background-image:
-      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(196, 212, 71, 0.06), transparent 60%),
-      linear-gradient(180deg, #0a0d0a 0%, #080a08 100%);
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255, 107, 26, 0.08), transparent 60%),
+      linear-gradient(180deg, #0a0806 0%, #080604 100%);
     min-height: 100vh;
   }
   .scanline {
@@ -196,7 +196,7 @@
     display: flex; flex-direction: column; gap: 8px; text-align: left;
   }
   .bw-opt:hover:not(.locked) { border-color: var(--olive); background: var(--bg-3); }
-  .bw-opt.equipped { border-color: var(--olive); background: rgba(196, 212, 71, 0.06); }
+  .bw-opt.equipped { border-color: var(--olive); background: rgba(255, 107, 26, 0.06); }
   .bw-opt.equipped::before { content: '◉ EQUIPPED'; position: absolute; top: 6px; right: 8px; font-family: var(--mono); font-size: 9px; color: var(--olive); letter-spacing: 0.15em; }
   .bw-opt.locked { opacity: 0.35; cursor: not-allowed; }
   .bw-opt-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; position: relative; }
@@ -484,7 +484,7 @@
     padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 13px; font-family: var(--mono);
   }
   table.armory-table tbody tr:hover { background: var(--bg-3); }
-  table.armory-table tbody tr.meta-pick { background: rgba(196, 212, 71, 0.05); border-left: 3px solid var(--olive); }
+  table.armory-table tbody tr.meta-pick { background: rgba(255, 107, 26, 0.05); border-left: 3px solid var(--olive); }
   table.armory-table tbody tr.meta-pick td:first-child { color: var(--olive); font-weight: 700; }
   .tier-cell { font-weight: 700; letter-spacing: 0.1em; }
   .tier-S { color: var(--olive); }
@@ -511,7 +511,7 @@
     font-family: var(--mono); font-size: 8px; letter-spacing: 0.15em; color: var(--olive);
     background: var(--bg); padding: 3px 5px; border: 1px solid var(--line); font-weight: 600;
   }
-  tr.meta-pick .att-chip { background: rgba(196, 212, 71, 0.04); border-color: rgba(196, 212, 71, 0.3); }
+  tr.meta-pick .att-chip { background: rgba(255, 107, 26, 0.04); border-color: rgba(255, 107, 26, 0.3); }
 
   .armory-legend {
     display: flex; gap: 24px; margin-top: 16px; flex-wrap: wrap; font-family: var(--mono);
@@ -523,7 +523,7 @@
   .legend-dot.tier-a { background: var(--green); }
   .legend-dot.tier-b { background: var(--amber); }
   .legend-dot.tier-c { background: var(--text-dim); }
-  .legend-dot.meta-flag { background: rgba(196, 212, 71, 0.2); border: 1px solid var(--olive); }
+  .legend-dot.meta-flag { background: rgba(255, 107, 26, 0.2); border: 1px solid var(--olive); }
   .legend-dot.fastest-flag { background: var(--bg); border: 1px solid var(--olive); position: relative; }
   .legend-dot.fastest-flag::after { content: ''; position: absolute; inset: 2px; background: var(--olive); }
 
@@ -699,7 +699,7 @@
     <div class="class-num">00</div>
     <div class="class-title">
       <h2>Full Armory</h2>
-      <div class="role">All 48 weapons // Raw stats // Sort & filter</div>
+      <div class="role">All 46 weapons // Raw stats // Sort & filter</div>
     </div>
     <div class="tier-badge">Verify Yourself</div>
   </div>
@@ -1896,10 +1896,10 @@
     const path = points.map((p, i) => (i === 0 ? 'M' : 'L') + p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
     const fill = `${path} L${padL+innerW},${padT+innerH} L${padL},${padT+innerH} Z`;
     const btks = [
-      { dmg: 50,    label: '2STK', color: '#4ade80' },
-      { dmg: 33.34, label: '3STK', color: '#c4d447' },
-      { dmg: 25,    label: '4STK', color: '#fbbf24' },
-      { dmg: 20,    label: '5STK', color: '#ff4438' }
+      { dmg: 50,    label: '2STK', color: '#5fe874' },
+      { dmg: 33.34, label: '3STK', color: '#ff6b1a' },
+      { dmg: 25,    label: '4STK', color: '#ffd24a' },
+      { dmg: 20,    label: '5STK', color: '#ff3050' }
     ];
     const lines = btks.map(t => {
       const y = padT + innerH - (t.dmg / maxDmg) * innerH;
@@ -1908,21 +1908,21 @@
     }).join('');
     const xLabels = [0, 25, 50, 75, 100].map(d => {
       const x = padL + (d / maxRange) * innerW;
-      return `<text x="${x}" y="${H-8}" font-size="9" fill="#8a9080" text-anchor="middle" style="font-family:monospace">${d}m</text>`;
+      return `<text x="${x}" y="${H-8}" font-size="9" fill="#a09080" text-anchor="middle" style="font-family:monospace">${d}m</text>`;
     }).join('');
     const yLabels = [0, 30, 60, 90, 120].map(d => {
       const y = padT + innerH - (d / maxDmg) * innerH;
-      return `<text x="${padL-6}" y="${y+3}" font-size="9" fill="#8a9080" text-anchor="end" style="font-family:monospace">${d}</text>`;
+      return `<text x="${padL-6}" y="${y+3}" font-size="9" fill="#a09080" text-anchor="end" style="font-family:monospace">${d}</text>`;
     }).join('');
     document.getElementById('bw-falloff').innerHTML = `
       <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;display:block">
-        <rect x="${padL}" y="${padT}" width="${innerW}" height="${innerH}" fill="#0a0d0a" stroke="#2a3138"/>
+        <rect x="${padL}" y="${padT}" width="${innerW}" height="${innerH}" fill="#0a0806" stroke="#33261c"/>
         ${lines}
-        <path d="${fill}" fill="#c4d447" opacity="0.12"/>
-        <path d="${path}" fill="none" stroke="#c4d447" stroke-width="2"/>
+        <path d="${fill}" fill="#ff6b1a" opacity="0.14"/>
+        <path d="${path}" fill="none" stroke="#ff6b1a" stroke-width="2"/>
         ${xLabels}
         ${yLabels}
-        <text x="${padL+innerW/2}" y="${padT-2}" font-size="9" fill="#8a9080" text-anchor="middle" style="font-family:monospace;letter-spacing:0.15em">DMG ↓ vs DISTANCE →</text>
+        <text x="${padL+innerW/2}" y="${padT-2}" font-size="9" fill="#a09080" text-anchor="middle" style="font-family:monospace;letter-spacing:0.15em">DMG ↓ vs DISTANCE →</text>
       </svg>
     `;
   }
@@ -2114,6 +2114,8 @@
     renderSquadCoverage();
   };
 
+  // Initial render — populates picker tabs + list, presets, comparison, squad
+  renderBuilder();
   if (bs.weapon) renderFalloff();
 </script>
 
