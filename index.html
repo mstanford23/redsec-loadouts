@@ -1411,11 +1411,13 @@
     }));
   }
 
-  // Weapon images self-hosted in /images. Originally scraped from Battlefield
-  // Fandom Wiki — moved to repo because Fandom blocks hot-linking by referrer.
+  // Weapon images self-hosted in /images. Two sources:
+  //   1. Battlefield Fandom Wiki — in-game portal icons + reference photos (35)
+  //   2. Wikimedia Commons — real-world equivalents for weapons missing from Fandom (9)
   // Local paths bypass referrer/CORS issues entirely.
-  // Weapons not listed fall back to the procedural SVG renderer below.
+  // 2 weapons (LMR-27, M44) still fall back to procedural SVG — no reliable real-world image found.
   const WEAPON_IMAGES = {
+    // From Fandom Wiki (in-game art / reference photos)
     "M433": "images/m433.webp",
     "B36A4": "images/b36a4.webp",
     "SOR-556 MK2": "images/sor-556-mk2.webp",
@@ -1450,7 +1452,17 @@
     "M1014": "images/m1014.webp",
     "18.5 KS-K": "images/185-ks-k.webp",
     "P18": "images/p18.webp",
-    "ES-5-7": "images/es-5-7.webp"
+    "ES-5-7": "images/es-5-7.webp",
+    // From Wikimedia Commons (real-world equivalents)
+    "M4A1": "images/m4a1.png",         // Real M4 Carbine
+    "M277": "images/m277.png",         // SIG MCX SPEAR / XM7
+    "M417 A2": "images/m417-a2.png",   // HK G27 (Bundeswehr HK417)
+    "GRTZ-BC": "images/grtz-bc.jpg",   // FB MSBS Grot
+    "SCW-10": "images/scw-10.jpg",     // B&T APC10
+    "DRS-IAR": "images/drs-iar.jpg",   // M27 IAR (HK416-derived)
+    "M123K": "images/m123k.jpg",       // HK MG4
+    "KTS100 Mk8": "images/kts100-mk8.jpg", // ST Kinetics Ultimax 100
+    "SVK-8.6": "images/svk-86.jpg"     // Kalashnikov SVCh-8.6
   };
 
   // SVG defs reused across renders (gradients for the metallic / polymer look)
