@@ -1,0 +1,2121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REDSEC // Loadout Matrix</title>
+<style>
+  :root {
+    --bg: #0a0d0a;
+    --bg-2: #11161a;
+    --bg-3: #1a2026;
+    --line: #2a3138;
+    --olive: #c4d447;
+    --olive-dim: #7a8a2e;
+    --red: #ff4438;
+    --red-dim: #aa2a22;
+    --green: #4ade80;
+    --green-dim: #2a8a4a;
+    --amber: #fbbf24;
+    --text: #e8ecdf;
+    --text-dim: #8a9080;
+    --mono: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--text); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+  body {
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(196, 212, 71, 0.06), transparent 60%),
+      linear-gradient(180deg, #0a0d0a 0%, #080a08 100%);
+    min-height: 100vh;
+  }
+  .scanline {
+    position: fixed; inset: 0; pointer-events: none; z-index: 1;
+    background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 3px);
+  }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
+
+  /* HEADER */
+  header { padding: 56px 0 32px; border-bottom: 1px solid var(--line); position: relative; }
+  header::before { content: ''; position: absolute; bottom: -1px; left: 0; width: 220px; height: 3px; background: var(--olive); }
+  .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.3em; color: var(--olive); text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
+  .eyebrow::before { content: ''; width: 8px; height: 8px; background: var(--olive); display: inline-block; }
+  h1 { font-size: clamp(40px, 6vw, 72px); font-weight: 900; letter-spacing: -0.02em; line-height: 0.95; text-transform: uppercase; }
+  h1 .accent { color: var(--olive); }
+  .subtitle { margin-top: 16px; color: var(--text-dim); max-width: 640px; line-height: 1.6; font-size: 15px; }
+  .meta-row { margin-top: 24px; display: flex; gap: 32px; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.15em; }
+  .meta-row span strong { color: var(--text); margin-right: 8px; }
+
+  /* TOC */
+  nav.toc { padding: 24px 0; border-bottom: 1px solid var(--line); display: flex; gap: 0; flex-wrap: wrap; }
+  nav.toc a {
+    flex: 1; min-width: 200px; padding: 16px 20px; text-decoration: none; color: var(--text-dim);
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase;
+    border-right: 1px solid var(--line); transition: all 0.15s; position: relative;
+  }
+  nav.toc a:last-child { border-right: none; }
+  nav.toc a:hover { background: var(--bg-2); color: var(--olive); }
+  nav.toc a .num { display: block; color: var(--olive); font-size: 10px; margin-bottom: 4px; }
+
+  /* CLASS CARDS */
+  .class-section { padding: 64px 0 32px; border-bottom: 1px solid var(--line); }
+  .class-header { display: grid; grid-template-columns: auto 1fr auto; gap: 24px; align-items: end; margin-bottom: 40px; }
+  .class-num { font-family: var(--mono); font-size: 96px; font-weight: 800; color: transparent; -webkit-text-stroke: 1px var(--line); line-height: 0.85; letter-spacing: -0.05em; }
+  .class-title h2 { font-size: 44px; font-weight: 900; text-transform: uppercase; letter-spacing: -0.01em; line-height: 1; }
+  .class-title .role { font-family: var(--mono); font-size: 12px; color: var(--text-dim); letter-spacing: 0.2em; text-transform: uppercase; margin-top: 8px; }
+  .tier-badge { font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; padding: 8px 14px; border: 1px solid var(--olive); color: var(--olive); text-transform: uppercase; }
+
+  /* WEAPON CARD */
+  .weapon-card {
+    display: grid; grid-template-columns: 1.2fr 1fr; gap: 0;
+    background: var(--bg-2); border: 1px solid var(--line); margin-bottom: 24px;
+  }
+  .weapon-info { padding: 32px; border-right: 1px solid var(--line); }
+  .weapon-name-row { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+  .weapon-name { font-size: 32px; font-weight: 800; letter-spacing: -0.01em; }
+  .weapon-cat { font-family: var(--mono); font-size: 11px; color: var(--olive); letter-spacing: 0.2em; text-transform: uppercase; }
+  .weapon-tagline { color: var(--text-dim); font-size: 14px; line-height: 1.5; margin-bottom: 24px; }
+
+  /* STAT BARS */
+  .stats { display: grid; gap: 12px; }
+  .stat-row { display: grid; grid-template-columns: 100px 1fr 36px; gap: 12px; align-items: center; }
+  .stat-label { font-family: var(--mono); font-size: 11px; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; }
+  .stat-bar { height: 6px; background: var(--bg-3); position: relative; overflow: hidden; }
+  .stat-bar::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; background: var(--olive); width: var(--w, 50%); transition: width 0.6s; }
+  .stat-val { font-family: var(--mono); font-size: 11px; color: var(--text); text-align: right; }
+
+  /* PROS / CONS */
+  .procon { padding: 32px; }
+  .procon h3 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .procon h3.pros { color: var(--green); }
+  .procon h3.cons { color: var(--red); margin-top: 24px; }
+  .procon h3::before { content: ''; width: 18px; height: 1px; background: currentColor; }
+  .procon ul { list-style: none; }
+  .procon li { padding: 10px 0; border-bottom: 1px dashed var(--line); font-size: 14px; line-height: 1.5; padding-left: 20px; position: relative; }
+  .procon li:last-child { border-bottom: none; }
+  .procon li::before { position: absolute; left: 0; top: 10px; font-family: var(--mono); font-size: 14px; font-weight: bold; }
+  .procon .pros + ul li::before { content: '+'; color: var(--green); }
+  .procon .cons + ul li::before { content: '−'; color: var(--red); }
+
+  /* ATTACHMENTS */
+  .attachments { background: var(--bg-2); border: 1px solid var(--line); padding: 24px 32px; }
+  .attachments h3 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.25em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 20px; }
+  .att-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1px; background: var(--line); }
+  .att { background: var(--bg-2); padding: 14px 16px; }
+  .att-slot { font-family: var(--mono); font-size: 9px; color: var(--olive); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 4px; }
+  .att-pick { font-size: 13px; font-weight: 600; color: var(--text); }
+
+  /* COMPARISON MATRIX */
+  .matrix-section { padding: 64px 0; }
+  .matrix-section h2 { font-size: 36px; font-weight: 900; text-transform: uppercase; margin-bottom: 32px; letter-spacing: -0.01em; }
+  table.matrix { width: 100%; border-collapse: collapse; background: var(--bg-2); border: 1px solid var(--line); }
+  table.matrix th, table.matrix td { padding: 16px 20px; text-align: left; border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); }
+  table.matrix th:last-child, table.matrix td:last-child { border-right: none; }
+  table.matrix th { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); background: var(--bg-3); font-weight: 500; }
+  table.matrix td { font-size: 14px; }
+  table.matrix td:first-child { font-weight: 700; color: var(--olive); }
+  table.matrix tr:last-child td { border-bottom: none; }
+  table.matrix .badge-cqb { color: var(--green); font-family: var(--mono); font-size: 11px; }
+  table.matrix .badge-mid { color: var(--amber); font-family: var(--mono); font-size: 11px; }
+  table.matrix .badge-long { color: var(--red); font-family: var(--mono); font-size: 11px; }
+
+  /* FOOTER */
+  footer { padding: 48px 0; border-top: 1px solid var(--line); margin-top: 32px; color: var(--text-dim); font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; }
+  footer .src-list { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 16px; }
+  footer a { color: var(--olive-dim); text-decoration: none; }
+  footer a:hover { color: var(--olive); }
+
+  /* CLASS-SPECIFIC ACCENTS */
+  #assault .class-num { color: var(--olive); -webkit-text-stroke: 0; opacity: 0.15; }
+  #engineer .class-num { color: var(--amber); -webkit-text-stroke: 0; opacity: 0.15; }
+  #support .class-num { color: var(--red); -webkit-text-stroke: 0; opacity: 0.15; }
+  #recon .class-num { color: #6ec1ff; -webkit-text-stroke: 0; opacity: 0.15; }
+
+  /* BUILDER */
+  .builder-picker { background: var(--bg-2); border: 1px solid var(--line); margin-bottom: 16px; }
+  .picker-tabs { display: flex; flex-wrap: wrap; border-bottom: 1px solid var(--line); }
+  .picker-tab {
+    flex: 1; min-width: 90px; padding: 12px 16px; background: transparent; border: none; border-right: 1px solid var(--line);
+    color: var(--text-dim); font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .picker-tab:last-child { border-right: none; }
+  .picker-tab:hover { color: var(--olive); }
+  .picker-tab.active { background: var(--olive); color: var(--bg); }
+  .picker-list { display: flex; flex-wrap: wrap; gap: 1px; background: var(--line); padding: 1px; max-height: 180px; overflow-y: auto; }
+  .picker-item {
+    background: var(--bg-2); padding: 10px 14px; cursor: pointer; transition: all 0.15s;
+    font-size: 13px; flex: 1 1 auto; min-width: 130px; position: relative;
+  }
+  .picker-item:hover { background: var(--bg-3); color: var(--olive); }
+  .picker-item.selected { background: var(--olive); color: var(--bg); font-weight: 700; }
+  .picker-item-tier { float: right; font-family: var(--mono); font-size: 10px; opacity: 0.6; }
+
+  .builder-main { display: grid; grid-template-columns: 1fr 1.4fr; gap: 16px; margin-bottom: 16px; }
+  .builder-left, .builder-right { display: flex; flex-direction: column; gap: 16px; }
+
+  /* Weapon preview */
+  .bw-preview { background: var(--bg-2); border: 1px solid var(--line); padding: 32px 24px; min-height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .bw-empty { font-family: var(--mono); font-size: 12px; color: var(--text-dim); letter-spacing: 0.2em; }
+  .bw-svg { width: 100%; max-width: 320px; height: auto; }
+  .bw-name { font-size: 28px; font-weight: 900; letter-spacing: -0.01em; margin-top: 16px; text-align: center; }
+  .bw-meta-row { display: flex; gap: 12px; margin-top: 8px; align-items: center; flex-wrap: wrap; justify-content: center; }
+  .bw-meta-cat { font-family: var(--mono); font-size: 10px; color: var(--olive); letter-spacing: 0.2em; text-transform: uppercase; }
+  .bw-meta-tier { font-family: var(--mono); font-size: 10px; padding: 3px 8px; border: 1px solid var(--olive); color: var(--olive); letter-spacing: 0.2em; }
+
+  /* Budget bar */
+  .bw-budget { background: var(--bg-2); border: 1px solid var(--line); padding: 16px 20px; }
+  .bw-budget-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; }
+  .bw-budget-label { color: var(--text-dim); }
+  .bw-budget-val { color: var(--olive); font-weight: 700; }
+  .bw-budget-val.over { color: var(--red); }
+  .bw-budget-bar { height: 8px; background: var(--bg-3); position: relative; }
+  .bw-budget-fill { height: 100%; background: var(--olive); transition: width 0.3s, background 0.3s; }
+  .bw-budget-fill.over { background: var(--red); }
+  .bw-reset { margin-top: 12px; width: 100%; background: transparent; border: 1px solid var(--line); color: var(--text-dim); padding: 10px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; cursor: pointer; transition: all 0.15s; text-transform: uppercase; }
+  .bw-reset:hover { border-color: var(--red); color: var(--red); }
+
+  /* Slot tabs */
+  .bw-slots { display: flex; background: var(--bg-2); border: 1px solid var(--line); }
+  .bw-slot {
+    flex: 1; padding: 14px 8px; background: transparent; border: none; border-right: 1px solid var(--line);
+    color: var(--text-dim); font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.15s; position: relative;
+  }
+  .bw-slot:last-child { border-right: none; }
+  .bw-slot:hover { color: var(--olive); }
+  .bw-slot.active { background: var(--olive); color: var(--bg); font-weight: 700; }
+  .bw-slot-equipped { display: block; font-size: 9px; opacity: 0.7; margin-top: 4px; text-transform: none; letter-spacing: 0.05em; }
+  .bw-slot.active .bw-slot-equipped { opacity: 0.9; }
+
+  /* Attachment options */
+  .bw-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .bw-opt {
+    background: var(--bg-2); border: 1px solid var(--line); padding: 14px; cursor: pointer; transition: all 0.15s;
+    display: flex; flex-direction: column; gap: 8px; text-align: left;
+  }
+  .bw-opt:hover:not(.locked) { border-color: var(--olive); background: var(--bg-3); }
+  .bw-opt.equipped { border-color: var(--olive); background: rgba(196, 212, 71, 0.06); }
+  .bw-opt.equipped::before { content: '◉ EQUIPPED'; position: absolute; top: 6px; right: 8px; font-family: var(--mono); font-size: 9px; color: var(--olive); letter-spacing: 0.15em; }
+  .bw-opt.locked { opacity: 0.35; cursor: not-allowed; }
+  .bw-opt-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; position: relative; }
+  .bw-opt-name { font-size: 13px; font-weight: 600; }
+  .bw-opt-cost { font-family: var(--mono); font-size: 11px; color: var(--olive); }
+  .bw-opt-mods { display: flex; flex-wrap: wrap; gap: 4px; }
+  .bw-mod { font-family: var(--mono); font-size: 10px; padding: 2px 6px; letter-spacing: 0.05em; }
+  .bw-mod.up { background: rgba(74, 222, 128, 0.12); color: var(--green); }
+  .bw-mod.down { background: rgba(255, 68, 56, 0.12); color: var(--red); }
+
+  /* Stats panel */
+  .bw-stats { background: var(--bg-2); border: 1px solid var(--line); padding: 24px 28px; }
+  .bw-stats-h { font-family: var(--mono); font-size: 11px; letter-spacing: 0.25em; color: var(--olive); text-transform: uppercase; margin-bottom: 20px; }
+  .bw-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px 32px; }
+  .bw-stat { display: grid; grid-template-columns: 96px 1fr 80px; gap: 12px; align-items: center; }
+  .bw-stat-label { font-family: var(--mono); font-size: 11px; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; }
+  .bw-stat-bar { height: 8px; background: var(--bg-3); position: relative; overflow: hidden; }
+  .bw-stat-fill { height: 100%; background: var(--olive); transition: width 0.3s; position: absolute; top: 0; left: 0; }
+  .bw-stat-base { height: 100%; background: var(--text-dim); opacity: 0.3; transition: width 0.3s; position: absolute; top: 0; left: 0; }
+  .bw-stat-val { font-family: var(--mono); font-size: 12px; text-align: right; }
+  .bw-stat-val .delta { font-size: 10px; margin-left: 6px; }
+  .bw-stat-val .delta.up { color: var(--green); }
+  .bw-stat-val .delta.down { color: var(--red); }
+  .bw-stat-val .delta.zero { color: var(--text-dim); }
+  .bw-stat-num { color: var(--text); font-weight: 700; }
+  .bw-stat-num.improved { color: var(--green); }
+  .bw-stat-num.worsened { color: var(--red); }
+
+  @media (max-width: 900px) {
+    .builder-main { grid-template-columns: 1fr; }
+    .bw-options { grid-template-columns: 1fr; }
+  }
+
+  /* OPTIMIZE BAR */
+  .bw-optimize {
+    background: var(--bg-2); border: 1px solid var(--line); padding: 14px 16px;
+    margin-bottom: 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .bw-optimize-label {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; color: var(--olive);
+    text-transform: uppercase; flex-shrink: 0;
+  }
+  .bw-opt-btn {
+    background: var(--bg-3); border: 1px solid var(--line); color: var(--text-dim);
+    padding: 8px 14px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em;
+    cursor: pointer; transition: all 0.15s; text-transform: uppercase;
+  }
+  .bw-opt-btn:hover:not(:disabled) { border-color: var(--olive); color: var(--olive); background: var(--bg-2); }
+  .bw-opt-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .bw-opt-btn.computing { background: var(--olive); color: var(--bg); border-color: var(--olive); }
+
+  /* HOVER PREVIEW indicator on stats */
+  .bw-stat.previewing .bw-stat-fill { opacity: 0.4; }
+  .bw-stat-preview-fill {
+    height: 100%; position: absolute; top: 0; transition: width 0.15s;
+    background: repeating-linear-gradient(135deg, var(--green) 0, var(--green) 4px, transparent 4px, transparent 8px);
+    border-right: 1px dashed var(--green);
+  }
+  .bw-stat-preview-fill.worse {
+    background: repeating-linear-gradient(135deg, var(--red) 0, var(--red) 4px, transparent 4px, transparent 8px);
+    border-right: 1px dashed var(--red);
+  }
+  .preview-arrow { color: var(--green); font-family: var(--mono); margin: 0 4px; }
+  .preview-arrow.worse { color: var(--red); }
+  .preview-target { font-family: var(--mono); font-weight: 700; }
+  .preview-target.up { color: var(--green); }
+  .preview-target.down { color: var(--red); }
+
+  /* FALLOFF CHART */
+  .bw-falloff {
+    margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line);
+  }
+  .bw-falloff-h {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.25em; color: var(--olive);
+    text-transform: uppercase; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .bw-falloff-h .sub { font-size: 10px; color: var(--text-dim); letter-spacing: 0.1em; }
+  .bw-falloff-svg-wrap { background: var(--bg-3); border: 1px solid var(--line); padding: 12px 8px 8px; }
+
+  /* SHARE BUTTON */
+  .bw-share-row { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .bw-share-btn {
+    background: var(--bg-2); border: 1px solid var(--line); color: var(--text-dim);
+    padding: 10px 18px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em;
+    cursor: pointer; transition: all 0.15s; text-transform: uppercase; flex: 1; min-width: 200px;
+  }
+  .bw-share-btn:hover:not(:disabled) { border-color: var(--olive); color: var(--olive); }
+  .bw-share-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .bw-share-btn.copied { background: var(--green); color: var(--bg); border-color: var(--green); }
+
+  /* SQUAD BUILDER */
+  .squad-section { padding: 64px 0 32px; border-bottom: 1px solid var(--line); }
+  #squad .class-num { color: #ff7eb6; -webkit-text-stroke: 0; opacity: 0.15; }
+  .squad-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .squad-card {
+    background: var(--bg-2); border: 1px solid var(--line); padding: 20px; display: flex; flex-direction: column; gap: 12px;
+  }
+  .squad-card.assault  { border-top: 3px solid var(--olive); }
+  .squad-card.engineer { border-top: 3px solid var(--amber); }
+  .squad-card.support  { border-top: 3px solid var(--red); }
+  .squad-card.recon    { border-top: 3px solid #6ec1ff; }
+  .squad-card-h { display: flex; justify-content: space-between; align-items: baseline; }
+  .squad-card-name {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  }
+  .assault .squad-card-name  { color: var(--olive); }
+  .engineer .squad-card-name { color: var(--amber); }
+  .support .squad-card-name  { color: var(--red); }
+  .recon .squad-card-name    { color: #6ec1ff; }
+  .squad-card-role { font-family: var(--mono); font-size: 9px; color: var(--text-dim); letter-spacing: 0.15em; }
+  .squad-select {
+    width: 100%; background: var(--bg-3); border: 1px solid var(--line); color: var(--text);
+    padding: 10px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.05em; outline: none;
+  }
+  .squad-select:focus { border-color: var(--olive); }
+  .squad-card-summary {
+    background: var(--bg-3); border: 1px solid var(--line); padding: 12px; min-height: 100px;
+    font-family: var(--mono); font-size: 11px; line-height: 1.6; color: var(--text-dim);
+  }
+  .squad-card-summary .summary-line { display: flex; justify-content: space-between; padding: 2px 0; }
+  .squad-card-summary .summary-line strong { color: var(--text); }
+  .squad-card-summary.empty {
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    color: var(--text-dim); font-size: 10px; letter-spacing: 0.15em;
+  }
+
+  .squad-coverage {
+    background: var(--bg-2); border: 1px solid var(--line); padding: 24px;
+  }
+  .squad-coverage-h {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.25em; color: var(--olive);
+    text-transform: uppercase; margin-bottom: 16px;
+  }
+  .squad-coverage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+  .squad-cov-item {
+    display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+    background: var(--bg-3); border-left: 3px solid var(--text-dim);
+  }
+  .squad-cov-item.yes { border-left-color: var(--green); }
+  .squad-cov-item.no  { border-left-color: var(--red); }
+  .squad-cov-icon {
+    font-family: var(--mono); font-size: 14px; font-weight: 700; width: 16px; flex-shrink: 0;
+  }
+  .yes .squad-cov-icon { color: var(--green); }
+  .no .squad-cov-icon { color: var(--red); }
+  .squad-cov-label { font-size: 12px; }
+  .squad-cov-detail { font-family: var(--mono); font-size: 10px; color: var(--text-dim); margin-top: 2px; letter-spacing: 0.05em; }
+
+  .squad-range-bar {
+    margin-top: 16px; padding: 14px 16px; background: var(--bg-3); border: 1px solid var(--line);
+  }
+  .squad-range-h {
+    font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.2em;
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  .squad-range-track { height: 12px; display: flex; gap: 1px; }
+  .squad-range-band { flex: 1; background: var(--bg-2); border: 1px solid var(--line); position: relative; }
+  .squad-range-band.covered { background: var(--olive); }
+  .squad-range-labels { display: flex; justify-content: space-between; margin-top: 6px; font-family: var(--mono); font-size: 9px; color: var(--text-dim); }
+
+  /* SNAP / PRESETS / COMPARE */
+  .bw-snap-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .bw-snap-btn {
+    background: var(--bg-2); border: 1px solid var(--line); color: var(--text-dim);
+    padding: 12px 18px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em;
+    cursor: pointer; transition: all 0.15s; text-transform: uppercase; flex: 1; min-width: 200px;
+  }
+  .bw-snap-btn:hover:not(:disabled) { border-color: var(--olive); color: var(--olive); }
+  .bw-snap-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .bw-snap-btn.snap-a.active { background: #6ec1ff; color: var(--bg); border-color: #6ec1ff; }
+  .bw-snap-btn.snap-b.active { background: var(--amber); color: var(--bg); border-color: var(--amber); }
+
+  .bw-presets { background: var(--bg-2); border: 1px solid var(--line); margin-bottom: 16px; }
+  .bw-presets-h {
+    padding: 12px 16px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+    color: var(--text-dim); text-transform: uppercase; border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .bw-presets-list { padding: 8px; display: grid; gap: 4px; max-height: 220px; overflow-y: auto; }
+  .bw-presets-empty {
+    font-family: var(--mono); font-size: 11px; color: var(--text-dim); padding: 16px;
+    letter-spacing: 0.1em; text-align: center;
+  }
+  .bw-preset {
+    display: grid; grid-template-columns: 1fr auto auto auto auto;
+    gap: 6px; align-items: center; padding: 8px; background: var(--bg-3); border: 1px solid var(--line);
+  }
+  .bw-preset-info { min-width: 0; overflow: hidden; }
+  .bw-preset-name { font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bw-preset-sub { font-size: 11px; color: var(--text-dim); margin-top: 2px; font-family: var(--mono); }
+  .bw-preset button {
+    background: transparent; border: 1px solid var(--line); color: var(--text-dim);
+    padding: 6px 10px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+    cursor: pointer; transition: all 0.15s; text-transform: uppercase; white-space: nowrap;
+  }
+  .bw-preset .bw-preset-load:hover { color: var(--olive); border-color: var(--olive); }
+  .bw-preset .bw-preset-A:hover { color: #6ec1ff; border-color: #6ec1ff; }
+  .bw-preset .bw-preset-B:hover { color: var(--amber); border-color: var(--amber); }
+  .bw-preset .bw-preset-del:hover { color: var(--red); border-color: var(--red); }
+
+  .bw-compare { margin-top: 16px; background: var(--bg-2); border: 1px solid var(--line); }
+  .bw-compare-h {
+    padding: 16px 24px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.25em;
+    color: var(--olive); text-transform: uppercase; border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .bw-compare-clear {
+    background: transparent; border: 1px solid var(--line); color: var(--text-dim);
+    padding: 6px 12px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+    cursor: pointer; text-transform: uppercase;
+  }
+  .bw-compare-clear:hover { color: var(--red); border-color: var(--red); }
+  .bw-compare-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); }
+  .bw-compare-col { background: var(--bg-2); padding: 20px; }
+  .bw-compare-col.col-a { border-top: 3px solid #6ec1ff; }
+  .bw-compare-col.col-b { border-top: 3px solid var(--amber); }
+  .bw-compare-col-h {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--line); gap: 12px;
+  }
+  .bw-compare-col-tag { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; white-space: nowrap; }
+  .col-a .bw-compare-col-tag { color: #6ec1ff; }
+  .col-b .bw-compare-col-tag { color: var(--amber); }
+  .bw-compare-col-name { font-size: 18px; font-weight: 800; }
+  .bw-compare-col-meta { font-family: var(--mono); font-size: 10px; color: var(--text-dim); margin-top: 4px; letter-spacing: 0.1em; }
+  .bw-compare-col-attachments { display: flex; flex-wrap: wrap; gap: 4px; }
+  .bw-compare-attach {
+    font-family: var(--mono); font-size: 10px; padding: 3px 8px; background: var(--bg-3);
+    border: 1px solid var(--line); color: var(--text);
+  }
+  .bw-compare-col-empty {
+    font-family: var(--mono); font-size: 11px; color: var(--text-dim); padding: 24px;
+    text-align: center; letter-spacing: 0.1em;
+  }
+  .bw-compare-stats { padding: 20px 24px; }
+  .bw-compare-stat {
+    display: grid; grid-template-columns: 100px 70px 1fr 24px 1fr 70px 60px;
+    gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px dashed var(--line); font-size: 12px;
+  }
+  .bw-compare-stat:last-child { border-bottom: none; }
+  .bw-compare-stat-label {
+    font-family: var(--mono); font-size: 11px; color: var(--text-dim);
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .bw-compare-stat-val { font-family: var(--mono); padding: 2px 0; font-weight: 600; }
+  .bw-compare-stat-val.va { text-align: right; color: #6ec1ff; }
+  .bw-compare-stat-val.vb { text-align: left; color: var(--amber); }
+  .bw-compare-stat-val.winner { color: var(--green); font-weight: 800; }
+  .bw-compare-stat-val.loser { opacity: 0.5; }
+  .bw-compare-bar-a, .bw-compare-bar-b { height: 6px; background: var(--bg-3); position: relative; }
+  .bw-compare-bar-a-fill { height: 100%; background: #6ec1ff; position: absolute; right: 0; }
+  .bw-compare-bar-b-fill { height: 100%; background: var(--amber); position: absolute; left: 0; }
+  .bw-compare-vs { text-align: center; font-family: var(--mono); font-size: 9px; color: var(--text-dim); }
+  .bw-compare-delta { text-align: center; font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.05em; }
+
+  /* ARMORY */
+  .armory-controls { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+  #search {
+    flex: 1; min-width: 220px; background: var(--bg-2); border: 1px solid var(--line); color: var(--text);
+    padding: 12px 16px; font-family: var(--mono); font-size: 13px; outline: none; letter-spacing: 0.05em;
+  }
+  #search:focus { border-color: var(--olive); }
+  #search::placeholder { color: var(--text-dim); }
+  .filter-group { display: flex; gap: 0; }
+  .filter-btn {
+    background: var(--bg-2); border: 1px solid var(--line); color: var(--text-dim); padding: 12px 16px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.15s; border-right: none;
+  }
+  .filter-btn:last-child { border-right: 1px solid var(--line); }
+  .filter-btn:hover { color: var(--olive); }
+  .filter-btn.active { background: var(--olive); color: var(--bg); border-color: var(--olive); }
+
+  .armory-table-wrap { overflow-x: auto; border: 1px solid var(--line); background: var(--bg-2); }
+  table.armory-table { width: 100%; border-collapse: collapse; min-width: 900px; }
+  table.armory-table th {
+    background: var(--bg-3); padding: 14px 16px; text-align: left; font-family: var(--mono);
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); font-weight: 500;
+    border-bottom: 1px solid var(--line); cursor: pointer; user-select: none; white-space: nowrap;
+    position: sticky; top: 0; transition: color 0.15s;
+  }
+  table.armory-table th:hover { color: var(--olive); }
+  table.armory-table th.sorted-asc, table.armory-table th.sorted-desc { color: var(--olive); }
+  table.armory-table td {
+    padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 13px; font-family: var(--mono);
+  }
+  table.armory-table tbody tr:hover { background: var(--bg-3); }
+  table.armory-table tbody tr.meta-pick { background: rgba(196, 212, 71, 0.05); border-left: 3px solid var(--olive); }
+  table.armory-table tbody tr.meta-pick td:first-child { color: var(--olive); font-weight: 700; }
+  .tier-cell { font-weight: 700; letter-spacing: 0.1em; }
+  .tier-S { color: var(--olive); }
+  .tier-A { color: var(--green); }
+  .tier-B { color: var(--amber); }
+  .tier-C { color: var(--text-dim); }
+  .ttk-cell.fastest { color: var(--olive); font-weight: 700; }
+  .ttk-cell.ohk { color: var(--red); font-weight: 700; }
+  .badge-inline {
+    display: inline-block; padding: 2px 8px; font-size: 9px; letter-spacing: 0.15em;
+    text-transform: uppercase; margin-left: 8px; border: 1px solid currentColor;
+  }
+  .badge-meta { color: var(--olive); }
+  .badge-fast { color: var(--green); }
+
+  .loadout-cell { font-family: var(--sans); padding: 10px 16px !important; min-width: 360px; }
+  .att-chip {
+    display: inline-flex; align-items: center; gap: 6px; background: var(--bg-3); border: 1px solid var(--line);
+    padding: 3px 8px 3px 4px; margin: 2px 4px 2px 0; font-size: 11px; color: var(--text); white-space: nowrap;
+    transition: border-color 0.15s;
+  }
+  .att-chip:hover { border-color: var(--olive); }
+  .att-chip-slot {
+    font-family: var(--mono); font-size: 8px; letter-spacing: 0.15em; color: var(--olive);
+    background: var(--bg); padding: 3px 5px; border: 1px solid var(--line); font-weight: 600;
+  }
+  tr.meta-pick .att-chip { background: rgba(196, 212, 71, 0.04); border-color: rgba(196, 212, 71, 0.3); }
+
+  .armory-legend {
+    display: flex; gap: 24px; margin-top: 16px; flex-wrap: wrap; font-family: var(--mono);
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim);
+  }
+  .armory-legend > div { display: flex; align-items: center; gap: 8px; }
+  .legend-dot { width: 12px; height: 12px; display: inline-block; }
+  .legend-dot.tier-s { background: var(--olive); }
+  .legend-dot.tier-a { background: var(--green); }
+  .legend-dot.tier-b { background: var(--amber); }
+  .legend-dot.tier-c { background: var(--text-dim); }
+  .legend-dot.meta-flag { background: rgba(196, 212, 71, 0.2); border: 1px solid var(--olive); }
+  .legend-dot.fastest-flag { background: var(--bg); border: 1px solid var(--olive); position: relative; }
+  .legend-dot.fastest-flag::after { content: ''; position: absolute; inset: 2px; background: var(--olive); }
+
+  @media (max-width: 768px) {
+    .class-header { grid-template-columns: 1fr; gap: 12px; }
+    .class-num { font-size: 64px; }
+    .weapon-card { grid-template-columns: 1fr; }
+    .weapon-info { border-right: none; border-bottom: 1px solid var(--line); }
+    nav.toc a { min-width: 50%; border-bottom: 1px solid var(--line); }
+  }
+</style>
+</head>
+<body>
+<div class="scanline"></div>
+
+<div class="container">
+
+<header>
+  <div class="eyebrow">Battlefield 6 // REDSEC // Tactical Brief</div>
+  <h1>Loadout <span class="accent">Matrix</span></h1>
+  <p class="subtitle">Simulated TTK and meta analysis across all four operator classes. Each loadout below is the consensus S-tier pick from the current meta as of late April 2026. Pros and cons evaluated against engagement range, recoil, mag economy, and survivability.</p>
+  <div class="meta-row">
+    <span><strong>VERSION</strong>S1 // Apr 2026</span>
+    <span><strong>METHOD</strong>TTK_ms = (STK−1) × (60000/RPM)</span>
+    <span><strong>BASELINE</strong>100 HP target</span>
+    <span><strong>OPERATOR</strong>markstanford23</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#builder"><span class="num">00 //</span>Builder</a>
+  <a href="#squad"><span class="num">01 //</span>Squad</a>
+  <a href="#armory"><span class="num">02 //</span>Armory</a>
+  <a href="#assault"><span class="num">03 //</span>Assault</a>
+  <a href="#engineer"><span class="num">04 //</span>Engineer</a>
+  <a href="#support"><span class="num">05 //</span>Support</a>
+  <a href="#recon"><span class="num">06 //</span>Recon</a>
+  <a href="#matrix"><span class="num">07 //</span>Matrix</a>
+</nav>
+
+<!-- INTERACTIVE BUILDER -->
+<section class="class-section" id="builder">
+  <div class="class-header">
+    <div class="class-num">00</div>
+    <div class="class-title">
+      <h2>Weapon Builder</h2>
+      <div class="role">Live // Interactive // Pick-100</div>
+    </div>
+    <div class="tier-badge">Interactive</div>
+  </div>
+
+  <p class="subtitle" style="margin-bottom: 24px;">Pick a weapon. Equip attachments. Watch every stat shift in real time. Numbers shown as <strong>base → modified</strong> with the delta. Pick-100 budget enforced live — when you hit the cap, options exceeding remaining points get locked out.</p>
+
+  <!-- Weapon picker -->
+  <div class="builder-picker">
+    <div class="picker-tabs" id="picker-tabs"></div>
+    <div class="picker-list" id="picker-list"></div>
+  </div>
+
+  <!-- Auto-Optimize bar -->
+  <div class="bw-optimize">
+    <span class="bw-optimize-label">// Optimize for:</span>
+    <button class="bw-opt-btn" data-goal="CQB" disabled>CQB</button>
+    <button class="bw-opt-btn" data-goal="Mid" disabled>Mid Range</button>
+    <button class="bw-opt-btn" data-goal="Long" disabled>Long Range</button>
+    <button class="bw-opt-btn" data-goal="Stealth" disabled>Stealth</button>
+    <button class="bw-opt-btn" data-goal="Recoil" disabled>Recoil Control</button>
+    <button class="bw-opt-btn" data-goal="Mobility" disabled>Mobility</button>
+  </div>
+
+  <!-- Snapshot / Save controls -->
+  <div class="bw-snap-bar">
+    <button class="bw-snap-btn" id="bw-save-preset" disabled>▼ Save Current as Preset</button>
+    <button class="bw-snap-btn snap-a" id="bw-snap-a" disabled>▶ Set Current as Build A</button>
+    <button class="bw-snap-btn snap-b" id="bw-snap-b" disabled>▶ Set Current as Build B</button>
+  </div>
+
+  <!-- Share -->
+  <div class="bw-share-row">
+    <button class="bw-share-btn" id="bw-share-btn" disabled>⬈ Copy Shareable Link</button>
+  </div>
+
+  <!-- Saved presets list -->
+  <div class="bw-presets">
+    <div class="bw-presets-h">
+      <span>// Saved Presets</span>
+      <span id="bw-presets-count" style="color:var(--olive)">0 stored</span>
+    </div>
+    <div class="bw-presets-list" id="bw-presets-list"></div>
+  </div>
+
+  <!-- Main builder pane -->
+  <div class="builder-main">
+    <!-- LEFT: Weapon preview + budget -->
+    <div class="builder-left">
+      <div class="bw-preview" id="bw-preview">
+        <div class="bw-empty">// SELECT A WEAPON ABOVE</div>
+      </div>
+      <div class="bw-budget" id="bw-budget" style="display:none">
+        <div class="bw-budget-row">
+          <span class="bw-budget-label">Pick-100 Budget</span>
+          <span class="bw-budget-val"><span id="bw-points">0</span> / 100</span>
+        </div>
+        <div class="bw-budget-bar"><div class="bw-budget-fill" id="bw-budget-fill" style="width:0%"></div></div>
+        <button class="bw-reset" id="bw-reset">// Reset Loadout</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: Attachment slots + options -->
+    <div class="builder-right">
+      <div class="bw-slots" id="bw-slots"></div>
+      <div class="bw-options" id="bw-options"></div>
+    </div>
+  </div>
+
+  <!-- Stats panel - full width below -->
+  <div class="bw-stats" id="bw-stats" style="display:none">
+    <h3 class="bw-stats-h">// Live Statistics</h3>
+    <div class="bw-stats-grid" id="bw-stats-grid"></div>
+
+    <!-- Damage falloff chart -->
+    <div class="bw-falloff" id="bw-falloff-wrap">
+      <div class="bw-falloff-h">
+        <span>// Damage Falloff Curve</span>
+        <span class="sub">↓ horizontal axis = distance (m) // dashed = bullets-to-kill thresholds</span>
+      </div>
+      <div class="bw-falloff-svg-wrap" id="bw-falloff"></div>
+    </div>
+  </div>
+
+  <!-- A vs B comparison panel -->
+  <div class="bw-compare" id="bw-compare" style="display:none">
+    <div class="bw-compare-h">
+      <span>// Build A vs Build B Comparison</span>
+      <button class="bw-compare-clear" id="bw-compare-clear">Clear</button>
+    </div>
+    <div class="bw-compare-cols" id="bw-compare-cols"></div>
+    <div class="bw-compare-stats" id="bw-compare-stats"></div>
+  </div>
+</section>
+
+<!-- SQUAD BUILDER -->
+<section class="class-section" id="squad">
+  <div class="class-header">
+    <div class="class-num">01</div>
+    <div class="class-title">
+      <h2>Squad Builder</h2>
+      <div class="role">4-person squad // Coverage analysis</div>
+    </div>
+    <div class="tier-badge">Composition</div>
+  </div>
+
+  <p class="subtitle" style="margin-bottom: 24px;">Assign one of your saved presets to each class slot. The squad analyzer flags coverage gaps in real time — does someone have AV, can the team revive, do you cover all ranges?</p>
+
+  <div class="squad-grid" id="squad-grid"></div>
+
+  <div class="squad-coverage">
+    <div class="squad-coverage-h">// Squad Coverage Analysis</div>
+    <div class="squad-coverage-grid" id="squad-coverage-grid"></div>
+    <div class="squad-range-bar">
+      <div class="squad-range-h">// Effective Range Coverage (5m → 100m)</div>
+      <div class="squad-range-track" id="squad-range-track"></div>
+      <div class="squad-range-labels">
+        <span>5m</span><span>15m</span><span>30m</span><span>50m</span><span>75m</span><span>100m+</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARMORY: full sortable table -->
+<section class="class-section" id="armory">
+  <div class="class-header">
+    <div class="class-num">00</div>
+    <div class="class-title">
+      <h2>Full Armory</h2>
+      <div class="role">All 48 weapons // Raw stats // Sort & filter</div>
+    </div>
+    <div class="tier-badge">Verify Yourself</div>
+  </div>
+
+  <p class="subtitle" style="margin-bottom: 24px;">Every weapon I could find data for. <strong>TTK</strong> is computed live: <code style="color:var(--olive);background:var(--bg-3);padding:2px 6px;font-family:var(--mono);font-size:12px;">(BTK − 1) × (60000 / RPM)</code> against 100 HP. <strong>Faster = lower number.</strong> Click any column to sort. Meta picks are flagged so you can see them in context — note that several non-meta weapons have faster paper TTK. The meta picks win on recoil control, range, and handling, which TTK alone doesn't capture.</p>
+
+  <div class="armory-controls">
+    <input type="text" id="search" placeholder="// Search weapon name..." />
+    <div class="filter-group">
+      <button class="filter-btn active" data-cat="all">All</button>
+      <button class="filter-btn" data-cat="AR">AR</button>
+      <button class="filter-btn" data-cat="Carbine">Carbine</button>
+      <button class="filter-btn" data-cat="SMG">SMG</button>
+      <button class="filter-btn" data-cat="LMG">LMG</button>
+      <button class="filter-btn" data-cat="DMR">DMR</button>
+      <button class="filter-btn" data-cat="Sniper">Sniper</button>
+      <button class="filter-btn" data-cat="Shotgun">Shotgun</button>
+      <button class="filter-btn" data-cat="Pistol">Pistol</button>
+    </div>
+  </div>
+
+  <div class="armory-table-wrap">
+    <table class="armory-table">
+      <thead>
+        <tr>
+          <th data-sort="name" data-type="str">Weapon ↕</th>
+          <th data-sort="category" data-type="str">Class ↕</th>
+          <th data-sort="tier" data-type="tier">Tier ↕</th>
+          <th data-sort="dmg" data-type="num">DMG ↕</th>
+          <th data-sort="rpm" data-type="num">RPM ↕</th>
+          <th data-sort="mag" data-type="num">Mag ↕</th>
+          <th data-sort="btk" data-type="num">BTK ↕</th>
+          <th data-sort="ttk" data-type="num" class="sorted-asc">TTK (ms) ↕</th>
+          <th>Loadout (Pick-100 // 5 slots)</th>
+        </tr>
+      </thead>
+      <tbody id="armory-body"></tbody>
+    </table>
+  </div>
+
+  <div class="armory-legend">
+    <div><span class="legend-dot tier-s"></span>S-Tier</div>
+    <div><span class="legend-dot tier-a"></span>A-Tier</div>
+    <div><span class="legend-dot tier-b"></span>B-Tier</div>
+    <div><span class="legend-dot tier-c"></span>C-Tier</div>
+    <div><span class="legend-dot meta-flag"></span>My Meta Pick</div>
+    <div><span class="legend-dot fastest-flag"></span>Fastest TTK in Class</div>
+  </div>
+</section>
+
+<!-- ASSAULT -->
+<section class="class-section" id="assault">
+  <div class="class-header">
+    <div class="class-num">01</div>
+    <div class="class-title">
+      <h2>Assault</h2>
+      <div class="role">Frontline // Dual primary // Mid-range</div>
+    </div>
+    <div class="tier-badge">S-Tier Meta</div>
+  </div>
+
+  <div class="weapon-card">
+    <div class="weapon-info">
+      <div class="weapon-name-row">
+        <div class="weapon-name">KORD 6P67</div>
+        <div class="weapon-cat">Assault Rifle</div>
+      </div>
+      <p class="weapon-tagline">The most forgiving meta AR. ~900 RPM with near-zero recoil makes it the safest pick in any 1v1. Tap or burst to extend its effective range.</p>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">TTK</span><div class="stat-bar" style="--w:82%"></div><span class="stat-val">200ms</span></div>
+        <div class="stat-row"><span class="stat-label">CQB</span><div class="stat-bar" style="--w:75%"></div><span class="stat-val">7.5</span></div>
+        <div class="stat-row"><span class="stat-label">Mid</span><div class="stat-bar" style="--w:95%"></div><span class="stat-val">9.5</span></div>
+        <div class="stat-row"><span class="stat-label">Long</span><div class="stat-bar" style="--w:60%"></div><span class="stat-val">6.0</span></div>
+        <div class="stat-row"><span class="stat-label">Recoil</span><div class="stat-bar" style="--w:95%"></div><span class="stat-val">9.5</span></div>
+        <div class="stat-row"><span class="stat-label">Mobility</span><div class="stat-bar" style="--w:70%"></div><span class="stat-val">7.0</span></div>
+      </div>
+    </div>
+    <div class="procon">
+      <h3 class="pros">Advantages</h3>
+      <ul>
+        <li>Near-zero recoil — beam at mid-range</li>
+        <li>900 RPM gives strong TTK floor (~200ms)</li>
+        <li>Versatile across CQB and mid engagements</li>
+        <li>Forgiving for new players — laser-like accuracy</li>
+        <li>Pairs with shotgun secondary (Assault dual primary)</li>
+      </ul>
+      <h3 class="cons">Disadvantages</h3>
+      <ul>
+        <li>3STK ARs (M433, SOR-556) edge it on raw TTK</li>
+        <li>Damage falloff hurts past ~50m</li>
+        <li>Ammo-hungry on full-auto sprays</li>
+        <li>Tap-fire required for max effective range</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="attachments">
+    <h3>// Recommended Attachments</h3>
+    <div class="att-grid">
+      <div class="att"><div class="att-slot">Optic</div><div class="att-pick">1.50x or 2.00x</div></div>
+      <div class="att"><div class="att-slot">Muzzle</div><div class="att-pick">Compensated Brake</div></div>
+      <div class="att"><div class="att-slot">Barrel</div><div class="att-pick">Heavy Profile</div></div>
+      <div class="att"><div class="att-slot">Underbarrel</div><div class="att-pick">Vertical Grip</div></div>
+      <div class="att"><div class="att-slot">Magazine</div><div class="att-pick">Extended Mag</div></div>
+      <div class="att"><div class="att-slot">Ammo</div><div class="att-pick">Standard / FMJ</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ENGINEER -->
+<section class="class-section" id="engineer">
+  <div class="class-header">
+    <div class="class-num">02</div>
+    <div class="class-title">
+      <h2>Engineer</h2>
+      <div class="role">Anti-vehicle // SMG specialist // CQB</div>
+    </div>
+    <div class="tier-badge">S-Tier Meta</div>
+  </div>
+
+  <div class="weapon-card">
+    <div class="weapon-info">
+      <div class="weapon-name-row">
+        <div class="weapon-name">SGX</div>
+        <div class="weapon-cat">Submachine Gun</div>
+      </div>
+      <p class="weapon-tagline">CQB shredder at 950 RPM and ~189ms TTK. Default unlock means attachments come fast. Built for aggressive flanks and building clears.</p>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">TTK</span><div class="stat-bar" style="--w:88%"></div><span class="stat-val">189ms</span></div>
+        <div class="stat-row"><span class="stat-label">CQB</span><div class="stat-bar" style="--w:98%"></div><span class="stat-val">9.8</span></div>
+        <div class="stat-row"><span class="stat-label">Mid</span><div class="stat-bar" style="--w:55%"></div><span class="stat-val">5.5</span></div>
+        <div class="stat-row"><span class="stat-label">Long</span><div class="stat-bar" style="--w:20%"></div><span class="stat-val">2.0</span></div>
+        <div class="stat-row"><span class="stat-label">Recoil</span><div class="stat-bar" style="--w:80%"></div><span class="stat-val">8.0</span></div>
+        <div class="stat-row"><span class="stat-label">Mobility</span><div class="stat-bar" style="--w:95%"></div><span class="stat-val">9.5</span></div>
+      </div>
+    </div>
+    <div class="procon">
+      <h3 class="pros">Advantages</h3>
+      <ul>
+        <li>950 RPM — fastest practical TTK in CQB</li>
+        <li>Excellent hipfire for surprise pushes</li>
+        <li>Fast ADS and high mobility</li>
+        <li>Default unlock — easy for fresh accounts</li>
+        <li>Pairs with RPG-7V2 for AV + cover-busting</li>
+      </ul>
+      <h3 class="cons">Disadvantages</h3>
+      <ul>
+        <li>Damage drops off hard past ~20m</li>
+        <li>Smaller mag than LMGs — bad in extended fights</li>
+        <li>Loses every long-range duel — must close distance</li>
+        <li>KV9 has slightly higher RPM ceiling (1000)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="attachments">
+    <h3>// Recommended Attachments</h3>
+    <div class="att-grid">
+      <div class="att"><div class="att-slot">Optic</div><div class="att-pick">Red Dot / Iron</div></div>
+      <div class="att"><div class="att-slot">Muzzle</div><div class="att-pick">CQB Suppressor</div></div>
+      <div class="att"><div class="att-slot">Barrel</div><div class="att-pick">8" Extended</div></div>
+      <div class="att"><div class="att-slot">Underbarrel</div><div class="att-pick">Alloy Vertical</div></div>
+      <div class="att"><div class="att-slot">Magazine</div><div class="att-pick">Extended Mag</div></div>
+      <div class="att"><div class="att-slot">Gadget</div><div class="att-pick">RPG-7V2</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPORT -->
+<section class="class-section" id="support">
+  <div class="class-header">
+    <div class="class-num">03</div>
+    <div class="class-title">
+      <h2>Support</h2>
+      <div class="role">Suppression // Revives // Sustained fire</div>
+    </div>
+    <div class="tier-badge">S-Tier Meta</div>
+  </div>
+
+  <div class="weapon-card">
+    <div class="weapon-info">
+      <div class="weapon-name-row">
+        <div class="weapon-name">DRS-IAR</div>
+        <div class="weapon-cat">Light Machine Gun</div>
+      </div>
+      <p class="weapon-tagline">AR/LMG hybrid — handles like a rifle, holds an LMG mag. The current top Support meta. Holds lanes, suppresses, and never runs dry mid-fight.</p>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">TTK</span><div class="stat-bar" style="--w:70%"></div><span class="stat-val">~257ms</span></div>
+        <div class="stat-row"><span class="stat-label">CQB</span><div class="stat-bar" style="--w:65%"></div><span class="stat-val">6.5</span></div>
+        <div class="stat-row"><span class="stat-label">Mid</span><div class="stat-bar" style="--w:90%"></div><span class="stat-val">9.0</span></div>
+        <div class="stat-row"><span class="stat-label">Long</span><div class="stat-bar" style="--w:75%"></div><span class="stat-val">7.5</span></div>
+        <div class="stat-row"><span class="stat-label">Recoil</span><div class="stat-bar" style="--w:90%"></div><span class="stat-val">9.0</span></div>
+        <div class="stat-row"><span class="stat-label">Mobility</span><div class="stat-bar" style="--w:55%"></div><span class="stat-val">5.5</span></div>
+      </div>
+    </div>
+    <div class="procon">
+      <h3 class="pros">Advantages</h3>
+      <ul>
+        <li>AR-like handling on an LMG chassis</li>
+        <li>36-round mag — wins extended trades + 1v2s</li>
+        <li>Low recoil ceiling for sustained fire</li>
+        <li>Best lane-holding tool in REDSEC</li>
+        <li>Defib + ammo crate make Support a force multiplier</li>
+      </ul>
+      <h3 class="cons">Disadvantages</h3>
+      <ul>
+        <li>Slower TTK than Kord at peak performance</li>
+        <li>Mobility hit vs. true ARs (heavier weapon)</li>
+        <li>ADS slower than AR-class — punished in surprise CQB</li>
+        <li>Bipod required for max accuracy when holding angles</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="attachments">
+    <h3>// Recommended Attachments</h3>
+    <div class="att-grid">
+      <div class="att"><div class="att-slot">Optic</div><div class="att-pick">CCO 2.00x</div></div>
+      <div class="att"><div class="att-slot">Muzzle</div><div class="att-pick">Long Suppressor</div></div>
+      <div class="att"><div class="att-slot">Barrel</div><div class="att-pick">16.5" Fluted</div></div>
+      <div class="att"><div class="att-slot">Underbarrel</div><div class="att-pick">6H64 Vertical</div></div>
+      <div class="att"><div class="att-slot">Magazine</div><div class="att-pick">36rnd</div></div>
+      <div class="att"><div class="att-slot">Ammo</div><div class="att-pick">FMJ</div></div>
+      <div class="att"><div class="att-slot">Misc</div><div class="att-pick">Magwell Flare</div></div>
+      <div class="att"><div class="att-slot">Gadget</div><div class="att-pick">Defibrillator</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- RECON -->
+<section class="class-section" id="recon">
+  <div class="class-header">
+    <div class="class-num">04</div>
+    <div class="class-title">
+      <h2>Recon</h2>
+      <div class="role">Long-range // Intel // One-shot kills</div>
+    </div>
+    <div class="tier-badge">S-Tier Meta</div>
+  </div>
+
+  <div class="weapon-card">
+    <div class="weapon-info">
+      <div class="weapon-name-row">
+        <div class="weapon-name">M2010 ESR</div>
+        <div class="weapon-cat">Sniper Rifle</div>
+      </div>
+      <p class="weapon-tagline">One-shot headshot at any range with high bullet velocity. Most accessible sniper in REDSEC — easy to learn, lethal once you do.</p>
+      <div class="stats">
+        <div class="stat-row"><span class="stat-label">TTK</span><div class="stat-bar" style="--w:99%"></div><span class="stat-val">~0ms HS</span></div>
+        <div class="stat-row"><span class="stat-label">CQB</span><div class="stat-bar" style="--w:25%"></div><span class="stat-val">2.5</span></div>
+        <div class="stat-row"><span class="stat-label">Mid</span><div class="stat-bar" style="--w:75%"></div><span class="stat-val">7.5</span></div>
+        <div class="stat-row"><span class="stat-label">Long</span><div class="stat-bar" style="--w:99%"></div><span class="stat-val">9.9</span></div>
+        <div class="stat-row"><span class="stat-label">Recoil</span><div class="stat-bar" style="--w:60%"></div><span class="stat-val">6.0</span></div>
+        <div class="stat-row"><span class="stat-label">Mobility</span><div class="stat-bar" style="--w:50%"></div><span class="stat-val">5.0</span></div>
+      </div>
+    </div>
+    <div class="procon">
+      <h3 class="pros">Advantages</h3>
+      <ul>
+        <li>One-shot headshot at any range</li>
+        <li>High bullet velocity — minimal lead required</li>
+        <li>DLC Bolt: cycle next shot without unscoping</li>
+        <li>Beginner-friendly compared to PSR / SV-98</li>
+        <li>Map-control tool — spots and intel for the squad</li>
+      </ul>
+      <h3 class="cons">Disadvantages</h3>
+      <ul>
+        <li>8-round mag with slow follow-up</li>
+        <li>Useless in CQB without secondary</li>
+        <li>Scope glint exposes position to other snipers</li>
+        <li>Slow ADS — punished by aggressive pushes</li>
+        <li>Body shots leave you in a 1.2s+ TTK fight</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="attachments">
+    <h3>// Recommended Attachments</h3>
+    <div class="att-grid">
+      <div class="att"><div class="att-slot">Scope</div><div class="att-pick">S-VPS 6.00x</div></div>
+      <div class="att"><div class="att-slot">Muzzle</div><div class="att-pick">Lightened Suppressor</div></div>
+      <div class="att"><div class="att-slot">Barrel</div><div class="att-pick">26" Carbon</div></div>
+      <div class="att"><div class="att-slot">Underbarrel</div><div class="att-pick">QD Grip Pod</div></div>
+      <div class="att"><div class="att-slot">Magazine</div><div class="att-pick">8rnd Mag</div></div>
+      <div class="att"><div class="att-slot">Ammo</div><div class="att-pick">FMJ</div></div>
+      <div class="att"><div class="att-slot">Ergonomics</div><div class="att-pick">DLC Bolt</div></div>
+      <div class="att"><div class="att-slot">Secondary</div><div class="att-pick">M4A1 Carbine</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MATRIX -->
+<section class="matrix-section" id="matrix">
+  <h2>// Class Comparison Matrix</h2>
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th>Class</th>
+        <th>Weapon</th>
+        <th>Best Range</th>
+        <th>TTK</th>
+        <th>Skill Floor</th>
+        <th>Squad Role</th>
+        <th>Backup Pick</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Assault</td>
+        <td>Kord 6P67</td>
+        <td><span class="badge-mid">MID</span></td>
+        <td>200ms</td>
+        <td>Low</td>
+        <td>Frontline DPS</td>
+        <td>M433 / SOR-556</td>
+      </tr>
+      <tr>
+        <td>Engineer</td>
+        <td>SGX</td>
+        <td><span class="badge-cqb">CQB</span></td>
+        <td>189ms</td>
+        <td>Low</td>
+        <td>Flanker / AV</td>
+        <td>KV9 / UMG-40</td>
+      </tr>
+      <tr>
+        <td>Support</td>
+        <td>DRS-IAR</td>
+        <td><span class="badge-mid">MID</span></td>
+        <td>~257ms</td>
+        <td>Medium</td>
+        <td>Anchor / Healer</td>
+        <td>RPKM / L110</td>
+      </tr>
+      <tr>
+        <td>Recon</td>
+        <td>M2010 ESR</td>
+        <td><span class="badge-long">LONG</span></td>
+        <td>HS = OHK</td>
+        <td>High</td>
+        <td>Intel / Picks</td>
+        <td>PSR / SVK-8.6</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>
+  <div>// Sources cross-referenced as of 2026-04-26</div>
+  <div class="src-list">
+    <a href="https://battlefinity.gg/" target="_blank">Battlefinity</a>
+    <a href="https://skycoach.gg/blog/battlefield-6/articles/redsec-weapons-tier-list" target="_blank">Skycoach</a>
+    <a href="https://gfuel.com/blogs/news/battlefield-6-redsec-best-weapons" target="_blank">G FUEL</a>
+    <a href="https://www.dexerto.com/wikis/battlefield-redsec/" target="_blank">Dexerto</a>
+    <a href="https://www.charlieintel.com/battlefield-6/" target="_blank">Charlie INTEL</a>
+    <a href="https://dving.net/guides/battlefield-6/redsec-best-loadouts" target="_blank">Dving</a>
+    <a href="https://www.gamesradar.com/games/battlefield/" target="_blank">GamesRadar</a>
+  </div>
+</footer>
+
+</div>
+
+<script>
+  // Raw weapon data — sourced from battlefieldredsec.space + skycoach + battlefield6guide.com (Apr 2026)
+  // mag null = source did not list mag size
+  // Attachment slot order: [Optic, Muzzle, Barrel, Underbarrel, Magazine]
+  // 5-attachment loadouts designed to fit within the Pick-100 budget.
+  const WEAPONS = [
+    // Assault Rifles
+    { name: 'M433',         category: 'AR',      tier: 'S', dmg: 35, rpm: 720,  mag: null, attach: ['1.50x',       'Compensator',    'Heavy Profile',  'Vert Grip',    'Ext Mag'],   note: 'Starter AR. Fastest 3STK in slot.' },
+    { name: 'B36A4',        category: 'AR',      tier: 'A', dmg: 38, rpm: 680,  mag: null, attach: ['2.00x',       'Compensator',    'Heavy Profile',  'Vert Grip',    'Ext Mag'],   note: 'High dmg, slower fire' },
+    { name: 'SOR-556 MK2',  category: 'AR',      tier: 'S', dmg: 34, rpm: 750,  mag: null, attach: ['1.50x',       'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: 'Lowest TTK in AR slot' },
+    { name: 'AK4D',         category: 'AR',      tier: 'A', dmg: 40, rpm: 650,  mag: null, attach: ['1.50x',       'Suppressor',     'Heavy Profile',  'Angled Grip',  'Ext Mag'],   note: 'Highest dmg AR' },
+    { name: 'TR-7',         category: 'AR',      tier: 'B', dmg: 36, rpm: 700,  mag: null, attach: ['1.50x',       'Compensator',    'Heavy Profile',  'Vert Grip',    'Ext Mag'],   note: 'Solid mid-tier' },
+    { name: 'KORD 6P67',    category: 'AR',      tier: 'S', dmg: 33, rpm: 780,  mag: 30,   attach: ['2.00x',       'Comp Brake',     'Heavy Profile',  'Vert Grip',    'Ext Mag'],   note: 'My pick — recoil king', meta: true },
+    { name: 'NVO-228E',     category: 'AR',      tier: 'A', dmg: 32, rpm: 710,  mag: null, attach: ['1.50x',       'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: '4STK weakness' },
+    { name: 'L85A3',        category: 'AR',      tier: 'A', dmg: 37, rpm: 690,  mag: null, attach: ['1.50x',       'Compensator',    'Bullpup Std',    'Vert Grip',    'Ext Mag'],   note: 'Bullpup handling' },
+
+    // Carbines
+    { name: 'M4A1',         category: 'Carbine', tier: 'S', dmg: 32, rpm: 800,  mag: null, attach: ['Red Dot',     'Flash Hider',    'Standard',       'Vert Grip',    'Ext Mag'],   note: 'Carbine benchmark' },
+    { name: 'M277',         category: 'Carbine', tier: 'B', dmg: 31, rpm: 820,  mag: null, attach: ['Red Dot',     'Compensator',    'Short',          'Angled Grip',  'Ext Mag'],   note: '6.8mm platform' },
+    { name: 'AK-205',       category: 'Carbine', tier: 'A', dmg: 35, rpm: 750,  mag: null, attach: ['Red Dot',     'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: 'Hard hitting' },
+    { name: 'M417 A2',      category: 'Carbine', tier: 'B', dmg: 42, rpm: 580,  mag: null, attach: ['1.50x',       'Heavy Comp',     'Heavy Profile',  'Bipod',        'Std Mag'],   note: 'Slow but heavy' },
+    { name: 'GRTZ-BC',      category: 'Carbine', tier: 'B', dmg: 33, rpm: 780,  mag: null, attach: ['Red Dot',     'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: 'Balanced' },
+    { name: 'QBZ-192',      category: 'Carbine', tier: 'S', dmg: 30, rpm: 810,  mag: null, attach: ['Red Dot',     'Flash Hider',    'Standard',       'Vert Grip',    'Ext Mag'],   note: 'High RPM, low dmg' },
+    { name: 'SG-554R',      category: 'Carbine', tier: 'A', dmg: 31, rpm: 840,  mag: null, attach: ['Red Dot',     'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: 'Highest carbine RPM' },
+    { name: 'SOR-300SC',    category: 'Carbine', tier: 'C', dmg: 34, rpm: 790,  mag: null, attach: ['Red Dot',     'Suppressor',     'Standard',       'Vert Grip',    'Ext Mag'],   note: 'Best paper TTK in armory' },
+
+    // SMGs
+    { name: 'SGX',          category: 'SMG',     tier: 'S', dmg: 25, rpm: 950,  mag: null, attach: ['Red Dot',     'CQB Suppressor', '8" Extended',    'Alloy Vert',   'Ext Mag'],   note: 'My pick — Engineer starter', meta: true },
+    { name: 'PW5A3',        category: 'SMG',     tier: 'A', dmg: 28, rpm: 880,  mag: null, attach: ['Red Dot',     'Flash Hider',    'Standard',       'Vert Grip',    'Ext Mag'],   note: 'MP5 platform, balanced' },
+    { name: 'PW7A2',        category: 'SMG',     tier: 'B', dmg: 29, rpm: 860,  mag: null, attach: ['Red Dot',     'Suppressor',     'Short',          'Vert Grip',    'Ext Mag'],   note: 'MP7-style' },
+    { name: 'UMG-40',       category: 'SMG',     tier: 'S', dmg: 27, rpm: 820,  mag: null, attach: ['Red Dot',     'Suppressor',     'Standard',       'Vert Grip',    'Ext Mag'],   note: 'Some sources S-tier' },
+    { name: 'USG-90',       category: 'SMG',     tier: 'C', dmg: 26, rpm: 920,  mag: null, attach: ['Red Dot',     'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: 'P90-style' },
+    { name: 'KV9',          category: 'SMG',     tier: 'A', dmg: 24, rpm: 1000, mag: null, attach: ['Red Dot',     'Flash Hider',    'Standard',       'Vert Grip',    'Ext Mag'],   note: 'Highest RPM, but 5STK' },
+    { name: 'SCW-10',       category: 'SMG',     tier: 'B', dmg: 26, rpm: 850,  mag: null, attach: ['Red Dot',     'Heavy Comp',     'Standard',       'Angled Grip',  'Ext Mag'],   note: '10mm stopping power' },
+    { name: 'SL9',          category: 'SMG',     tier: 'S', dmg: 28, rpm: 890,  mag: null, attach: ['Red Dot',     'Suppressor',     'Standard',       'Vert Grip',    'Ext Mag'],   note: 'Strong mid-range SMG' },
+
+    // LMGs
+    { name: 'L110',         category: 'LMG',     tier: 'S', dmg: 30, rpm: 750,  mag: 100,  attach: ['1.50x',       'Suppressor',     'Standard',       'Bipod',        '100rd'],     note: 'High mag, smooth' },
+    { name: 'DRS-IAR',      category: 'LMG',     tier: 'A', dmg: 32, rpm: 720,  mag: 75,   attach: ['CCO 2.00x',   'Long Suppressor','16.5" Fluted',   '6H64 Vert',    '36rnd'],     note: 'My pick — AR/LMG hybrid', meta: true },
+    { name: 'M60',          category: 'LMG',     tier: 'A', dmg: 38, rpm: 580,  mag: 150,  attach: ['1.50x',       'Compensator',    'Heavy Profile',  'Bipod',        '150rd'],     note: 'Heavy hitter' },
+    { name: 'RPKM',         category: 'LMG',     tier: 'S', dmg: 36, rpm: 650,  mag: 100,  attach: ['1.50x',       'Compensator',    'Heavy Profile',  'Vert Grip',    '100rd'],     note: 'Faster TTK than DRS-IAR' },
+    { name: 'M123K',        category: 'LMG',     tier: 'A', dmg: 33, rpm: 700,  mag: 200,  attach: ['1.50x',       'Compensator',    'Standard',       'Bipod',        '200rd'],     note: 'Largest mag in slot' },
+    { name: 'M250',         category: 'LMG',     tier: 'C', dmg: 34, rpm: 730,  mag: 100,  attach: ['2.00x',       'Compensator',    'Standard',       'Vert Grip',    '100rd'],     note: '3STK — fastest LMG TTK' },
+    { name: 'KTS100 Mk8',   category: 'LMG',     tier: 'A', dmg: 35, rpm: 680,  mag: 100,  attach: ['2.00x',       'Suppressor',     'Long',           'Bipod',        '100rd'],     note: 'Long-range LMG' },
+    { name: 'M240L',        category: 'LMG',     tier: 'B', dmg: 37, rpm: 650,  mag: 150,  attach: ['1.50x',       'Compensator',    'Heavy Profile',  'Bipod',        '150rd'],     note: 'Heavy chassis' },
+
+    // DMRs
+    { name: 'M39 EMR',      category: 'DMR',     tier: 'A', dmg: 50, rpm: 350,  mag: null, attach: ['3.00x',       'Suppressor',     'Heavy Profile',  'Vert Grip',    'Ext Mag'],   note: '2STK at any range' },
+    { name: 'LMR-27',       category: 'DMR',     tier: 'B', dmg: 58, rpm: 300,  mag: null, attach: ['4.00x',       'Suppressor',     'Heavy Profile',  'Bipod',        'Ext Mag'],   note: 'Highest DMR dmg' },
+    { name: 'SVK-8.6',      category: 'DMR',     tier: 'S', dmg: 55, rpm: 320,  mag: 10,   attach: ['3.00x',       'Suppressor',     'Heavy Profile',  'Vert Grip',    '10rnd'],     note: 'Top DMR meta' },
+    { name: 'SVDM',         category: 'DMR',     tier: 'A', dmg: 52, rpm: 340,  mag: null, attach: ['3.00x',       'Suppressor',     'Standard',       'Vert Grip',    'Ext Mag'],   note: 'Solid 2STK' },
+
+    // Snipers
+    { name: 'M2010 ESR',    category: 'Sniper',  tier: 'A', dmg: 100, rpm: 50,  mag: 8,    attach: ['S-VPS 6.00x', 'Lt Suppressor',  '26" Carbon',     'QD Grip Pod',  '8rnd'],      note: 'My pick — easy OHK', meta: true },
+    { name: 'SV-98',        category: 'Sniper',  tier: 'A', dmg: 95,  rpm: 55,  mag: null, attach: ['6.00x',       'Suppressor',     '24" Heavy',      'Bipod',        'Std Mag'],   note: 'Body shot 2STK' },
+    { name: 'PSR',          category: 'Sniper',  tier: 'S', dmg: 98,  rpm: 52,  mag: null, attach: ['8.00x',       'Suppressor',     'Long',           'Bipod',        'Std Mag'],   note: 'Top-tier sniper, harder to use' },
+    { name: 'Mini Scout',   category: 'Sniper',  tier: 'B', dmg: 85,  rpm: 60,  mag: null, attach: ['4.00x',       'Compensator',    'Short',          'Vert Grip',    'Ext Mag'],   note: '2STK to body' },
+
+    // Shotguns
+    { name: 'M87A1',        category: 'Shotgun', tier: 'S', dmg: 120, rpm: 80,  mag: null, attach: ['Red Dot',     'Choke',          'Standard',       'Vert Grip',    'Ext Tube'],  note: 'Pump-action OHK' },
+    { name: 'M1014',        category: 'Shotgun', tier: 'A', dmg: 95,  rpm: 240, mag: null, attach: ['Red Dot',     'Choke',          'Standard',       'Vert Grip',    'Ext Tube'],  note: 'Semi-auto follow-up' },
+    { name: '18.5 KS-K',    category: 'Shotgun', tier: 'B', dmg: 100, rpm: 100, mag: null, attach: ['Red Dot',     'Mod Choke',      'Short',          'Vert Grip',    'Std Tube'],  note: 'Pump 1STK potential' },
+
+    // Pistols
+    { name: 'P18',          category: 'Pistol',  tier: 'A', dmg: 35, rpm: 300,  mag: null, attach: ['Mini RDS',    'Suppressor',     'Standard',       '—',            'Ext Mag'],   note: 'Starter sidearm' },
+    { name: 'ES-5-7',       category: 'Pistol',  tier: 'S', dmg: 32, rpm: 400,  mag: null, attach: ['Mini RDS',    'Compensator',    'Standard',       '—',            'Ext Mag'],   note: 'High-cap, fast' },
+    { name: 'M44',          category: 'Pistol',  tier: 'A', dmg: 60, rpm: 180,  mag: null, attach: ['Mini RDS',    'Compensator',    'Heavy Profile',  '—',            'Speedloader'], note: 'Magnum, 2STK' }
+  ];
+
+  // Compute BTK and TTK
+  WEAPONS.forEach(w => {
+    w.btk = Math.ceil(100 / w.dmg);
+    w.ttk = Math.round((w.btk - 1) * (60000 / w.rpm));
+  });
+
+  // Tag fastest TTK in each category (excluding 0ms OHK ties — flag them all)
+  const byCat = {};
+  WEAPONS.forEach(w => { (byCat[w.category] ||= []).push(w); });
+  Object.values(byCat).forEach(arr => {
+    const minTTK = Math.min(...arr.map(w => w.ttk));
+    arr.filter(w => w.ttk === minTTK).forEach(w => w.fastest = true);
+  });
+
+  const tierVal = { S: 4, A: 3, B: 2, C: 1 };
+
+  let state = { sort: 'ttk', dir: 'asc', cat: 'all', search: '' };
+
+  function render() {
+    const tbody = document.getElementById('armory-body');
+    let rows = WEAPONS.slice();
+    if (state.cat !== 'all') rows = rows.filter(w => w.category === state.cat);
+    if (state.search) {
+      const q = state.search.toLowerCase();
+      rows = rows.filter(w => w.name.toLowerCase().includes(q));
+    }
+    rows.sort((a, b) => {
+      let av, bv;
+      if (state.sort === 'tier') { av = tierVal[a.tier]; bv = tierVal[b.tier]; }
+      else { av = a[state.sort]; bv = b[state.sort]; }
+      if (av == null) av = state.dir === 'asc' ? Infinity : -Infinity;
+      if (bv == null) bv = state.dir === 'asc' ? Infinity : -Infinity;
+      if (typeof av === 'string') return state.dir === 'asc' ? av.localeCompare(bv) : bv.localeCompare(av);
+      return state.dir === 'asc' ? av - bv : bv - av;
+    });
+
+    tbody.innerHTML = rows.map(w => {
+      const ttkClass = w.ttk === 0 ? 'ohk' : (w.fastest ? 'fastest' : '');
+      const ttkDisplay = w.ttk === 0 ? 'OHK' : w.ttk;
+      const metaBadge = w.meta ? '<span class="badge-inline badge-meta">META</span>' : '';
+      const fastBadge = w.fastest && w.ttk > 0 ? '<span class="badge-inline badge-fast">FAST</span>' : '';
+      const slotLabels = ['Optic','Muzzle','Barrel','Underbarrel','Magazine'];
+      const loadout = (w.attach || []).map((a, i) =>
+        `<span class="att-chip" title="${slotLabels[i]}"><span class="att-chip-slot">${slotLabels[i].slice(0,3).toUpperCase()}</span>${a}</span>`
+      ).join('');
+      return `<tr class="${w.meta ? 'meta-pick' : ''}" title="${w.note || ''}">
+        <td>${w.name}${metaBadge}${fastBadge}</td>
+        <td style="color:var(--text-dim)">${w.category}</td>
+        <td class="tier-cell tier-${w.tier}">${w.tier}</td>
+        <td>${w.dmg}</td>
+        <td>${w.rpm}</td>
+        <td>${w.mag ?? '—'}</td>
+        <td>${w.btk}</td>
+        <td class="ttk-cell ${ttkClass}">${ttkDisplay}</td>
+        <td class="loadout-cell">${loadout}</td>
+      </tr>`;
+    }).join('');
+
+    document.querySelectorAll('th[data-sort]').forEach(th => {
+      th.classList.remove('sorted-asc', 'sorted-desc');
+      if (th.dataset.sort === state.sort) th.classList.add(state.dir === 'asc' ? 'sorted-asc' : 'sorted-desc');
+    });
+  }
+
+  document.querySelectorAll('th[data-sort]').forEach(th => {
+    th.addEventListener('click', () => {
+      const k = th.dataset.sort;
+      if (state.sort === k) state.dir = state.dir === 'asc' ? 'desc' : 'asc';
+      else { state.sort = k; state.dir = (th.dataset.type === 'num' || th.dataset.type === 'tier') ? 'asc' : 'asc'; }
+      render();
+    });
+  });
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.cat = btn.dataset.cat;
+      render();
+    });
+  });
+  document.getElementById('search').addEventListener('input', e => {
+    state.search = e.target.value;
+    render();
+  });
+
+  render();
+
+  /* ========================================================================
+     INTERACTIVE BUILDER
+     ======================================================================== */
+
+  // Per-class base stats (0-100 scale, except where noted)
+  const CATEGORY_BASES = {
+    AR:      { recoilControl: 65, range: 70, mobility: 60, adsSpeed: 65, velocity: 75, accuracy: 70, stealth: 30 },
+    Carbine: { recoilControl: 60, range: 60, mobility: 75, adsSpeed: 78, velocity: 70, accuracy: 65, stealth: 30 },
+    SMG:     { recoilControl: 55, range: 40, mobility: 85, adsSpeed: 88, velocity: 55, accuracy: 60, stealth: 30 },
+    LMG:     { recoilControl: 45, range: 75, mobility: 35, adsSpeed: 45, velocity: 70, accuracy: 65, stealth: 30 },
+    DMR:     { recoilControl: 60, range: 88, mobility: 55, adsSpeed: 50, velocity: 85, accuracy: 80, stealth: 30 },
+    Sniper:  { recoilControl: 40, range: 100, mobility: 30, adsSpeed: 30, velocity: 100, accuracy: 90, stealth: 30 },
+    Shotgun: { recoilControl: 55, range: 20, mobility: 70, adsSpeed: 70, velocity: 25, accuracy: 50, stealth: 30 },
+    Pistol:  { recoilControl: 70, range: 30, mobility: 100, adsSpeed: 95, velocity: 50, accuracy: 60, stealth: 30 }
+  };
+
+  // Attachment database. 5 slots, each option = { name, cost, mods }
+  // mods values are additive offsets. damage/rpm/magSize are flat numbers.
+  // recoil/range/mobility/adsSpeed/velocity/accuracy/stealth are 0-100 deltas.
+  const ATTACHMENT_DATA = {
+    Optic: [
+      { name: 'Iron Sights',   cost: 0,  mods: { adsSpeed: +4, mobility: +2 } },
+      { name: 'Red Dot',       cost: 8,  mods: { adsSpeed: +1, accuracy: +5 } },
+      { name: '1.50x ACOG',    cost: 14, mods: { range: +5, accuracy: +6, adsSpeed: -2 } },
+      { name: '2.00x CCO',     cost: 18, mods: { range: +8, accuracy: +7, adsSpeed: -4 } },
+      { name: '4.00x DMR',     cost: 22, mods: { range: +12, accuracy: +10, adsSpeed: -6, mobility: -3 } },
+      { name: '6.00x Sniper',  cost: 25, mods: { range: +18, accuracy: +14, adsSpeed: -10, mobility: -5 } }
+    ],
+    Muzzle: [
+      { name: 'None',          cost: 0,  mods: {} },
+      { name: 'Flash Hider',   cost: 12, mods: { stealth: +5, accuracy: +2 } },
+      { name: 'Compensator',   cost: 18, mods: { recoilControl: +12, velocity: -3 } },
+      { name: 'Heavy Comp',    cost: 22, mods: { recoilControl: +18, velocity: -5, adsSpeed: -2 } },
+      { name: 'Suppressor',    cost: 25, mods: { stealth: +25, velocity: -8, range: -5, recoilControl: +5 } },
+      { name: 'CQB Suppressor',cost: 18, mods: { stealth: +20, velocity: -3, range: -10 } }
+    ],
+    Barrel: [
+      { name: 'Standard',      cost: 0,  mods: {} },
+      { name: 'Short',         cost: 10, mods: { mobility: +6, adsSpeed: +5, range: -8, accuracy: -3 } },
+      { name: 'Heavy Profile', cost: 22, mods: { range: +8, recoilControl: +8, mobility: -5, damage: +1 } },
+      { name: 'Long',          cost: 25, mods: { range: +12, velocity: +10, adsSpeed: -5, mobility: -5 } },
+      { name: 'Fluted',        cost: 18, mods: { velocity: +8, adsSpeed: +3, recoilControl: +2 } }
+    ],
+    Underbarrel: [
+      { name: 'None',          cost: 0,  mods: {} },
+      { name: 'Vert Grip',     cost: 15, mods: { recoilControl: +12 } },
+      { name: 'Angled Grip',   cost: 12, mods: { recoilControl: +6, adsSpeed: +4 } },
+      { name: 'Bipod',         cost: 20, mods: { recoilControl: +20, mobility: -5, adsSpeed: -2 } },
+      { name: 'Foregrip',      cost: 10, mods: { recoilControl: +5, adsSpeed: +2 } }
+    ],
+    Magazine: [
+      { name: 'Standard',      cost: 0,  mods: {} },
+      { name: 'Extended Mag',  cost: 18, mods: { magMult: 1.5, reloadSpeed: -10, mobility: -3 } },
+      { name: 'Drum',          cost: 25, mods: { magMult: 2.0, reloadSpeed: -25, mobility: -8 } },
+      { name: 'Quick Mag',     cost: 12, mods: { magMult: 0.9, reloadSpeed: +15 } },
+      { name: 'FMJ',           cost: 18, mods: { range: +5, damage: +1 } },
+      { name: 'AP Rounds',     cost: 22, mods: { range: +3, damage: +2, velocity: +3 } }
+    ],
+    Stock: [
+      { name: 'Standard Stock',cost: 0,  mods: {} },
+      { name: 'Heavy Stock',   cost: 18, mods: { recoilControl: +12, mobility: -5, adsSpeed: -2 } },
+      { name: 'Light Stock',   cost: 14, mods: { mobility: +6, adsSpeed: +5, recoilControl: -3 } },
+      { name: 'Folding Stock', cost: 16, mods: { mobility: +8, adsSpeed: +4, recoilControl: -5 } },
+      { name: 'Skeleton Stock',cost: 12, mods: { adsSpeed: +6, mobility: +3 } },
+      { name: 'No Stock',      cost: 8,  mods: { mobility: +12, adsSpeed: +10, recoilControl: -12 } }
+    ]
+  };
+
+  const SLOT_ORDER = ['Optic', 'Muzzle', 'Barrel', 'Underbarrel', 'Magazine', 'Stock'];
+
+  let bs = {
+    weapon: null,
+    activeCat: 'AR',
+    activeSlot: 'Optic',
+    equipped: { Optic: null, Muzzle: null, Barrel: null, Underbarrel: null, Magazine: null, Stock: null }
+  };
+
+  let presets = JSON.parse(localStorage.getItem('redsec-presets') || '[]');
+  let snapshots = { A: null, B: null };
+
+  function getCurrentStats(overrideEquipped) {
+    if (!bs.weapon) return null;
+    const w = bs.weapon;
+    const equipped = overrideEquipped || bs.equipped;
+    const base = { ...CATEGORY_BASES[w.category] };
+    const stats = {
+      damage: w.dmg,
+      rpm: w.rpm,
+      magSize: w.mag || 30,
+      magMult: 1,
+      recoilControl: base.recoilControl,
+      range: base.range,
+      mobility: base.mobility,
+      adsSpeed: base.adsSpeed,
+      velocity: base.velocity,
+      accuracy: base.accuracy,
+      stealth: base.stealth,
+      reloadSpeed: 50
+    };
+    const baseStats = { ...stats };
+    let points = 0;
+    SLOT_ORDER.forEach(slot => {
+      const idx = equipped[slot];
+      if (idx == null) return;
+      const a = ATTACHMENT_DATA[slot] && ATTACHMENT_DATA[slot][idx];
+      if (!a) return;
+      points += a.cost;
+      Object.entries(a.mods).forEach(([k, v]) => {
+        if (k === 'magMult') stats.magMult *= v;
+        else stats[k] = (stats[k] || 0) + v;
+      });
+    });
+    stats.magSize = Math.round(stats.magSize * stats.magMult);
+    baseStats.magSize = w.mag || 30;
+    // BTK + TTK
+    stats.btk = Math.ceil(100 / stats.damage);
+    stats.ttk = Math.round((stats.btk - 1) * (60000 / stats.rpm));
+    baseStats.btk = Math.ceil(100 / baseStats.damage);
+    baseStats.ttk = Math.round((baseStats.btk - 1) * (60000 / baseStats.rpm));
+    return { stats, base: baseStats, points };
+  }
+
+  function renderPicker() {
+    const cats = ['AR','Carbine','SMG','LMG','DMR','Sniper','Shotgun','Pistol'];
+    document.getElementById('picker-tabs').innerHTML = cats.map(c =>
+      `<button class="picker-tab ${bs.activeCat === c ? 'active' : ''}" data-cat="${c}">${c}</button>`
+    ).join('');
+    const list = WEAPONS.filter(w => w.category === bs.activeCat);
+    document.getElementById('picker-list').innerHTML = list.map(w =>
+      `<div class="picker-item ${bs.weapon && bs.weapon.name === w.name ? 'selected' : ''}" data-name="${w.name}">
+        ${w.name}<span class="picker-item-tier">${w.tier}</span>
+      </div>`
+    ).join('');
+    document.querySelectorAll('.picker-tab').forEach(t => t.addEventListener('click', () => {
+      bs.activeCat = t.dataset.cat;
+      renderPicker();
+    }));
+    document.querySelectorAll('.picker-item').forEach(it => it.addEventListener('click', () => {
+      bs.weapon = WEAPONS.find(w => w.name === it.dataset.name);
+      bs.equipped = { Optic: null, Muzzle: null, Barrel: null, Underbarrel: null, Magazine: null, Stock: null };
+      renderBuilder();
+    }));
+  }
+
+  function svgForCategory(cat) {
+    const c = 'var(--olive)';
+    if (cat === 'Sniper' || cat === 'DMR') return `<svg class="bw-svg" viewBox="0 0 320 80" fill="none" stroke="${c}" stroke-width="1.5"><rect x="40" y="38" width="120" height="14"/><rect x="160" y="40" width="120" height="6"/><rect x="280" y="38" width="20" height="10"/><rect x="80" y="20" width="60" height="14"/><line x1="100" y1="20" x2="100" y2="14"/><line x1="120" y1="20" x2="120" y2="14"/><rect x="20" y="36" width="22" height="20"/><rect x="60" y="52" width="14" height="14"/></svg>`;
+    if (cat === 'LMG') return `<svg class="bw-svg" viewBox="0 0 320 80" fill="none" stroke="${c}" stroke-width="1.5"><rect x="50" y="36" width="130" height="18"/><rect x="180" y="40" width="80" height="10"/><rect x="260" y="36" width="18" height="18"/><rect x="100" y="22" width="40" height="10"/><rect x="20" y="34" width="30" height="22"/><rect x="80" y="54" width="40" height="20"/></svg>`;
+    if (cat === 'SMG') return `<svg class="bw-svg" viewBox="0 0 320 80" fill="none" stroke="${c}" stroke-width="1.5"><rect x="80" y="36" width="80" height="16"/><rect x="160" y="38" width="50" height="10"/><rect x="210" y="36" width="14" height="14"/><rect x="100" y="22" width="30" height="10"/><rect x="60" y="34" width="22" height="20"/><rect x="105" y="52" width="22" height="22"/></svg>`;
+    if (cat === 'Shotgun') return `<svg class="bw-svg" viewBox="0 0 320 80" fill="none" stroke="${c}" stroke-width="1.5"><rect x="40" y="38" width="100" height="14"/><rect x="140" y="40" width="100" height="6"/><rect x="240" y="36" width="22" height="14"/><rect x="20" y="36" width="22" height="20"/><rect x="60" y="52" width="14" height="16"/></svg>`;
+    if (cat === 'Pistol') return `<svg class="bw-svg" viewBox="0 0 320 80" fill="none" stroke="${c}" stroke-width="1.5"><rect x="120" y="32" width="60" height="14"/><rect x="180" y="34" width="40" height="8"/><rect x="100" y="32" width="22" height="28"/><rect x="115" y="46" width="22" height="20"/></svg>`;
+    return `<svg class="bw-svg" viewBox="0 0 320 80" fill="none" stroke="${c}" stroke-width="1.5"><rect x="50" y="36" width="110" height="16"/><rect x="160" y="40" width="90" height="8"/><rect x="250" y="36" width="18" height="14"/><rect x="90" y="22" width="40" height="10"/><rect x="20" y="34" width="30" height="22"/><rect x="80" y="52" width="30" height="20"/></svg>`;
+  }
+
+  function renderPreview() {
+    const el = document.getElementById('bw-preview');
+    if (!bs.weapon) { el.innerHTML = '<div class="bw-empty">// SELECT A WEAPON ABOVE</div>'; return; }
+    const w = bs.weapon;
+    el.innerHTML = `
+      ${svgForCategory(w.category)}
+      <div class="bw-name">${w.name}</div>
+      <div class="bw-meta-row">
+        <span class="bw-meta-cat">${w.category}</span>
+        <span class="bw-meta-tier">${w.tier}-Tier</span>
+        ${w.meta ? '<span class="bw-meta-tier" style="color:var(--green);border-color:var(--green)">META</span>' : ''}
+      </div>
+    `;
+  }
+
+  function renderBudget() {
+    const r = getCurrentStats();
+    if (!r) return;
+    const pct = Math.min(100, (r.points / 100) * 100);
+    document.getElementById('bw-budget').style.display = 'block';
+    document.getElementById('bw-points').textContent = r.points;
+    const fill = document.getElementById('bw-budget-fill');
+    fill.style.width = pct + '%';
+    if (r.points > 100) {
+      fill.classList.add('over');
+      document.querySelector('.bw-budget-val').classList.add('over');
+    } else {
+      fill.classList.remove('over');
+      document.querySelector('.bw-budget-val').classList.remove('over');
+    }
+  }
+
+  function renderSlots() {
+    const el = document.getElementById('bw-slots');
+    el.innerHTML = SLOT_ORDER.map(slot => {
+      const idx = bs.equipped[slot];
+      const equippedName = idx != null ? ATTACHMENT_DATA[slot][idx].name : '— empty';
+      return `<button class="bw-slot ${bs.activeSlot === slot ? 'active' : ''}" data-slot="${slot}">
+        ${slot}<span class="bw-slot-equipped">${equippedName}</span>
+      </button>`;
+    }).join('');
+    document.querySelectorAll('.bw-slot').forEach(s => s.addEventListener('click', () => {
+      bs.activeSlot = s.dataset.slot;
+      renderSlots();
+      renderOptions();
+    }));
+  }
+
+  function modLabel(key, val) {
+    const labels = { recoilControl: 'RCL', range: 'RNG', mobility: 'MOB', adsSpeed: 'ADS', velocity: 'VEL', accuracy: 'ACC', stealth: 'STL', damage: 'DMG', magMult: 'MAG', reloadSpeed: 'RLD' };
+    const l = labels[key] || key.toUpperCase();
+    if (key === 'magMult') return `${l} ${val > 1 ? '+' : ''}${Math.round((val - 1) * 100)}%`;
+    return `${l} ${val > 0 ? '+' : ''}${val}`;
+  }
+
+  function renderOptions() {
+    const slot = bs.activeSlot;
+    const opts = ATTACHMENT_DATA[slot];
+    const r = getCurrentStats();
+    const currentPoints = r ? r.points : 0;
+    const equippedIdx = bs.equipped[slot];
+    const currentCost = equippedIdx != null ? ATTACHMENT_DATA[slot][equippedIdx].cost : 0;
+    const remaining = 100 - currentPoints + currentCost;
+
+    document.getElementById('bw-options').innerHTML = opts.map((o, i) => {
+      const isEquipped = equippedIdx === i;
+      const wouldExceed = !isEquipped && o.cost > remaining;
+      const mods = Object.entries(o.mods).map(([k, v]) => {
+        const isUp = (k === 'magMult' && v > 1) || (k !== 'magMult' && v > 0);
+        return `<span class="bw-mod ${isUp ? 'up' : 'down'}">${modLabel(k, v)}</span>`;
+      }).join('') || '<span class="bw-mod" style="color:var(--text-dim)">no change</span>';
+      return `<div class="bw-opt ${isEquipped ? 'equipped' : ''} ${wouldExceed ? 'locked' : ''}" data-slot="${slot}" data-idx="${i}">
+        <div class="bw-opt-head">
+          <div class="bw-opt-name">${o.name}</div>
+          <div class="bw-opt-cost">${o.cost} pts</div>
+        </div>
+        <div class="bw-opt-mods">${mods}</div>
+      </div>`;
+    }).join('');
+    document.querySelectorAll('.bw-opt').forEach(el => {
+      el.addEventListener('click', () => {
+        if (el.classList.contains('locked')) return;
+        const slot = el.dataset.slot;
+        const idx = parseInt(el.dataset.idx);
+        bs.equipped[slot] = bs.equipped[slot] === idx ? null : idx;
+        renderBuilder();
+      });
+      el.addEventListener('mouseenter', () => {
+        if (el.classList.contains('locked')) return;
+        if (el.classList.contains('equipped')) return;
+        const slot = el.dataset.slot;
+        const idx = parseInt(el.dataset.idx);
+        const preview = { ...bs.equipped, [slot]: idx };
+        renderStats(preview);
+      });
+      el.addEventListener('mouseleave', () => {
+        renderStats();
+      });
+    });
+  }
+
+  function renderStats(previewEquipped) {
+    const r = getCurrentStats();
+    if (!r) { document.getElementById('bw-stats').style.display = 'none'; return; }
+    document.getElementById('bw-stats').style.display = 'block';
+    const { stats, base } = r;
+    const previewR = previewEquipped ? getCurrentStats(previewEquipped) : null;
+    const rows = [
+      { key: 'damage',        label: 'Damage',  type: 'flat', max: 120 },
+      { key: 'rpm',           label: 'RPM',     type: 'flat', max: 1000 },
+      { key: 'magSize',       label: 'Mag',     type: 'flat', max: 200 },
+      { key: 'ttk',           label: 'TTK ms',  type: 'flat', max: 400, lowerBetter: true },
+      { key: 'recoilControl', label: 'Recoil',  type: 'pct' },
+      { key: 'range',         label: 'Range',   type: 'pct' },
+      { key: 'mobility',      label: 'Mobility',type: 'pct' },
+      { key: 'adsSpeed',      label: 'ADS',     type: 'pct' },
+      { key: 'velocity',      label: 'Velocity',type: 'pct' },
+      { key: 'accuracy',      label: 'Accuracy',type: 'pct' },
+      { key: 'stealth',       label: 'Stealth', type: 'pct' },
+      { key: 'reloadSpeed',   label: 'Reload',  type: 'pct' }
+    ];
+    document.getElementById('bw-stats-grid').innerHTML = rows.map(rw => {
+      const v = stats[rw.key];
+      const bv = base[rw.key];
+      const delta = v - bv;
+      const max = rw.type === 'pct' ? 100 : rw.max;
+      const fillPct = Math.max(0, Math.min(100, (v / max) * 100));
+      const baseFillPct = Math.max(0, Math.min(100, (bv / max) * 100));
+      const better = rw.lowerBetter ? delta < 0 : delta > 0;
+      const worse = rw.lowerBetter ? delta > 0 : delta < 0;
+      const numClass = delta === 0 ? '' : (better ? 'improved' : 'worsened');
+      const deltaCls = delta === 0 ? 'zero' : (better ? 'up' : 'down');
+      const deltaStr = delta === 0 ? '±0' : (delta > 0 ? `+${delta}` : `${delta}`);
+      const valDisp = rw.key === 'ttk' && v === 0 ? 'OHK' : v;
+
+      // Preview overlay
+      let previewMarkup = '';
+      let previewVal = '';
+      if (previewR) {
+        const pv = previewR.stats[rw.key];
+        const pDelta = pv - v;
+        const pBetter = rw.lowerBetter ? pDelta < 0 : pDelta > 0;
+        const pWorse = rw.lowerBetter ? pDelta > 0 : pDelta < 0;
+        const pFillPct = Math.max(0, Math.min(100, (pv / max) * 100));
+        const pDisp = rw.key === 'ttk' && pv === 0 ? 'OHK' : pv;
+        if (pDelta !== 0) {
+          previewMarkup = `<div class="bw-stat-preview-fill ${pWorse ? 'worse' : ''}" style="width:${pFillPct}%"></div>`;
+          previewVal = `<span class="preview-arrow ${pWorse ? 'worse' : ''}">→</span><span class="preview-target ${pBetter ? 'up' : 'down'}">${pDisp}</span>`;
+        }
+      }
+      return `<div class="bw-stat ${previewR ? 'previewing' : ''}">
+        <div class="bw-stat-label">${rw.label}</div>
+        <div class="bw-stat-bar">
+          <div class="bw-stat-base" style="width:${baseFillPct}%"></div>
+          <div class="bw-stat-fill" style="width:${fillPct}%; background:${worse ? 'var(--red)' : (better ? 'var(--green)' : 'var(--olive)')}"></div>
+          ${previewMarkup}
+        </div>
+        <div class="bw-stat-val">
+          <span class="bw-stat-num ${numClass}">${valDisp}</span>${previewVal}
+          ${!previewR ? `<span class="delta ${deltaCls}">${deltaStr}</span>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function renderBuilder() {
+    renderPicker();
+    renderPreview();
+    if (bs.weapon) {
+      renderBudget();
+      renderSlots();
+      renderOptions();
+      renderStats();
+    }
+  }
+
+  document.getElementById('bw-reset').addEventListener('click', () => {
+    bs.equipped = { Optic: null, Muzzle: null, Barrel: null, Underbarrel: null, Magazine: null, Stock: null };
+    renderBuilder();
+  });
+
+  /* ----- Picker selection: also reset Stock ----- */
+  // Override the picker-item click to reset all 6 slots
+  // (the original handler in renderPicker handles this through bs.equipped reassignment)
+
+  /* ============== PRESETS ============== */
+  function savePreset(name) {
+    if (!bs.weapon) return;
+    presets.push({
+      name: name,
+      weapon: bs.weapon.name,
+      equipped: { ...bs.equipped },
+      created: Date.now()
+    });
+    localStorage.setItem('redsec-presets', JSON.stringify(presets));
+    renderPresets();
+  }
+
+  function loadPreset(idx) {
+    const p = presets[idx];
+    const w = WEAPONS.find(w => w.name === p.weapon);
+    if (!w) return;
+    bs.weapon = w;
+    bs.activeCat = w.category;
+    bs.equipped = { Optic: null, Muzzle: null, Barrel: null, Underbarrel: null, Magazine: null, Stock: null };
+    Object.assign(bs.equipped, p.equipped);
+    renderBuilder();
+    document.getElementById('builder').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function deletePreset(idx) {
+    presets.splice(idx, 1);
+    localStorage.setItem('redsec-presets', JSON.stringify(presets));
+    renderPresets();
+  }
+
+  function renderPresets() {
+    const el = document.getElementById('bw-presets-list');
+    document.getElementById('bw-presets-count').textContent = `${presets.length} stored`;
+    if (presets.length === 0) {
+      el.innerHTML = '<div class="bw-presets-empty">// No saved loadouts. Build something and click "Save Current as Preset".</div>';
+      return;
+    }
+    el.innerHTML = presets.map((p, i) => {
+      const w = WEAPONS.find(w => w.name === p.weapon);
+      const equippedCount = Object.values(p.equipped).filter(v => v != null).length;
+      const tier = w ? w.tier : '?';
+      return `<div class="bw-preset">
+        <div class="bw-preset-info">
+          <div class="bw-preset-name">${p.name}</div>
+          <div class="bw-preset-sub">${p.weapon} · ${tier}-tier · ${equippedCount}/6 attached</div>
+        </div>
+        <button class="bw-preset-load" data-idx="${i}">Load</button>
+        <button class="bw-preset-A" data-idx="${i}">→ A</button>
+        <button class="bw-preset-B" data-idx="${i}">→ B</button>
+        <button class="bw-preset-del" data-idx="${i}">×</button>
+      </div>`;
+    }).join('');
+    document.querySelectorAll('.bw-preset-load').forEach(b => b.addEventListener('click', () => loadPreset(parseInt(b.dataset.idx))));
+    document.querySelectorAll('.bw-preset-A').forEach(b => b.addEventListener('click', () => {
+      const p = presets[parseInt(b.dataset.idx)];
+      snapshots.A = { weapon: p.weapon, equipped: { ...p.equipped }, label: p.name };
+      updateSnapButtons();
+      renderComparison();
+    }));
+    document.querySelectorAll('.bw-preset-B').forEach(b => b.addEventListener('click', () => {
+      const p = presets[parseInt(b.dataset.idx)];
+      snapshots.B = { weapon: p.weapon, equipped: { ...p.equipped }, label: p.name };
+      updateSnapButtons();
+      renderComparison();
+    }));
+    document.querySelectorAll('.bw-preset-del').forEach(b => b.addEventListener('click', () => {
+      if (confirm('Delete this preset?')) deletePreset(parseInt(b.dataset.idx));
+    }));
+  }
+
+  /* ============== SNAPSHOTS / COMPARISON ============== */
+  function getStatsFor(snap) {
+    if (!snap) return null;
+    const w = WEAPONS.find(w => w.name === snap.weapon);
+    if (!w) return null;
+    const base = { ...CATEGORY_BASES[w.category] };
+    const stats = {
+      damage: w.dmg, rpm: w.rpm, magSize: w.mag || 30, magMult: 1,
+      recoilControl: base.recoilControl, range: base.range, mobility: base.mobility,
+      adsSpeed: base.adsSpeed, velocity: base.velocity, accuracy: base.accuracy,
+      stealth: base.stealth, reloadSpeed: 50
+    };
+    let points = 0;
+    SLOT_ORDER.forEach(slot => {
+      const idx = snap.equipped[slot];
+      if (idx == null) return;
+      const a = ATTACHMENT_DATA[slot] && ATTACHMENT_DATA[slot][idx];
+      if (!a) return;
+      points += a.cost;
+      Object.entries(a.mods).forEach(([k, v]) => {
+        if (k === 'magMult') stats.magMult *= v;
+        else stats[k] = (stats[k] || 0) + v;
+      });
+    });
+    stats.magSize = Math.round(stats.magSize * stats.magMult);
+    stats.btk = Math.ceil(100 / stats.damage);
+    stats.ttk = Math.round((stats.btk - 1) * (60000 / stats.rpm));
+    return { stats, weapon: w, points };
+  }
+
+  function setSnapshot(slot) {
+    if (!bs.weapon) return;
+    snapshots[slot] = {
+      weapon: bs.weapon.name,
+      equipped: { ...bs.equipped },
+      label: `${bs.weapon.name} (live)`
+    };
+    updateSnapButtons();
+    renderComparison();
+  }
+
+  function updateSnapButtons() {
+    document.getElementById('bw-snap-a').classList.toggle('active', !!snapshots.A);
+    document.getElementById('bw-snap-b').classList.toggle('active', !!snapshots.B);
+    document.getElementById('bw-snap-a').textContent = snapshots.A ? `◉ Build A: ${snapshots.A.weapon}` : '▶ Set Current as Build A';
+    document.getElementById('bw-snap-b').textContent = snapshots.B ? `◉ Build B: ${snapshots.B.weapon}` : '▶ Set Current as Build B';
+  }
+
+  function renderComparison() {
+    const el = document.getElementById('bw-compare');
+    if (!snapshots.A && !snapshots.B) { el.style.display = 'none'; return; }
+    el.style.display = 'block';
+
+    const renderCol = (label, snap) => {
+      if (!snap) {
+        return `<div class="bw-compare-col col-${label.toLowerCase()}">
+          <div class="bw-compare-col-h"><span class="bw-compare-col-tag">BUILD ${label}</span></div>
+          <div class="bw-compare-col-empty">// Set a build above or load a preset → ${label}</div>
+        </div>`;
+      }
+      const r = getStatsFor(snap);
+      if (!r) return '';
+      const attachChips = SLOT_ORDER.map(slot => {
+        const idx = snap.equipped[slot];
+        if (idx == null) return null;
+        return `<span class="bw-compare-attach">${ATTACHMENT_DATA[slot][idx].name}</span>`;
+      }).filter(x => x).join('');
+      return `<div class="bw-compare-col col-${label.toLowerCase()}">
+        <div class="bw-compare-col-h">
+          <div>
+            <div class="bw-compare-col-name">${r.weapon.name}</div>
+            <div class="bw-compare-col-meta">${r.weapon.category} · ${r.weapon.tier}-tier · ${r.points}/100 pts</div>
+          </div>
+          <span class="bw-compare-col-tag">BUILD ${label}</span>
+        </div>
+        <div class="bw-compare-col-attachments">${attachChips || '<span style="color:var(--text-dim);font-family:var(--mono);font-size:11px">no attachments</span>'}</div>
+      </div>`;
+    };
+
+    document.getElementById('bw-compare-cols').innerHTML = renderCol('A', snapshots.A) + renderCol('B', snapshots.B);
+
+    const A = snapshots.A ? getStatsFor(snapshots.A) : null;
+    const B = snapshots.B ? getStatsFor(snapshots.B) : null;
+
+    if (!A || !B) {
+      document.getElementById('bw-compare-stats').innerHTML = '<div class="bw-compare-col-empty">// Set both Build A and Build B to see stat-by-stat comparison</div>';
+      return;
+    }
+
+    const rows = [
+      { key: 'damage',        label: 'Damage',  max: 120 },
+      { key: 'rpm',           label: 'RPM',     max: 1000 },
+      { key: 'magSize',       label: 'Mag',     max: 200 },
+      { key: 'ttk',           label: 'TTK ms',  max: 400, lowerBetter: true },
+      { key: 'recoilControl', label: 'Recoil',  max: 100 },
+      { key: 'range',         label: 'Range',   max: 100 },
+      { key: 'mobility',      label: 'Mobility',max: 100 },
+      { key: 'adsSpeed',      label: 'ADS',     max: 100 },
+      { key: 'velocity',      label: 'Velocity',max: 100 },
+      { key: 'accuracy',      label: 'Accuracy',max: 100 },
+      { key: 'stealth',       label: 'Stealth', max: 100 }
+    ];
+
+    document.getElementById('bw-compare-stats').innerHTML = rows.map(r => {
+      const av = A.stats[r.key];
+      const bv = B.stats[r.key];
+      const aBetter = r.lowerBetter ? av < bv : av > bv;
+      const bBetter = r.lowerBetter ? bv < av : bv > av;
+      const aClass = av === bv ? '' : (aBetter ? 'winner' : 'loser');
+      const bClass = av === bv ? '' : (bBetter ? 'winner' : 'loser');
+      const aWidth = Math.max(0, Math.min(100, (av / r.max) * 100));
+      const bWidth = Math.max(0, Math.min(100, (bv / r.max) * 100));
+      const aDisp = (r.key === 'ttk' && av === 0) ? 'OHK' : Math.round(av);
+      const bDisp = (r.key === 'ttk' && bv === 0) ? 'OHK' : Math.round(bv);
+      const diff = Math.abs(av - bv);
+      const deltaStr = av === bv ? '=' : `Δ ${Math.round(diff)}`;
+      return `<div class="bw-compare-stat">
+        <div class="bw-compare-stat-label">${r.label}</div>
+        <div class="bw-compare-stat-val va ${aClass}">${aDisp}</div>
+        <div class="bw-compare-bar-a"><div class="bw-compare-bar-a-fill" style="width:${aWidth}%"></div></div>
+        <div class="bw-compare-vs">vs</div>
+        <div class="bw-compare-bar-b"><div class="bw-compare-bar-b-fill" style="width:${bWidth}%"></div></div>
+        <div class="bw-compare-stat-val vb ${bClass}">${bDisp}</div>
+        <div class="bw-compare-delta">${deltaStr}</div>
+      </div>`;
+    }).join('');
+  }
+
+  /* ============== EVENT WIRING ============== */
+  document.getElementById('bw-save-preset').addEventListener('click', () => {
+    if (!bs.weapon) return;
+    const defaultName = `${bs.weapon.name} #${presets.filter(p => p.weapon === bs.weapon.name).length + 1}`;
+    const name = prompt('Preset name:', defaultName);
+    if (name && name.trim()) savePreset(name.trim());
+  });
+  document.getElementById('bw-snap-a').addEventListener('click', () => setSnapshot('A'));
+  document.getElementById('bw-snap-b').addEventListener('click', () => setSnapshot('B'));
+  document.getElementById('bw-compare-clear').addEventListener('click', () => {
+    snapshots = { A: null, B: null };
+    updateSnapButtons();
+    renderComparison();
+  });
+
+  /* ----- Hook into renderBuilder to enable buttons + render presets/comparison ----- */
+  const _origRenderBuilder = renderBuilder;
+  renderBuilder = function() {
+    _origRenderBuilder();
+    const enabled = !!bs.weapon;
+    document.getElementById('bw-save-preset').disabled = !enabled;
+    document.getElementById('bw-snap-a').disabled = !enabled;
+    document.getElementById('bw-snap-b').disabled = !enabled;
+    renderPresets();
+    renderComparison();
+  };
+
+  renderPresets();
+  renderComparison();
+  updateSnapButtons();
+
+  /* ============== OPTIMIZE-FOR (auto build) ============== */
+  const OPTIMIZE_GOALS = {
+    CQB:      { mobility: 3, adsSpeed: 3, damage: 2, rpm: 1.5, recoilControl: 1, range: -1 },
+    Mid:      { recoilControl: 2.5, range: 1.5, accuracy: 1.5, damage: 1, mobility: 0.5 },
+    Long:     { range: 3, velocity: 2, accuracy: 2, recoilControl: 1.5, mobility: -0.5 },
+    Stealth:  { stealth: 4, accuracy: 1, recoilControl: 1, mobility: 0.5 },
+    Recoil:   { recoilControl: 4, accuracy: 1 },
+    Mobility: { mobility: 3, adsSpeed: 2.5, recoilControl: 0.5 }
+  };
+
+  function scoreEquipped(equipped, weights) {
+    const r = getCurrentStats(equipped);
+    if (!r) return -Infinity;
+    if (r.points > 100) return -Infinity;
+    let s = 0;
+    Object.entries(weights).forEach(([k, w]) => { s += (r.stats[k] || 0) * w; });
+    return s;
+  }
+
+  function optimizeFor(goal) {
+    if (!bs.weapon) return;
+    const weights = OPTIMIZE_GOALS[goal];
+    let best = { score: -Infinity, equipped: null };
+    const empty = { Optic: null, Muzzle: null, Barrel: null, Underbarrel: null, Magazine: null, Stock: null };
+    function dfs(slotIdx, eq, points) {
+      if (slotIdx === SLOT_ORDER.length) {
+        const score = scoreEquipped(eq, weights);
+        if (score > best.score) best = { score, equipped: { ...eq } };
+        return;
+      }
+      const slot = SLOT_ORDER[slotIdx];
+      // Try null (skip slot)
+      eq[slot] = null;
+      dfs(slotIdx + 1, eq, points);
+      // Try each option
+      ATTACHMENT_DATA[slot].forEach((opt, idx) => {
+        if (points + opt.cost > 100) return;
+        eq[slot] = idx;
+        dfs(slotIdx + 1, eq, points + opt.cost);
+      });
+      eq[slot] = null;
+    }
+    dfs(0, { ...empty }, 0);
+    if (best.equipped) {
+      bs.equipped = { ...best.equipped };
+      renderBuilder();
+    }
+  }
+
+  document.querySelectorAll('.bw-opt-btn').forEach(b => b.addEventListener('click', () => {
+    if (b.disabled) return;
+    b.classList.add('computing');
+    setTimeout(() => {
+      optimizeFor(b.dataset.goal);
+      b.classList.remove('computing');
+    }, 30);
+  }));
+
+  /* ============== DAMAGE FALLOFF CHART ============== */
+  const FALLOFF_CURVES = {
+    AR:      [[0,1.0], [25,1.0], [40,0.85], [60,0.7], [100,0.55]],
+    Carbine: [[0,1.0], [20,1.0], [35,0.85], [50,0.65], [100,0.45]],
+    SMG:     [[0,1.0], [12,1.0], [25,0.7],  [40,0.5],  [60,0.3], [100,0.2]],
+    LMG:     [[0,1.0], [30,1.0], [50,0.85], [80,0.7],  [100,0.6]],
+    DMR:     [[0,1.0], [60,1.0], [100,0.92]],
+    Sniper:  [[0,1.0], [100,1.0]],
+    Shotgun: [[0,1.0], [5,1.0],  [12,0.5],  [25,0.15], [30,0.05], [100,0]],
+    Pistol:  [[0,1.0], [10,1.0], [25,0.6],  [50,0.35], [100,0.2]]
+  };
+
+  function rangedDamage(weapon, distance, rangeMod) {
+    const curve = FALLOFF_CURVES[weapon.category] || FALLOFF_CURVES.AR;
+    const baseRange = CATEGORY_BASES[weapon.category].range;
+    const shift = 1 + Math.max(-0.5, Math.min(0.8, (rangeMod - baseRange) / 80));
+    for (let i = 0; i < curve.length - 1; i++) {
+      const x1 = curve[i][0] * shift;
+      const x2 = curve[i+1][0] * shift;
+      const y1 = curve[i][1];
+      const y2 = curve[i+1][1];
+      if (distance >= x1 && distance <= x2) {
+        const t = x2 === x1 ? 0 : (distance - x1) / (x2 - x1);
+        return weapon.dmg * (y1 + (y2 - y1) * t);
+      }
+    }
+    return weapon.dmg * curve[curve.length - 1][1];
+  }
+
+  function renderFalloff() {
+    const r = getCurrentStats();
+    if (!r || !bs.weapon) return;
+    const w = bs.weapon;
+    const W = 600, H = 180;
+    const padL = 36, padR = 60, padT = 12, padB = 26;
+    const innerW = W - padL - padR;
+    const innerH = H - padT - padB;
+    const maxRange = 100;
+    const maxDmg = 120;
+    const samples = 80;
+    const points = [];
+    for (let i = 0; i <= samples; i++) {
+      const dist = (i / samples) * maxRange;
+      const dmg = rangedDamage(w, dist, r.stats.range);
+      const x = padL + (dist / maxRange) * innerW;
+      const y = padT + innerH - (Math.min(maxDmg, dmg) / maxDmg) * innerH;
+      points.push([x, y]);
+    }
+    const path = points.map((p, i) => (i === 0 ? 'M' : 'L') + p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+    const fill = `${path} L${padL+innerW},${padT+innerH} L${padL},${padT+innerH} Z`;
+    const btks = [
+      { dmg: 50,    label: '2STK', color: '#4ade80' },
+      { dmg: 33.34, label: '3STK', color: '#c4d447' },
+      { dmg: 25,    label: '4STK', color: '#fbbf24' },
+      { dmg: 20,    label: '5STK', color: '#ff4438' }
+    ];
+    const lines = btks.map(t => {
+      const y = padT + innerH - (t.dmg / maxDmg) * innerH;
+      return `<line x1="${padL}" y1="${y}" x2="${padL+innerW}" y2="${y}" stroke="${t.color}" stroke-dasharray="2,4" stroke-width="0.8" opacity="0.45"/>
+              <text x="${padL+innerW+4}" y="${y+3}" font-size="9" fill="${t.color}" opacity="0.85" style="font-family:monospace">${t.label}</text>`;
+    }).join('');
+    const xLabels = [0, 25, 50, 75, 100].map(d => {
+      const x = padL + (d / maxRange) * innerW;
+      return `<text x="${x}" y="${H-8}" font-size="9" fill="#8a9080" text-anchor="middle" style="font-family:monospace">${d}m</text>`;
+    }).join('');
+    const yLabels = [0, 30, 60, 90, 120].map(d => {
+      const y = padT + innerH - (d / maxDmg) * innerH;
+      return `<text x="${padL-6}" y="${y+3}" font-size="9" fill="#8a9080" text-anchor="end" style="font-family:monospace">${d}</text>`;
+    }).join('');
+    document.getElementById('bw-falloff').innerHTML = `
+      <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;display:block">
+        <rect x="${padL}" y="${padT}" width="${innerW}" height="${innerH}" fill="#0a0d0a" stroke="#2a3138"/>
+        ${lines}
+        <path d="${fill}" fill="#c4d447" opacity="0.12"/>
+        <path d="${path}" fill="none" stroke="#c4d447" stroke-width="2"/>
+        ${xLabels}
+        ${yLabels}
+        <text x="${padL+innerW/2}" y="${padT-2}" font-size="9" fill="#8a9080" text-anchor="middle" style="font-family:monospace;letter-spacing:0.15em">DMG ↓ vs DISTANCE →</text>
+      </svg>
+    `;
+  }
+
+  /* ============== SHARE VIA URL ============== */
+  function encodeBuild(weapon, equipped) {
+    if (!weapon) return '';
+    const indices = SLOT_ORDER.map(s => equipped[s] == null ? '_' : equipped[s]);
+    return encodeURIComponent(weapon.name) + '|' + indices.join(',');
+  }
+  function decodeBuild(s) {
+    if (!s) return null;
+    const parts = s.split('|');
+    if (parts.length < 2) return null;
+    const w = WEAPONS.find(w => w.name === decodeURIComponent(parts[0]));
+    if (!w) return null;
+    const arr = parts[1].split(',');
+    const equipped = { Optic: null, Muzzle: null, Barrel: null, Underbarrel: null, Magazine: null, Stock: null };
+    SLOT_ORDER.forEach((sl, i) => {
+      const v = arr[i];
+      equipped[sl] = (v == null || v === '_' || v === '') ? null : parseInt(v);
+    });
+    return { weapon: w, equipped };
+  }
+
+  document.getElementById('bw-share-btn').addEventListener('click', () => {
+    if (!bs.weapon) return;
+    const hash = '#b=' + encodeBuild(bs.weapon, bs.equipped);
+    const url = window.location.origin + window.location.pathname + hash;
+    const btn = document.getElementById('bw-share-btn');
+    const orig = btn.textContent;
+    const done = () => {
+      btn.classList.add('copied');
+      btn.textContent = '✓ LINK COPIED';
+      setTimeout(() => { btn.classList.remove('copied'); btn.textContent = orig; }, 1800);
+    };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(url).then(done).catch(() => prompt('Share link:', url));
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = url; ta.style.position = 'fixed'; ta.style.left = '-9999px';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); done(); } catch(e) { prompt('Share link:', url); }
+      document.body.removeChild(ta);
+    }
+  });
+
+  // Decode hash on load
+  if (window.location.hash.startsWith('#b=')) {
+    const decoded = decodeBuild(window.location.hash.substring(3));
+    if (decoded) {
+      bs.weapon = decoded.weapon;
+      bs.activeCat = decoded.weapon.category;
+      bs.equipped = decoded.equipped;
+      renderBuilder();
+      setTimeout(() => document.getElementById('builder').scrollIntoView({ behavior: 'smooth' }), 100);
+    }
+  }
+
+  /* ============== SQUAD BUILDER ============== */
+  const SQUAD_CLASSES = [
+    { key: 'Assault',  role: 'Frontline DPS',     accept: ['AR','Carbine','Shotgun'] },
+    { key: 'Engineer', role: 'AV / Flanker',      accept: ['SMG','Carbine'] },
+    { key: 'Support',  role: 'Suppression / Heal',accept: ['LMG','AR'] },
+    { key: 'Recon',    role: 'Long-range / Intel',accept: ['Sniper','DMR'] }
+  ];
+  let squad = { Assault: null, Engineer: null, Support: null, Recon: null };
+
+  function classifyRange(weapon) {
+    const ranges = {
+      Shotgun: ['close'],
+      SMG:     ['close'],
+      Pistol:  ['close'],
+      Carbine: ['close','mid'],
+      AR:      ['mid'],
+      LMG:     ['mid','long'],
+      DMR:     ['long'],
+      Sniper:  ['long','xlong']
+    };
+    return ranges[weapon.category] || [];
+  }
+
+  function renderSquad() {
+    const grid = document.getElementById('squad-grid');
+    grid.innerHTML = SQUAD_CLASSES.map(c => {
+      const cur = squad[c.key];
+      const matchingPresets = presets.filter(p => {
+        const w = WEAPONS.find(w => w.name === p.weapon);
+        return w && c.accept.includes(w.category);
+      });
+      const opts = '<option value="">— Empty —</option>' + matchingPresets.map((p, i) => {
+        const idx = presets.indexOf(p);
+        const sel = cur === idx ? 'selected' : '';
+        return `<option value="${idx}" ${sel}>${p.name}</option>`;
+      }).join('');
+      let summary = '<div class="squad-card-summary empty">// Save a preset for ' + c.key + ' first</div>';
+      if (cur != null && presets[cur]) {
+        const p = presets[cur];
+        const r = getStatsFor({ weapon: p.weapon, equipped: p.equipped });
+        if (r) {
+          const ranges = classifyRange(r.weapon).map(x => x.toUpperCase()).join(' · ');
+          summary = `<div class="squad-card-summary">
+            <div class="summary-line"><span>Weapon</span><strong>${r.weapon.name}</strong></div>
+            <div class="summary-line"><span>TTK</span><strong>${r.stats.ttk === 0 ? 'OHK' : r.stats.ttk + 'ms'}</strong></div>
+            <div class="summary-line"><span>Range</span><strong>${ranges || '—'}</strong></div>
+            <div class="summary-line"><span>Points</span><strong>${r.points}/100</strong></div>
+            <div class="summary-line"><span>Tier</span><strong>${r.weapon.tier}</strong></div>
+          </div>`;
+        }
+      }
+      return `<div class="squad-card ${c.key.toLowerCase()}">
+        <div class="squad-card-h">
+          <div class="squad-card-name">${c.key}</div>
+          <div class="squad-card-role">${c.role}</div>
+        </div>
+        <select class="squad-select" data-class="${c.key}">${opts}</select>
+        ${summary}
+      </div>`;
+    }).join('');
+    document.querySelectorAll('.squad-select').forEach(sel => {
+      sel.addEventListener('change', e => {
+        const cls = e.target.dataset.class;
+        const v = e.target.value;
+        squad[cls] = v === '' ? null : parseInt(v);
+        renderSquad();
+        renderSquadCoverage();
+      });
+    });
+  }
+
+  function renderSquadCoverage() {
+    const filled = Object.entries(squad).filter(([k, v]) => v != null);
+    const weapons = filled.map(([k, v]) => {
+      const p = presets[v];
+      return p ? WEAPONS.find(w => w.name === p.weapon) : null;
+    }).filter(Boolean);
+    const cats = weapons.map(w => w.category);
+
+    const has = (c) => Object.entries(squad).some(([k, v]) => k === c && v != null);
+    const hasCat = (c) => cats.includes(c);
+
+    const items = [
+      { yes: filled.length === 4, label: 'Full Squad', detail: filled.length + '/4 slots filled' },
+      { yes: has('Assault'),  label: 'Frontline DPS',     detail: has('Assault') ? 'Assault dual primary' : 'No Assault — weak push' },
+      { yes: has('Engineer'), label: 'Anti-Vehicle',      detail: has('Engineer') ? 'Engineer with RPG' : 'No AV — vehicles unchecked' },
+      { yes: has('Support'),  label: 'Revives & Suppression', detail: has('Support') ? 'Defib + LMG mag' : 'No revives — risky' },
+      { yes: has('Recon'),    label: 'Long-range Picks',  detail: has('Recon') ? 'Sniper / DMR coverage' : 'No long-range pressure' },
+      { yes: hasCat('LMG') || hasCat('AR'), label: 'Lane Hold Fire', detail: hasCat('LMG') ? 'LMG suppression' : (hasCat('AR') ? 'AR mid-range' : 'No mid-range anchor') },
+      { yes: hasCat('Shotgun') || hasCat('SMG'), label: 'CQB Specialist', detail: hasCat('Shotgun') ? 'Shotgun in slot' : (hasCat('SMG') ? 'SMG flanker' : 'No CQB pick') }
+    ];
+    document.getElementById('squad-coverage-grid').innerHTML = items.map(it => `
+      <div class="squad-cov-item ${it.yes ? 'yes' : 'no'}">
+        <div class="squad-cov-icon">${it.yes ? '✓' : '✗'}</div>
+        <div>
+          <div class="squad-cov-label">${it.label}</div>
+          <div class="squad-cov-detail">${it.detail}</div>
+        </div>
+      </div>
+    `).join('');
+
+    // Range coverage track: 6 bands [5m, 15m, 30m, 50m, 75m, 100m+]
+    const bandRanges = ['close','close-mid','mid','mid','mid-long','long'];
+    const bandLabels = ['close','close','mid','mid','long','xlong'];
+    const covered = new Set();
+    weapons.forEach(w => classifyRange(w).forEach(x => covered.add(x)));
+    const bandsHTML = bandLabels.map((b, i) => {
+      const isCovered = covered.has(b) || (b === 'mid' && (covered.has('mid'))) || (b === 'long' && (covered.has('long') || covered.has('xlong')));
+      return `<div class="squad-range-band ${isCovered ? 'covered' : ''}"></div>`;
+    }).join('');
+    document.getElementById('squad-range-track').innerHTML = bandsHTML;
+  }
+
+  renderSquad();
+  renderSquadCoverage();
+
+  /* ============== HOOK FALLOFF + SHARE INTO RENDER LOOP ============== */
+  const _renderBuilderV2 = renderBuilder;
+  renderBuilder = function() {
+    _renderBuilderV2();
+    if (bs.weapon) {
+      renderFalloff();
+      document.getElementById('bw-share-btn').disabled = false;
+      document.querySelectorAll('.bw-opt-btn').forEach(b => b.disabled = false);
+    } else {
+      document.getElementById('bw-share-btn').disabled = true;
+      document.querySelectorAll('.bw-opt-btn').forEach(b => b.disabled = true);
+    }
+    renderSquad();
+    renderSquadCoverage();
+  };
+
+  if (bs.weapon) renderFalloff();
+</script>
+
+</body>
+</html>
