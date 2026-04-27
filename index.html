@@ -1411,45 +1411,46 @@
     }));
   }
 
-  // Real weapon images scraped from Battlefield Fandom Wiki (MediaWiki API).
-  // Mix of in-game portal icons and real-world reference photos. CORS-open via Wikia CDN.
-  // null entries fall back to procedural SVG below.
+  // Weapon images self-hosted in /images. Originally scraped from Battlefield
+  // Fandom Wiki — moved to repo because Fandom blocks hot-linking by referrer.
+  // Local paths bypass referrer/CORS issues entirely.
+  // Weapons not listed fall back to the procedural SVG renderer below.
   const WEAPON_IMAGES = {
-    "M433": "https://static.wikia.nocookie.net/battlefield/images/d/d7/HK433_IRL.png/revision/latest/scale-to-width-down/400",
-    "B36A4": "https://static.wikia.nocookie.net/battlefield/images/9/90/BF6_B36A4_Portal_Icon.png/revision/latest/scale-to-width-down/400",
-    "SOR-556 MK2": "https://static.wikia.nocookie.net/battlefield/images/b/b3/BF6_SOR-556_Mk2_Portal_Icon.png/revision/latest/scale-to-width-down/400",
-    "AK4D": "https://static.wikia.nocookie.net/battlefield/images/a/a8/BF6_AK4D_Portal_Icon.png/revision/latest/scale-to-width-down/400",
-    "TR-7": "https://static.wikia.nocookie.net/battlefield/images/1/16/Tavor_7_IRL.jpg/revision/latest/scale-to-width-down/400",
-    "KORD 6P67": "https://static.wikia.nocookie.net/battlefield/images/1/1d/BF6_KORD_6P67_Portal_Icon.png/revision/latest/scale-to-width-down/400",
-    "NVO-228E": "https://static.wikia.nocookie.net/battlefield/images/6/65/Galil_ACE_32_IRL.jpg/revision/latest/scale-to-width-down/400",
-    "L85A3": "https://static.wikia.nocookie.net/battlefield/images/6/64/BF6_L85A3_Portal_Icon.png/revision/latest/scale-to-width-down/400",
-    "AK-205": "https://static.wikia.nocookie.net/battlefield/images/4/4c/AK-205_IRL.jpg/revision/latest/scale-to-width-down/400",
-    "QBZ-192": "https://static.wikia.nocookie.net/battlefield/images/f/f2/BF6_QBZ-192_Portal_Icon.png/revision/latest/scale-to-width-down/400",
-    "SG-554R": "https://static.wikia.nocookie.net/battlefield/images/2/2d/BF6_SG_553R_Portal_Icon.png/revision/latest/scale-to-width-down/400",
-    "SOR-300SC": "https://static.wikia.nocookie.net/battlefield/images/b/b6/FN_SCAR-SC_IRL.jpg/revision/latest/scale-to-width-down/400",
-    "SGX": "https://static.wikia.nocookie.net/battlefield/images/2/20/BF6_SGX_Portal_Icon.png/revision/latest/scale-to-width-down/400",
-    "PW5A3": "https://static.wikia.nocookie.net/battlefield/images/5/5d/BF6_PW5A3_Portal_Icon.png/revision/latest/scale-to-width-down/400",
-    "PW7A2": "https://static.wikia.nocookie.net/battlefield/images/0/0d/BF6_PW7A2_Portal_Icon.png/revision/latest/scale-to-width-down/400",
-    "UMG-40": "https://static.wikia.nocookie.net/battlefield/images/2/2a/BF6_UMG-40_Portal_Icon.png/revision/latest/scale-to-width-down/400",
-    "USG-90": "https://static.wikia.nocookie.net/battlefield/images/2/22/BF6_USG-90_Portal_Icon.png/revision/latest/scale-to-width-down/400",
-    "KV9": "https://static.wikia.nocookie.net/battlefield/images/1/12/BF6_KV9_Portal_Icon.png/revision/latest/scale-to-width-down/400",
-    "SL9": "https://static.wikia.nocookie.net/battlefield/images/3/3a/BF6_SL9_Portal_Icon.png/revision/latest/scale-to-width-down/400",
-    "L110": "https://static.wikia.nocookie.net/battlefield/images/c/c5/BF6_L110_Portal_Icon.png/revision/latest/scale-to-width-down/400",
-    "M60": "https://static.wikia.nocookie.net/battlefield/images/e/e9/M60.jpg/revision/latest/scale-to-width-down/400",
-    "RPKM": "https://static.wikia.nocookie.net/battlefield/images/0/03/BF6_RPKM_Portal_Icon.png/revision/latest/scale-to-width-down/400",
-    "M250": "https://static.wikia.nocookie.net/battlefield/images/1/14/M250_IRL.jpg/revision/latest/scale-to-width-down/400",
-    "M240L": "https://static.wikia.nocookie.net/battlefield/images/5/58/BF6_M240L_Portal_Icon.png/revision/latest/scale-to-width-down/400",
-    "M39 EMR": "https://static.wikia.nocookie.net/battlefield/images/c/c8/PrecisionEMR-1-.jpg/revision/latest",
-    "SVDM": "https://static.wikia.nocookie.net/battlefield/images/d/d4/BF6_SVDM_Portal_Icon.png/revision/latest/scale-to-width-down/400",
-    "M2010 ESR": "https://static.wikia.nocookie.net/battlefield/images/5/56/M2010_ESR_IRL.jpg/revision/latest/scale-to-width-down/400",
-    "SV-98": "https://static.wikia.nocookie.net/battlefield/images/9/91/Sv98-l.jpg/revision/latest/scale-to-width-down/400",
-    "PSR": "https://static.wikia.nocookie.net/battlefield/images/a/ae/Barrett_MRAD_IRL.jpg/revision/latest/scale-to-width-down/400",
-    "Mini Scout": "https://static.wikia.nocookie.net/battlefield/images/5/5a/Q_Mini_Fix_IRL.jpg/revision/latest/scale-to-width-down/400",
-    "M87A1": "https://static.wikia.nocookie.net/battlefield/images/7/75/BF6_M87A1_Portal_Icon.png/revision/latest/scale-to-width-down/400",
-    "M1014": "https://static.wikia.nocookie.net/battlefield/images/7/71/BenelliM4IRL.jpg/revision/latest/scale-to-width-down/400",
-    "18.5 KS-K": "https://static.wikia.nocookie.net/battlefield/images/d/d6/BF6_18.5KS-K_Portal_Icon.png/revision/latest/scale-to-width-down/400",
-    "P18": "https://static.wikia.nocookie.net/battlefield/images/4/43/M18_IRL.png/revision/latest/scale-to-width-down/400",
-    "ES-5-7": "https://static.wikia.nocookie.net/battlefield/images/9/93/BF6_ES_5.7_Portal_Icon.png/revision/latest/scale-to-width-down/400"
+    "M433": "images/m433.webp",
+    "B36A4": "images/b36a4.webp",
+    "SOR-556 MK2": "images/sor-556-mk2.webp",
+    "AK4D": "images/ak4d.webp",
+    "TR-7": "images/tr-7.webp",
+    "KORD 6P67": "images/kord-6p67.webp",
+    "NVO-228E": "images/nvo-228e.webp",
+    "L85A3": "images/l85a3.webp",
+    "AK-205": "images/ak-205.webp",
+    "QBZ-192": "images/qbz-192.webp",
+    "SG-554R": "images/sg-554r.webp",
+    "SOR-300SC": "images/sor-300sc.webp",
+    "SGX": "images/sgx.webp",
+    "PW5A3": "images/pw5a3.webp",
+    "PW7A2": "images/pw7a2.webp",
+    "UMG-40": "images/umg-40.webp",
+    "USG-90": "images/usg-90.webp",
+    "KV9": "images/kv9.webp",
+    "SL9": "images/sl9.webp",
+    "L110": "images/l110.webp",
+    "M60": "images/m60.webp",
+    "RPKM": "images/rpkm.webp",
+    "M250": "images/m250.webp",
+    "M240L": "images/m240l.webp",
+    "M39 EMR": "images/m39-emr.webp",
+    "SVDM": "images/svdm.webp",
+    "M2010 ESR": "images/m2010-esr.webp",
+    "SV-98": "images/sv-98.webp",
+    "PSR": "images/psr.webp",
+    "Mini Scout": "images/mini-scout.webp",
+    "M87A1": "images/m87a1.webp",
+    "M1014": "images/m1014.webp",
+    "18.5 KS-K": "images/185-ks-k.webp",
+    "P18": "images/p18.webp",
+    "ES-5-7": "images/es-5-7.webp"
   };
 
   // SVG defs reused across renders (gradients for the metallic / polymer look)
