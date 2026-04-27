@@ -143,13 +143,29 @@
   .picker-tab:last-child { border-right: none; }
   .picker-tab:hover { color: var(--olive); }
   .picker-tab.active { background: var(--olive); color: var(--bg); }
-  .picker-list { display: flex; flex-wrap: wrap; gap: 1px; background: var(--line); padding: 1px; max-height: 180px; overflow-y: auto; }
+  .picker-section-h {
+    padding: 10px 16px; background: var(--bg-3); border-bottom: 1px solid var(--line);
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; color: var(--olive);
+    text-transform: uppercase; display: flex; justify-content: space-between; align-items: center;
+  }
+  .picker-section-h .lhs::before { content: '▸ '; color: var(--olive); }
+  .picker-section-h .count { color: var(--text-dim); font-size: 9px; }
+  .picker-list {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1px; background: var(--line); padding: 1px; max-height: 200px; overflow-y: auto;
+  }
   .picker-item {
-    background: var(--bg-2); padding: 10px 14px; cursor: pointer; transition: all 0.15s;
-    font-size: 13px; flex: 1 1 auto; min-width: 130px; position: relative;
+    background: var(--bg-2); padding: 10px 14px 10px 26px; cursor: pointer; transition: all 0.15s;
+    font-size: 13px; position: relative;
+  }
+  .picker-item::before {
+    content: '▸'; position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+    color: var(--olive); opacity: 0.4; font-size: 11px; transition: opacity 0.15s;
   }
   .picker-item:hover { background: var(--bg-3); color: var(--olive); }
+  .picker-item:hover::before { opacity: 1; }
   .picker-item.selected { background: var(--olive); color: var(--bg); font-weight: 700; }
+  .picker-item.selected::before { color: var(--bg); opacity: 1; }
   .picker-item-tier { float: right; font-family: var(--mono); font-size: 10px; opacity: 0.6; }
 
   .builder-main { display: grid; grid-template-columns: 1fr 1.4fr; gap: 16px; margin-bottom: 16px; }
@@ -610,6 +626,7 @@
   <!-- Weapon picker -->
   <div class="builder-picker">
     <div class="picker-tabs" id="picker-tabs"></div>
+    <div class="picker-section-h" id="picker-section-h"></div>
     <div class="picker-list" id="picker-list"></div>
   </div>
 
@@ -1376,6 +1393,8 @@
       `<button class="picker-tab ${bs.activeCat === c ? 'active' : ''}" data-cat="${c}">${c}</button>`
     ).join('');
     const list = WEAPONS.filter(w => w.category === bs.activeCat);
+    document.getElementById('picker-section-h').innerHTML =
+      `<span class="lhs">Weapons in ${bs.activeCat}</span><span class="count">${list.length} available — click to select</span>`;
     document.getElementById('picker-list').innerHTML = list.map(w =>
       `<div class="picker-item ${bs.weapon && bs.weapon.name === w.name ? 'selected' : ''}" data-name="${w.name}">
         ${w.name}<span class="picker-item-tier">${w.tier}</span>
