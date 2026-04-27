@@ -1785,7 +1785,7 @@
     const imgUrl = WEAPON_IMAGES[w.name];
     const svgFallback = svgForWeapon(w, bs.equipped).replace(/"/g, '&quot;');
     const visual = imgUrl
-      ? `<img class="bw-photo" src="${imgUrl}" alt="${w.name}" loading="lazy" onerror="this.outerHTML=this.dataset.fb" data-fb="${svgFallback}"/>`
+      ? `<img class="bw-photo" src="${imgUrl}" alt="${w.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.outerHTML=this.dataset.fb" data-fb="${svgFallback}"/>`
       : svgForWeapon(w, bs.equipped);
 
     // Equipped attachment chips — visible feedback that updates as you change attachments
