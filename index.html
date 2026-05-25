@@ -246,8 +246,29 @@
   table.matrix .badge-mid { color: var(--amber); font-family: var(--mono); font-size: 11px; padding: 3px 8px; background: rgba(255,214,10,0.16); border-radius: 999px; }
   table.matrix .badge-long { color: var(--info); font-family: var(--mono); font-size: 11px; padding: 3px 8px; background: rgba(100,210,255,0.16); border-radius: 999px; }
 
+  /* DATA & SOURCES DISCLOSURE */
+  .data-note { padding: 48px 0 8px; }
+  .data-note h3 {
+    font-size: 13px; color: var(--text); font-weight: 600; margin-bottom: 18px; letter-spacing: -0.005em;
+  }
+  .data-note-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+  .data-note-item {
+    padding: 16px 18px; background: var(--bg-2); border: 1px solid var(--line);
+    border-radius: var(--r-md); font-size: 13px; line-height: 1.55; color: var(--text-dim);
+    letter-spacing: -0.005em;
+  }
+  .data-note-item strong { color: var(--text); font-weight: 600; }
+  .data-note-item.verified { border-left: 3px solid var(--green); }
+  .data-note-item.estimate { border-left: 3px solid var(--amber); }
+  .dn-tag {
+    display: inline-block; font-family: var(--mono); font-size: 9px; font-weight: 700;
+    letter-spacing: 0.06em; padding: 3px 8px; border-radius: 999px; margin-right: 8px;
+    background: var(--green-dim); color: var(--green); vertical-align: middle;
+  }
+  .dn-tag.est { background: rgba(255,214,10,0.16); color: var(--amber); }
+
   /* FOOTER */
-  footer { padding: 56px 0; border-top: 1px solid var(--line); margin-top: 40px; color: var(--text-dim); font-size: 13px; letter-spacing: -0.005em; }
+  footer { padding: 40px 0 56px; border-top: 1px solid var(--line); margin-top: 24px; color: var(--text-dim); font-size: 13px; letter-spacing: -0.005em; }
   footer .src-list { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px; }
   footer a {
     color: var(--text); text-decoration: none; padding: 7px 14px;
@@ -1123,12 +1144,12 @@
   <div class="attachments">
     <h3>// Recommended Attachments</h3>
     <div class="att-grid">
-      <div class="att"><div class="att-slot">Optic</div><div class="att-pick">1.50x or 2.00x</div></div>
-      <div class="att"><div class="att-slot">Muzzle</div><div class="att-pick">Compensated Brake</div></div>
-      <div class="att"><div class="att-slot">Barrel</div><div class="att-pick">Heavy Profile</div></div>
-      <div class="att"><div class="att-slot">Underbarrel</div><div class="att-pick">Vertical Grip</div></div>
-      <div class="att"><div class="att-slot">Magazine</div><div class="att-pick">Extended Mag</div></div>
-      <div class="att"><div class="att-slot">Ammo</div><div class="att-pick">Standard / FMJ</div></div>
+      <div class="att"><div class="att-slot">Optic</div><div class="att-pick">Baker 3.00x</div></div>
+      <div class="att"><div class="att-slot">Muzzle</div><div class="att-pick">Lightened Suppressor</div></div>
+      <div class="att"><div class="att-slot">Barrel</div><div class="att-pick">415mm Prototype</div></div>
+      <div class="att"><div class="att-slot">Underbarrel</div><div class="att-pick">6H64 Vertical</div></div>
+      <div class="att"><div class="att-slot">Magazine</div><div class="att-pick">36 Rnd</div></div>
+      <div class="att"><div class="att-slot">Ammo</div><div class="att-pick">Polymer Case</div></div>
     </div>
   </div>
 </section>
@@ -1182,11 +1203,11 @@
   <div class="attachments">
     <h3>// Recommended Attachments</h3>
     <div class="att-grid">
-      <div class="att"><div class="att-slot">Optic</div><div class="att-pick">Red Dot / Iron</div></div>
-      <div class="att"><div class="att-slot">Muzzle</div><div class="att-pick">CQB Suppressor</div></div>
+      <div class="att"><div class="att-slot">Optic</div><div class="att-pick">Iron Sights</div></div>
+      <div class="att"><div class="att-slot">Muzzle</div><div class="att-pick">Standard Suppressor</div></div>
       <div class="att"><div class="att-slot">Barrel</div><div class="att-pick">8" Extended</div></div>
-      <div class="att"><div class="att-slot">Underbarrel</div><div class="att-pick">Alloy Vertical</div></div>
-      <div class="att"><div class="att-slot">Magazine</div><div class="att-pick">Extended Mag</div></div>
+      <div class="att"><div class="att-slot">Magazine</div><div class="att-pick">41 Rnd</div></div>
+      <div class="att"><div class="att-slot">Accessory</div><div class="att-pick">120 MW Blue</div></div>
       <div class="att"><div class="att-slot">Gadget</div><div class="att-pick">RPG-7V2</div></div>
     </div>
   </div>
@@ -1241,13 +1262,12 @@
   <div class="attachments">
     <h3>// Recommended Attachments</h3>
     <div class="att-grid">
-      <div class="att"><div class="att-slot">Optic</div><div class="att-pick">CCO 2.00x</div></div>
-      <div class="att"><div class="att-slot">Muzzle</div><div class="att-pick">Long Suppressor</div></div>
-      <div class="att"><div class="att-slot">Barrel</div><div class="att-pick">16.5" Fluted</div></div>
+      <div class="att"><div class="att-slot">Optic</div><div class="att-pick">Baker 3.00x</div></div>
+      <div class="att"><div class="att-slot">Muzzle</div><div class="att-pick">Lightened Suppressor</div></div>
+      <div class="att"><div class="att-slot">Barrel</div><div class="att-pick">20" SDM-R</div></div>
       <div class="att"><div class="att-slot">Underbarrel</div><div class="att-pick">6H64 Vertical</div></div>
-      <div class="att"><div class="att-slot">Magazine</div><div class="att-pick">36rnd</div></div>
-      <div class="att"><div class="att-slot">Ammo</div><div class="att-pick">FMJ</div></div>
-      <div class="att"><div class="att-slot">Misc</div><div class="att-pick">Magwell Flare</div></div>
+      <div class="att"><div class="att-slot">Magazine</div><div class="att-pick">36 Rnd</div></div>
+      <div class="att"><div class="att-slot">Ammo</div><div class="att-pick">Polymer Case</div></div>
       <div class="att"><div class="att-slot">Gadget</div><div class="att-pick">Defibrillator</div></div>
     </div>
   </div>
@@ -1303,14 +1323,14 @@
   <div class="attachments">
     <h3>// Recommended Attachments</h3>
     <div class="att-grid">
-      <div class="att"><div class="att-slot">Scope</div><div class="att-pick">S-VPS 6.00x</div></div>
-      <div class="att"><div class="att-slot">Muzzle</div><div class="att-pick">Lightened Suppressor</div></div>
+      <div class="att"><div class="att-slot">Scope</div><div class="att-pick">LERT 8.00x</div></div>
+      <div class="att"><div class="att-slot">Muzzle</div><div class="att-pick">Standard Suppressor</div></div>
       <div class="att"><div class="att-slot">Barrel</div><div class="att-pick">26" Carbon</div></div>
-      <div class="att"><div class="att-slot">Underbarrel</div><div class="att-pick">QD Grip Pod</div></div>
-      <div class="att"><div class="att-slot">Magazine</div><div class="att-pick">8rnd Mag</div></div>
-      <div class="att"><div class="att-slot">Ammo</div><div class="att-pick">FMJ</div></div>
-      <div class="att"><div class="att-slot">Ergonomics</div><div class="att-pick">DLC Bolt</div></div>
-      <div class="att"><div class="att-slot">Secondary</div><div class="att-pick">M4A1 Carbine</div></div>
+      <div class="att"><div class="att-slot">Underbarrel</div><div class="att-pick">Slim Angled</div></div>
+      <div class="att"><div class="att-slot">Magazine</div><div class="att-pick">5 Rnd</div></div>
+      <div class="att"><div class="att-slot">Ammo</div><div class="att-pick">Match Grade</div></div>
+      <div class="att"><div class="att-slot">Accessory</div><div class="att-pick">Range Finder</div></div>
+      <div class="att"><div class="att-slot">Optic Coat</div><div class="att-pick">Anti-Glare Coating</div></div>
     </div>
   </div>
 </section>
@@ -1373,26 +1393,50 @@
   </div>
 </section>
 
+<div class="data-note">
+  <h3>// Data &amp; Sources — read this</h3>
+  <div class="data-note-grid">
+    <div class="data-note-item verified">
+      <span class="dn-tag">VERIFIED</span>
+      <strong>Attachment system.</strong> BF6 uses a <em>point budget</em> ("Pick-100"): 100 points per primary, 60 per secondary, spent across named slots (Optic, Muzzle, Barrel, Underbarrel, Magazine, Ammo, Stock). Confirmed on EA's official loadout page &amp; Shacknews.
+    </div>
+    <div class="data-note-item verified">
+      <span class="dn-tag">VERIFIED</span>
+      <strong>Meta picks &amp; the loadouts in the four class cards.</strong> Cross-referenced against battlefieldmeta.gg (Season 3, updated May 25 2026), Gamerant, Dexerto &amp; wzstats.gg.
+    </div>
+    <div class="data-note-item estimate">
+      <span class="dn-tag est">ESTIMATE</span>
+      <strong>The Builder's per-attachment point costs &amp; stat numbers (+RCL, −ADS, etc.).</strong> EA does <em>not</em> publish exact per-attachment costs — the game only shows a 0–100 budget bar in-menu. The Builder's costs and stat deltas are reasonable approximations for exploring trade-offs, not exact game values.
+    </div>
+    <div class="data-note-item estimate">
+      <span class="dn-tag est">APPROX</span>
+      <strong>Armory damage / RPM / mag figures.</strong> Pulled from community trackers (battlefieldredsec.space, skycoach). Some differ from in-game values — treat as directional. Verified figures where known: SGX 830 RPM / 217ms TTK, M2010 ESR ~43 RPM / 1-shot / 900 m/s.
+    </div>
+  </div>
+</div>
+
 <footer>
-  <div>// Sources cross-referenced as of 2026-04-26</div>
+  <div>// Verified sources — Season 3, May 2026</div>
   <div class="src-list">
-    <a href="https://battlefinity.gg/" target="_blank">Battlefinity</a>
-    <a href="https://skycoach.gg/blog/battlefield-6/articles/redsec-weapons-tier-list" target="_blank">Skycoach</a>
-    <a href="https://gfuel.com/blogs/news/battlefield-6-redsec-best-weapons" target="_blank">G FUEL</a>
-    <a href="https://www.dexerto.com/wikis/battlefield-redsec/" target="_blank">Dexerto</a>
+    <a href="https://www.ea.com/en/games/battlefield/battlefield-6/news/loadout-creation-and-weapon-classes" target="_blank">EA Official (system)</a>
+    <a href="https://battlefieldmeta.gg/" target="_blank">BattlefieldMeta.gg (loadouts)</a>
+    <a href="https://wzstats.gg/battlefield-6/meta" target="_blank">WZStats</a>
+    <a href="https://gamerant.com/battlefield-6-best-lmg-machine-gun-bf6-season-3/" target="_blank">Gamerant (LMG meta)</a>
+    <a href="https://www.dexerto.com/battlefield/" target="_blank">Dexerto</a>
     <a href="https://www.charlieintel.com/battlefield-6/" target="_blank">Charlie INTEL</a>
-    <a href="https://dving.net/guides/battlefield-6/redsec-best-loadouts" target="_blank">Dving</a>
-    <a href="https://www.gamesradar.com/games/battlefield/" target="_blank">GamesRadar</a>
+    <a href="https://www.shacknews.com/article/146283/how-to-customize-weapons-bf6" target="_blank">Shacknews (system)</a>
   </div>
 </footer>
 
 </div>
 
 <script>
-  // Raw weapon data — sourced from battlefieldredsec.space + skycoach + battlefield6guide.com (Apr 2026)
-  // mag null = source did not list mag size
-  // Attachment slot order: [Optic, Muzzle, Barrel, Underbarrel, Magazine]
-  // 5-attachment loadouts designed to fit within the Pick-100 budget.
+  // Weapon dmg/RPM/mag: community trackers (battlefieldredsec.space, skycoach) — APPROXIMATE,
+  //   some differ from in-game values. Verified figures noted in the Data & Sources panel.
+  // Tier flags + meta picks: verified vs battlefieldmeta.gg Season 3 (May 2026).
+  // 'attach' arrays here are slot-default suggestions, not the verified meta loadouts —
+  //   the verified per-class meta builds live in the four class cards above.
+  // mag null = source did not list mag size.
   const WEAPONS = [
     // Assault Rifles
     { name: 'M433',         category: 'AR',      tier: 'S', dmg: 35, rpm: 720,  mag: null, attach: ['1.50x',       'Compensator',    'Heavy Profile',  'Vert Grip',    'Ext Mag'],   note: 'Starter AR. Fastest 3STK in slot.' },
