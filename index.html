@@ -1404,9 +1404,13 @@
       <span class="dn-tag">VERIFIED</span>
       <strong>Meta picks &amp; the loadouts in the four class cards.</strong> Cross-referenced against battlefieldmeta.gg (Season 3, updated May 25 2026), Gamerant, Dexerto &amp; wzstats.gg.
     </div>
+    <div class="data-note-item verified">
+      <span class="dn-tag">VERIFIED</span>
+      <strong>Per-attachment point costs.</strong> Now real in-game values — cross-referenced from the <a href="https://battlefield.azerpug.com/attachments" target="_blank" style="color:var(--olive)">azerpug Battlefield Companion</a> database (per-attachment pages) plus Steam screenshots for magazines. E.g. Standard Suppressor 20 · CQB Suppressor 30 · most optics 10 · Iron Sights 5 · Bipod 10 · Slim Angled 25 · Classic Vertical 35 · drum 45 · belt 55.
+    </div>
     <div class="data-note-item estimate">
       <span class="dn-tag est">ESTIMATE</span>
-      <strong>The Builder's per-attachment point costs &amp; stat numbers (+RCL, −ADS, etc.).</strong> EA does <em>not</em> publish exact per-attachment costs — the game only shows a 0–100 budget bar in-menu. The Builder's costs and stat deltas are reasonable approximations for exploring trade-offs, not exact game values.
+      <strong>The Builder's stat deltas (+RCL, −ADS, etc.) and Stock-slot costs.</strong> Attachment <em>costs</em> are real; the per-stat effect numbers used by the live sim are still approximations, and EA's data doesn't expose a separate Stock slot so those few costs are estimated.
     </div>
     <div class="data-note-item estimate">
       <span class="dn-tag est">APPROX</span>
@@ -1607,52 +1611,57 @@
   // Attachment database. 5 slots, each option = { name, cost, mods }
   // mods values are additive offsets. damage/rpm/magSize are flat numbers.
   // recoil/range/mobility/adsSpeed/velocity/accuracy/stealth are 0-100 deltas.
+  // COSTS are VERIFIED in-game values (battlefield.azerpug.com per-attachment pages +
+  //   Steam screenshots for the Magazine slot). Real-world attachment name in the comment.
+  //   Stat MODIFIERS (recoil/range/etc.) remain estimates — azerpug lists effects but not
+  //   as the clean +N numbers this sim uses. So: cost = real, stat deltas = approximate.
   const ATTACHMENT_DATA = {
     Optic: [
-      { name: 'Iron Sights',   cost: 0,  mods: { adsSpeed: +4, mobility: +2 } },
-      { name: 'Red Dot',       cost: 8,  mods: { adsSpeed: +1, accuracy: +5 } },
-      { name: '1.50x ACOG',    cost: 14, mods: { range: +5, accuracy: +6, adsSpeed: -2 } },
-      { name: '2.00x CCO',     cost: 18, mods: { range: +8, accuracy: +7, adsSpeed: -4 } },
-      { name: '4.00x DMR',     cost: 22, mods: { range: +12, accuracy: +10, adsSpeed: -6, mobility: -3 } },
-      { name: '6.00x Sniper',  cost: 25, mods: { range: +18, accuracy: +14, adsSpeed: -10, mobility: -5 } }
+      { name: 'Iron Sights',   cost: 5,  mods: { adsSpeed: +4, mobility: +2 } },                                  // Iron Sights = 5
+      { name: 'Red Dot',       cost: 10, mods: { adsSpeed: +1, accuracy: +5 } },                                  // reflex/red dot = 10
+      { name: '1.50x ACOG',    cost: 10, mods: { range: +5, accuracy: +6, adsSpeed: -2 } },                       // ROX 1.50x = 10
+      { name: '2.00x CCO',     cost: 10, mods: { range: +8, accuracy: +7, adsSpeed: -4 } },                       // CCO 2.00x = 10
+      { name: '4.00x DMR',     cost: 10, mods: { range: +12, accuracy: +10, adsSpeed: -6, mobility: -3 } },       // PVQ-31 4.00x = 10
+      { name: '6.00x Sniper',  cost: 10, mods: { range: +18, accuracy: +14, adsSpeed: -10, mobility: -5 } }       // S-VPS 6.00x = 10
     ],
     Muzzle: [
       { name: 'None',          cost: 0,  mods: {} },
-      { name: 'Flash Hider',   cost: 12, mods: { stealth: +5, accuracy: +2 } },
-      { name: 'Compensator',   cost: 18, mods: { recoilControl: +12, velocity: -3 } },
-      { name: 'Heavy Comp',    cost: 22, mods: { recoilControl: +18, velocity: -5, adsSpeed: -2 } },
-      { name: 'Suppressor',    cost: 25, mods: { stealth: +25, velocity: -8, range: -5, recoilControl: +5 } },
-      { name: 'CQB Suppressor',cost: 18, mods: { stealth: +20, velocity: -3, range: -10 } }
+      { name: 'Flash Hider',   cost: 10, mods: { stealth: +5, accuracy: +2 } },                                   // Flash Hider = 10
+      { name: 'Compensator',   cost: 10, mods: { recoilControl: +12, velocity: -3 } },                            // Linear Comp = 10
+      { name: 'Heavy Comp',    cost: 10, mods: { recoilControl: +18, velocity: -5, adsSpeed: -2 } },              // Double-Port Brake = 10
+      { name: 'Suppressor',    cost: 20, mods: { stealth: +25, velocity: -8, range: -5, recoilControl: +5 } },    // Standard Suppressor = 20
+      { name: 'CQB Suppressor',cost: 30, mods: { stealth: +20, velocity: -3, range: -10 } }                       // CQB Suppressor = 30
     ],
     Barrel: [
       { name: 'Standard',      cost: 0,  mods: {} },
-      { name: 'Short',         cost: 10, mods: { mobility: +6, adsSpeed: +5, range: -8, accuracy: -3 } },
-      { name: 'Heavy Profile', cost: 22, mods: { range: +8, recoilControl: +8, mobility: -5, damage: +1 } },
-      { name: 'Long',          cost: 25, mods: { range: +12, velocity: +10, adsSpeed: -5, mobility: -5 } },
-      { name: 'Fluted',        cost: 18, mods: { velocity: +8, adsSpeed: +3, recoilControl: +2 } }
+      { name: 'Short',         cost: 10, mods: { mobility: +6, adsSpeed: +5, range: -8, accuracy: -3 } },         // 349mm SB = 10
+      { name: 'Heavy Profile', cost: 10, mods: { range: +8, recoilControl: +8, mobility: -5, damage: +1 } },      // 14.5 Standard = 10
+      { name: 'Long',          cost: 10, mods: { range: +12, velocity: +10, adsSpeed: -5, mobility: -5 } },       // 465mm LB = 10
+      { name: 'Fluted',        cost: 10, mods: { velocity: +8, adsSpeed: +3, recoilControl: +2 } }                // 19.8 Prototype = 10
     ],
     Underbarrel: [
       { name: 'None',          cost: 0,  mods: {} },
-      { name: 'Vert Grip',     cost: 15, mods: { recoilControl: +12 } },
-      { name: 'Angled Grip',   cost: 12, mods: { recoilControl: +6, adsSpeed: +4 } },
-      { name: 'Bipod',         cost: 20, mods: { recoilControl: +20, mobility: -5, adsSpeed: -2 } },
-      { name: 'Foregrip',      cost: 10, mods: { recoilControl: +5, adsSpeed: +2 } }
+      { name: 'Bipod',         cost: 10, mods: { recoilControl: +20, mobility: -5, adsSpeed: -2 } },              // Bipod = 10
+      { name: 'Vert Grip',     cost: 20, mods: { recoilControl: +12 } },                                          // Alloy Vertical = 20
+      { name: 'Angled Grip',   cost: 25, mods: { recoilControl: +6, adsSpeed: +4 } },                             // Slim Angled = 25
+      { name: 'Foregrip',      cost: 30, mods: { recoilControl: +14, adsSpeed: +2 } },                            // Ribbed Stubby = 30
+      { name: 'Classic Vert',  cost: 35, mods: { recoilControl: +18, mobility: -2 } }                             // Classic Vertical = 35
     ],
     Magazine: [
       { name: 'Standard',      cost: 0,  mods: {} },
-      { name: 'Extended Mag',  cost: 18, mods: { magMult: 1.5, reloadSpeed: -10, mobility: -3 } },
-      { name: 'Drum',          cost: 25, mods: { magMult: 2.0, reloadSpeed: -25, mobility: -8 } },
-      { name: 'Quick Mag',     cost: 12, mods: { magMult: 0.9, reloadSpeed: +15 } },
-      { name: 'FMJ',           cost: 18, mods: { range: +5, damage: +1 } },
-      { name: 'AP Rounds',     cost: 22, mods: { range: +3, damage: +2, velocity: +3 } }
+      { name: 'Quick Mag',     cost: 10, mods: { magMult: 0.9, reloadSpeed: +15 } },                              // fast-reload mag = 10
+      { name: 'Extended Mag',  cost: 45, mods: { magMult: 1.5, reloadSpeed: -10, mobility: -3 } },                // drum = 45
+      { name: 'Drum',          cost: 55, mods: { magMult: 2.0, reloadSpeed: -25, mobility: -8 } },                // belt/box = 55
+      { name: 'FMJ',           cost: 5,  mods: { range: +5, damage: +1 } },                                       // FMJ = 5
+      { name: 'AP Rounds',     cost: 5,  mods: { range: +3, damage: +2, velocity: +3 } }                          // Tungsten Core = 5
     ],
     Stock: [
       { name: 'Standard Stock',cost: 0,  mods: {} },
-      { name: 'Heavy Stock',   cost: 18, mods: { recoilControl: +12, mobility: -5, adsSpeed: -2 } },
-      { name: 'Light Stock',   cost: 14, mods: { mobility: +6, adsSpeed: +5, recoilControl: -3 } },
-      { name: 'Folding Stock', cost: 16, mods: { mobility: +8, adsSpeed: +4, recoilControl: -5 } },
-      { name: 'Skeleton Stock',cost: 12, mods: { adsSpeed: +6, mobility: +3 } },
-      { name: 'No Stock',      cost: 8,  mods: { mobility: +12, adsSpeed: +10, recoilControl: -12 } }
+      { name: 'Heavy Stock',   cost: 15, mods: { recoilControl: +12, mobility: -5, adsSpeed: -2 } },              // ergo (est — not in DB)
+      { name: 'Light Stock',   cost: 10, mods: { mobility: +6, adsSpeed: +5, recoilControl: -3 } },               // ergo (est)
+      { name: 'Folding Stock', cost: 10, mods: { mobility: +8, adsSpeed: +4, recoilControl: -5 } },               // ergo (est)
+      { name: 'Skeleton Stock',cost: 10, mods: { adsSpeed: +6, mobility: +3 } },                                  // ergo (est)
+      { name: 'No Stock',      cost: 5,  mods: { mobility: +12, adsSpeed: +10, recoilControl: -12 } }             // ergo (est)
     ]
   };
 
