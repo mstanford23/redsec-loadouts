@@ -2,8 +2,20 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>REDSEC // Loadout Matrix</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>REDSEC Loadout Generator — Battlefield 6</title>
+<meta name="description" content="Interactive Battlefield 6 / REDSEC loadout generator. Build weapons with live Pick-100 stats, TTK simulation, damage falloff, A/B comparison, and squad coverage analysis.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="REDSEC">
+<meta property="og:title" content="REDSEC Loadout Generator — Battlefield 6">
+<meta property="og:description" content="Build the best BF6 / REDSEC loadouts with live stats, TTK simulation, and squad analysis.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23000'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%23ff9f0a' stroke-width='3.5'/%3E%3Cline x1='32' y1='6' x2='32' y2='20' stroke='%23ff9f0a' stroke-width='3.5'/%3E%3Cline x1='32' y1='44' x2='32' y2='58' stroke='%23ff9f0a' stroke-width='3.5'/%3E%3Cline x1='6' y1='32' x2='20' y2='32' stroke='%23ff9f0a' stroke-width='3.5'/%3E%3Cline x1='44' y1='32' x2='58' y2='32' stroke='%23ff9f0a' stroke-width='3.5'/%3E%3Ccircle cx='32' cy='32' r='3' fill='%23ff9f0a'/%3E%3C/svg%3E">
 <style>
   :root {
     /* Surfaces — Apple Dark Mode hierarchy */
@@ -54,6 +66,10 @@
     --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* offset for sticky TOC when jumping to anchors */
+  }
   html, body {
     background: #000;
     color: var(--text);
@@ -63,6 +79,11 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     letter-spacing: -0.011em;
+    overflow-x: hidden; /* safety net against accidental horizontal scroll */
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   }
   body {
     background:
@@ -208,8 +229,9 @@
     background: linear-gradient(180deg, #fff, rgba(255,255,255,0.75));
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
+  .matrix-wrap { overflow-x: auto; border-radius: var(--r-lg); -webkit-overflow-scrolling: touch; }
   table.matrix {
-    width: 100%; border-collapse: separate; border-spacing: 0;
+    width: 100%; min-width: 640px; border-collapse: separate; border-spacing: 0;
     background: var(--bg-2); border: 1px solid var(--line);
     border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-1);
   }
@@ -743,7 +765,7 @@
   }
   #search:focus { border-color: var(--olive); box-shadow: 0 0 0 3px var(--olive-dim); }
   #search::placeholder { color: var(--text-dim); }
-  .filter-group { display: flex; gap: 4px; padding: 4px; background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--r-md); }
+  .filter-group { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--r-md); }
   .filter-btn {
     background: transparent; border: none; color: var(--text-dim); padding: 9px 14px;
     font-family: var(--sans); font-size: 12px; font-weight: 500; letter-spacing: -0.005em;
@@ -816,11 +838,24 @@
   .legend-dot.fastest-flag::after { content: ''; position: absolute; inset: 2px; background: var(--olive); border-radius: 50%; }
 
   @media (max-width: 768px) {
-    .class-header { grid-template-columns: 1fr; gap: 12px; }
-    .class-num { font-size: 64px; }
+    .container { padding: 0 18px; }
+    header { padding: 64px 0 40px; }
+    .class-section { padding: 56px 0 36px; }
+    .class-header { grid-template-columns: 1fr; gap: 10px; margin-bottom: 32px; }
+    .class-num { font-size: 56px; }
+    .class-title h2 { font-size: 34px; }
     .weapon-card { grid-template-columns: 1fr; }
     .weapon-info { border-right: none; border-bottom: 1px solid var(--line); }
-    nav.toc a { min-width: 50%; border-bottom: 1px solid var(--line); }
+    nav.toc { gap: 2px; }
+    nav.toc a { min-width: calc(50% - 2px); }
+    .subtitle { font-size: 17px; }
+    .matrix-section h2, .class-title h2 { font-size: 30px; }
+    .armory-table-wrap { position: relative; }
+    .armory-table-wrap::after {
+      content: '→ swipe to see all columns'; display: block; padding: 8px 16px;
+      font-family: var(--mono); font-size: 10px; color: var(--text-soft); text-align: right;
+      border-top: 1px solid var(--line); position: sticky; left: 0;
+    }
   }
 </style>
 </head>
@@ -1283,6 +1318,7 @@
 <!-- MATRIX -->
 <section class="matrix-section" id="matrix">
   <h2>// Class Comparison Matrix</h2>
+  <div class="matrix-wrap">
   <table class="matrix">
     <thead>
       <tr>
@@ -1334,6 +1370,7 @@
       </tr>
     </tbody>
   </table>
+  </div>
 </section>
 
 <footer>
@@ -2813,6 +2850,13 @@
     renderSquad();
     renderSquadCoverage();
   };
+
+  // Default to a meta weapon on first load so the builder is never empty
+  // (skipped when a shared build was decoded from the URL hash)
+  if (!bs.weapon) {
+    bs.weapon = WEAPONS.find(w => w.name === 'KORD 6P67') || WEAPONS[0];
+    bs.activeCat = bs.weapon.category;
+  }
 
   // Initial render — populates picker tabs + list, presets, comparison, squad
   renderBuilder();
