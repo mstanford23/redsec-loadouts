@@ -563,6 +563,23 @@
   .tier-chip .tc-meta { color: var(--olive); font-size: 11px; }
   .tier-empty { padding: 6px 4px; color: var(--text-soft); font-size: 12px; font-family: var(--mono); }
 
+  /* TTK HP TARGET TOGGLE */
+  .bw-hp-toggle {
+    display: flex; align-items: center; gap: 6px; margin-bottom: 16px; flex-wrap: wrap;
+    background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--r-md);
+    padding: 6px 6px 6px 16px; width: fit-content; max-width: 100%;
+  }
+  .bw-hp-label { font-size: 13px; color: var(--text-dim); font-weight: 500; margin-right: 6px; }
+  .bw-hp-btn {
+    background: transparent; border: none; color: var(--text-dim); padding: 9px 16px;
+    font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: -0.005em;
+    cursor: pointer; transition: all 0.18s var(--ease); border-radius: var(--r-sm);
+    display: inline-flex; align-items: baseline; gap: 6px;
+  }
+  .bw-hp-btn:hover { color: var(--text); background: var(--bg-3); }
+  .bw-hp-btn.active { background: var(--olive); color: #000; font-weight: 600; box-shadow: 0 2px 8px rgba(255,159,10,0.3); }
+  .bw-hp-sub { font-family: var(--mono); font-size: 9px; opacity: 0.7; letter-spacing: 0.04em; }
+
   /* OPTIMIZE BAR — pill buttons */
   .bw-optimize {
     background: var(--bg-2); border: 1px solid var(--line); padding: 16px 20px;
@@ -930,7 +947,7 @@
   <div class="meta-row">
     <span><strong>VERSION</strong>S1 // Apr 2026</span>
     <span><strong>METHOD</strong>TTK_ms = (STK−1) × (60000/RPM)</span>
-    <span><strong>BASELINE</strong>100 HP target</span>
+    <span><strong>BASELINE</strong>180 HP · REDSEC (100 + 80 armor)</span>
     <span><strong>OPERATOR</strong>markstanford23</span>
   </div>
 </header>
@@ -975,7 +992,14 @@
     <div class="tier-badge">Interactive</div>
   </div>
 
-  <p class="subtitle" style="margin-bottom: 24px;">Pick a weapon. Equip attachments. Watch every stat shift in real time. Numbers shown as <strong>base → modified</strong> with the delta. Pick-100 budget enforced live — when you hit the cap, options exceeding remaining points get locked out.</p>
+  <p class="subtitle" style="margin-bottom: 20px;">Pick a weapon. Equip attachments. Watch every stat shift in real time. Numbers shown as <strong>base → modified</strong> with the delta. Pick-100 budget enforced live — when you hit the cap, options exceeding remaining points get locked out.</p>
+
+  <!-- TTK target toggle (REDSEC armor baseline) -->
+  <div class="bw-hp-toggle">
+    <span class="bw-hp-label">TTK target:</span>
+    <button class="bw-hp-btn active" data-hp="180">Armored · 180 HP <span class="bw-hp-sub">REDSEC</span></button>
+    <button class="bw-hp-btn" data-hp="100">Bare · 100 HP <span class="bw-hp-sub">no armor</span></button>
+  </div>
 
   <!-- Weapon picker -->
   <div class="builder-picker">
@@ -1105,7 +1129,7 @@
     <div class="tier-badge">Verify Yourself</div>
   </div>
 
-  <p class="subtitle" style="margin-bottom: 24px;">Every weapon I could find data for. <strong>TTK</strong> is computed live: <code style="color:var(--olive);background:var(--bg-3);padding:2px 6px;font-family:var(--mono);font-size:12px;">(BTK − 1) × (60000 / RPM)</code> against 100 HP. <strong>Faster = lower number.</strong> Click any column to sort. Meta picks are flagged so you can see them in context — note that several non-meta weapons have faster paper TTK. The meta picks win on recoil control, range, and handling, which TTK alone doesn't capture.</p>
+  <p class="subtitle" style="margin-bottom: 24px;">Every weapon I could find data for. <strong>TTK</strong> is computed live: <code style="color:var(--olive);background:var(--bg-3);padding:2px 6px;font-family:var(--mono);font-size:12px;">(BTK − 1) × (60000 / RPM)</code> against the <strong>REDSEC 180 HP</strong> baseline (100 health + 80 armor) — switch to bare 100 HP with the toggle in the Builder. <strong>Faster = lower number.</strong> Click any column to sort. Meta picks are flagged so you can see them in context — note that several non-meta weapons have faster paper TTK. The meta picks win on recoil control, range, and handling, which TTK alone doesn't capture.</p>
 
   <div class="armory-controls">
     <input type="text" id="search" placeholder="// Search weapon name..." />
@@ -1170,7 +1194,7 @@
       </div>
       <p class="weapon-tagline">The most forgiving meta AR. ~900 RPM with near-zero recoil makes it the safest pick in any 1v1. Tap or burst to extend its effective range.</p>
       <div class="stats">
-        <div class="stat-row"><span class="stat-label">TTK</span><div class="stat-bar" style="--w:82%"></div><span class="stat-val">200ms</span></div>
+        <div class="stat-row"><span class="stat-label">TTK</span><div class="stat-bar" style="--w:88%"></div><span class="stat-val">385ms</span></div>
         <div class="stat-row"><span class="stat-label">CQB</span><div class="stat-bar" style="--w:75%"></div><span class="stat-val">7.5</span></div>
         <div class="stat-row"><span class="stat-label">Mid</span><div class="stat-bar" style="--w:95%"></div><span class="stat-val">9.5</span></div>
         <div class="stat-row"><span class="stat-label">Long</span><div class="stat-bar" style="--w:60%"></div><span class="stat-val">6.0</span></div>
@@ -1182,7 +1206,7 @@
       <h3 class="pros">Advantages</h3>
       <ul>
         <li>Near-zero recoil — beam at mid-range</li>
-        <li>900 RPM gives strong TTK floor (~200ms)</li>
+        <li>900 RPM + high dmg/shot — best raw TTK of the meta ARs vs armor (~385ms)</li>
         <li>Versatile across CQB and mid engagements</li>
         <li>Forgiving for new players — laser-like accuracy</li>
         <li>Pairs with shotgun secondary (Assault dual primary)</li>
@@ -1227,9 +1251,9 @@
         <div class="weapon-name">SGX</div>
         <div class="weapon-cat">Submachine Gun</div>
       </div>
-      <p class="weapon-tagline">CQB shredder at 950 RPM and ~189ms TTK. Default unlock means attachments come fast. Built for aggressive flanks and building clears.</p>
+      <p class="weapon-tagline">CQB shredder at 950 RPM (~442ms TTK vs armor). Default unlock means attachments come fast. Built for aggressive flanks and building clears — wins close range on mobility &amp; hipfire, not raw TTK.</p>
       <div class="stats">
-        <div class="stat-row"><span class="stat-label">TTK</span><div class="stat-bar" style="--w:88%"></div><span class="stat-val">189ms</span></div>
+        <div class="stat-row"><span class="stat-label">TTK</span><div class="stat-bar" style="--w:70%"></div><span class="stat-val">442ms</span></div>
         <div class="stat-row"><span class="stat-label">CQB</span><div class="stat-bar" style="--w:98%"></div><span class="stat-val">9.8</span></div>
         <div class="stat-row"><span class="stat-label">Mid</span><div class="stat-bar" style="--w:55%"></div><span class="stat-val">5.5</span></div>
         <div class="stat-row"><span class="stat-label">Long</span><div class="stat-bar" style="--w:20%"></div><span class="stat-val">2.0</span></div>
@@ -1288,7 +1312,7 @@
       </div>
       <p class="weapon-tagline">AR/LMG hybrid — handles like a rifle, holds an LMG mag. The current top Support meta. Holds lanes, suppresses, and never runs dry mid-fight.</p>
       <div class="stats">
-        <div class="stat-row"><span class="stat-label">TTK</span><div class="stat-bar" style="--w:70%"></div><span class="stat-val">~257ms</span></div>
+        <div class="stat-row"><span class="stat-label">TTK</span><div class="stat-bar" style="--w:80%"></div><span class="stat-val">417ms</span></div>
         <div class="stat-row"><span class="stat-label">CQB</span><div class="stat-bar" style="--w:65%"></div><span class="stat-val">6.5</span></div>
         <div class="stat-row"><span class="stat-label">Mid</span><div class="stat-bar" style="--w:90%"></div><span class="stat-val">9.0</span></div>
         <div class="stat-row"><span class="stat-label">Long</span><div class="stat-bar" style="--w:75%"></div><span class="stat-val">7.5</span></div>
@@ -1348,7 +1372,7 @@
       </div>
       <p class="weapon-tagline">One-shot headshot at any range with high bullet velocity. Most accessible sniper in REDSEC — easy to learn, lethal once you do.</p>
       <div class="stats">
-        <div class="stat-row"><span class="stat-label">TTK</span><div class="stat-bar" style="--w:99%"></div><span class="stat-val">~0ms HS</span></div>
+        <div class="stat-row"><span class="stat-label">TTK</span><div class="stat-bar" style="--w:99%"></div><span class="stat-val">1-shot HS</span></div>
         <div class="stat-row"><span class="stat-label">CQB</span><div class="stat-bar" style="--w:25%"></div><span class="stat-val">2.5</span></div>
         <div class="stat-row"><span class="stat-label">Mid</span><div class="stat-bar" style="--w:75%"></div><span class="stat-val">7.5</span></div>
         <div class="stat-row"><span class="stat-label">Long</span><div class="stat-bar" style="--w:99%"></div><span class="stat-val">9.9</span></div>
@@ -1412,7 +1436,7 @@
         <td>Assault</td>
         <td>Kord 6P67</td>
         <td><span class="badge-mid">MID</span></td>
-        <td>200ms</td>
+        <td>385ms</td>
         <td>Low</td>
         <td>Frontline DPS</td>
         <td>M433 / SOR-556</td>
@@ -1421,7 +1445,7 @@
         <td>Engineer</td>
         <td>SGX</td>
         <td><span class="badge-cqb">CQB</span></td>
-        <td>189ms</td>
+        <td>442ms</td>
         <td>Low</td>
         <td>Flanker / AV</td>
         <td>KV9 / UMG-40</td>
@@ -1430,7 +1454,7 @@
         <td>Support</td>
         <td>DRS-IAR</td>
         <td><span class="badge-mid">MID</span></td>
-        <td>~257ms</td>
+        <td>417ms</td>
         <td>Medium</td>
         <td>Anchor / Healer</td>
         <td>RPKM / L110</td>
@@ -1439,7 +1463,7 @@
         <td>Recon</td>
         <td>M2010 ESR</td>
         <td><span class="badge-long">LONG</span></td>
-        <td>HS = OHK</td>
+        <td>1-shot HS*</td>
         <td>High</td>
         <td>Intel / Picks</td>
         <td>PSR / SVK-8.6</td>
@@ -1447,6 +1471,7 @@
     </tbody>
   </table>
   </div>
+  <p class="subtitle" style="margin-top:16px; font-size:14px;">TTK figures use the <strong>REDSEC armored baseline (180 HP)</strong>. *M2010 one-shots to the head on bare/lightly-armored targets; a fully-plated 180 HP target takes 2. Switch baselines with the toggle in the Builder.</p>
 </section>
 
 <div class="data-note">
@@ -1458,6 +1483,10 @@
     </div>
     <div class="data-note-item verified">
       <span class="dn-tag">VERIFIED</span>
+      <strong>REDSEC health baseline.</strong> TTK is now computed against <strong>180 effective HP</strong> — 100 base health + 80 armor (2 plates × 40 HP), per EA's official REDSEC armor update. Toggle to bare 100 HP in the Builder. (Armor also reduces weapon-vs-armor damage at close range, so real REDSEC TTK is a touch longer still — those per-weapon armor curves aren't published.)
+    </div>
+    <div class="data-note-item verified">
+      <span class="dn-tag">VERIFIED</span>
       <strong>Meta picks &amp; the loadouts in the four class cards.</strong> Cross-referenced against battlefieldmeta.gg (Season 3, updated May 25 2026), Gamerant, Dexerto &amp; wzstats.gg.
     </div>
     <div class="data-note-item verified">
@@ -1466,7 +1495,7 @@
     </div>
     <div class="data-note-item estimate">
       <span class="dn-tag est">ESTIMATE</span>
-      <strong>The Builder's stat deltas (+RCL, −ADS, etc.) and Stock-slot costs.</strong> Attachment <em>costs</em> are real; the per-stat effect numbers used by the live sim are still approximations, and EA's data doesn't expose a separate Stock slot so those few costs are estimated.
+      <strong>Why one estimate is unavoidable: the Builder's stat deltas (+RCL, −ADS, etc.).</strong> EA publishes <em>no</em> granular per-attachment stat numbers, and azerpug only tracks a coarse Precision/Control/Mobility model — not "−12% recoil." So these few effect numbers can't be sourced exactly and stay as reasoned approximations. Stock-slot costs are likewise estimated (EA exposes no separate Stock slot). Everything else here is real.
     </div>
     <div class="data-note-item estimate">
       <span class="dn-tag est">APPROX</span>
@@ -1561,19 +1590,25 @@
     { name: 'M44',          category: 'Pistol',  tier: 'A', dmg: 60, rpm: 180,  mag: null, attach: ['Mini RDS',    'Compensator',    'Heavy Profile',  '—',            'Speedloader'], note: 'Magnum, 2STK' }
   ];
 
-  // Compute BTK and TTK
-  WEAPONS.forEach(w => {
-    w.btk = Math.ceil(100 / w.dmg);
-    w.ttk = Math.round((w.btk - 1) * (60000 / w.rpm));
-  });
+  // TTK baseline. REDSEC default = 180 effective HP (100 health + 80 armor / 2 plates,
+  // per EA's official REDSEC armor page). Toggle to 100 = bare health (no armor / MP-style).
+  let TARGET_HP = 180;
 
-  // Tag fastest TTK in each category (excluding 0ms OHK ties — flag them all)
-  const byCat = {};
-  WEAPONS.forEach(w => { (byCat[w.category] ||= []).push(w); });
-  Object.values(byCat).forEach(arr => {
-    const minTTK = Math.min(...arr.map(w => w.ttk));
-    arr.filter(w => w.ttk === minTTK).forEach(w => w.fastest = true);
-  });
+  // Compute BTK and TTK against the current TARGET_HP, and re-tag fastest-in-class.
+  function recomputeTTK() {
+    WEAPONS.forEach(w => {
+      w.btk = Math.ceil(TARGET_HP / w.dmg);
+      w.ttk = Math.round((w.btk - 1) * (60000 / w.rpm));
+      w.fastest = false;
+    });
+    const byCat = {};
+    WEAPONS.forEach(w => { (byCat[w.category] ||= []).push(w); });
+    Object.values(byCat).forEach(arr => {
+      const minTTK = Math.min(...arr.map(w => w.ttk));
+      arr.filter(w => w.ttk === minTTK).forEach(w => w.fastest = true);
+    });
+  }
+  recomputeTTK();
 
   const tierVal = { S: 4, A: 3, B: 2, C: 1 };
 
@@ -1767,10 +1802,10 @@
     });
     stats.magSize = Math.round(stats.magSize * stats.magMult);
     baseStats.magSize = w.mag || 30;
-    // BTK + TTK
-    stats.btk = Math.ceil(100 / stats.damage);
+    // BTK + TTK vs current REDSEC HP baseline
+    stats.btk = Math.ceil(TARGET_HP / stats.damage);
     stats.ttk = Math.round((stats.btk - 1) * (60000 / stats.rpm));
-    baseStats.btk = Math.ceil(100 / baseStats.damage);
+    baseStats.btk = Math.ceil(TARGET_HP / baseStats.damage);
     baseStats.ttk = Math.round((baseStats.btk - 1) * (60000 / baseStats.rpm));
     return { stats, base: baseStats, points };
   }
@@ -2499,7 +2534,7 @@
       });
     });
     stats.magSize = Math.round(stats.magSize * stats.magMult);
-    stats.btk = Math.ceil(100 / stats.damage);
+    stats.btk = Math.ceil(TARGET_HP / stats.damage);
     stats.ttk = Math.round((stats.btk - 1) * (60000 / stats.rpm));
     return { stats, weapon: w, points };
   }
@@ -3030,6 +3065,15 @@
     });
   }
   renderTierList();
+
+  /* ============== TTK HP TARGET TOGGLE ============== */
+  document.querySelectorAll('.bw-hp-btn').forEach(btn => btn.addEventListener('click', () => {
+    TARGET_HP = parseInt(btn.dataset.hp);
+    document.querySelectorAll('.bw-hp-btn').forEach(b => b.classList.toggle('active', b === btn));
+    recomputeTTK();        // re-tag fastest + recompute weapon ttk
+    render();              // re-render armory table
+    renderBuilder();       // re-render builder stats
+  }));
 </script>
 
 </body>
