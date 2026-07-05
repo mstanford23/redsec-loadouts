@@ -1,0 +1,30 @@
+{
+  "updatedAt": "2026-07-05T16:27:32Z",
+  "projects": [
+    {
+      "id": "run-20260705-162732-redsec-loadouts",
+      "name": "redsec-loadouts",
+      "goal": "Update REDSEC loadout site with live-verified July 2026 meta data per class and fix HTML defects, browser-verified",
+      "repo": "/Users/markstanford/redsec-loadouts/.claude/worktrees/gracious-satoshi-2523b6",
+      "dashboardUrl": "file:///Users/markstanford/redsec-loadouts/.claude/worktrees/gracious-satoshi-2523b6/.fleet/dashboard/index.html",
+      "status": "running",
+      "phase": "Spec",
+      "progress": 0,
+      "eta": {
+        "readyAt": null,
+        "confidence": "low"
+      },
+      "leftOff": "Project initialized; intake -> spec.",
+      "nextActions": [
+        "Produce SPEC.md and PLAN.md"
+      ],
+      "newFeatures": [],
+      "issues": [],
+      "verification": [],
+      "awaitingHuman": {
+        "active": false
+      },
+      "updatedAt": "2026-07-05T16:27:32Z"
+    }
+  ]
+}

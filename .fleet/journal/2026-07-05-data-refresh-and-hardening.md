@@ -1,0 +1,7 @@
+# Journal — 2026-07-05 (D1 forensic entry)
+**Asked:** Find newest REDSEC data, give latest best loadouts per operator/class, fix the HTML so it actually works; /create-project (finish-in-place).
+**Did:** 14-agent research+adversarial-verify workflow (wf_da1822ab-2a2, 207 tool calls) against live post-1.3.3.0 sources; +1 stats agent for 4 new weapons. Updated all 4 class cards (Support meta changed: DRS-IAR→KTS100 MK8), tier list (sourced movers only), matrix, Data & Sources panel, footer sources. Fixed 3 real HTML defects (unguarded localStorage killing script in sandboxed iframes; prompt()/confirm() silent no-ops; origin-based share URL broken on file://). Added armor multipliers (×0.84/×0.91) to 180HP TTK mode per EA 1.3.3.0 notes. Added M16A4/RPK-74M/L115/PP-19 with data-mined stats + null-guards.
+**Next:** Codex 3-pass gate → commit. Optional future: post-patch AR attachment guide when one publishes; Match Grade drag trade-off re-evaluation.
+**Troubleshooting path:** see .fleet/forensics/issue-log.md ISSUE-1..3 (evidence + verification commands).
+**Couldn't do:** Post-patch KORD attachment consensus (no source exists yet — disclosed on page). Sniper chest-vs-armor multiplier left unmodeled (source ambiguity — disclosed).
+**Forensic context:** All class picks verified by independent adversarial agents (6 confirmed, 1 plausible-with-corrections); corrections applied (SG 553R name, RPKM≠RPK-74M, M87A1 stays S, DLC Bolt claim dropped).
