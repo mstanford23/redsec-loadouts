@@ -3,13 +3,13 @@
 _Cold-restart context. Updated 2026-07-05._
 
 ## In Flight
-- 3-pass adversarial review (Claude fallback reviewers — Codex CLI out of credits until Jul 6) on the July-5 data-refresh + hardening diff; commit lands after gate passes.
+- none — 2026-07-05 refresh shipped as commit `0c2abed` on `claude/gracious-satoshi-2523b6` (gate: BLOCK → 4 fixes → PASS).
 
 ## Blocked
 - none
 
 ## Next Up
-- Commit the verified diff on branch `claude/gracious-satoshi-2523b6` once the review gate passes.
+- Merge/push `claude/gracious-satoshi-2523b6` when Mark approves (not pushed — needs explicit go-ahead).
 - Future (optional): re-check KORD attachment build when a post-1.3.3.0 AR guide publishes; revisit Match Grade ammo once sources re-evaluate its doubled drag penalty.
 
 ## Open Questions
