@@ -4,9 +4,9 @@
     "name": "redsec-loadouts",
     "goal": "Update REDSEC loadout site with live-verified July 2026 meta data per class and fix HTML defects, browser-verified",
     "startedAt": "2026-07-05T16:27:32Z",
-    "updatedAt": "2026-07-05T16:57:02Z",
+    "updatedAt": "2026-07-05T17:03:03Z",
     "runId": "run-20260705-162732-redsec-loadouts",
-    "status": "running"
+    "status": "done"
   },
   "progress": {
     "overall": 0,
@@ -91,6 +91,26 @@
           "currentTask": {
             "title": "Codex out of credits until Jul 6 \u2014 3-pass gate running on fresh-context Claude reviewers (fallback, disclosed)",
             "lastLine": "3 reviewers launched",
+            "progress": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "system",
+      "label": "System",
+      "color": "#6b7280",
+      "status": "active",
+      "progress": 0,
+      "weight": 1,
+      "agents": [
+        {
+          "id": "orchestrator",
+          "name": "orchestrator",
+          "status": "done",
+          "currentTask": {
+            "title": "Shipped 0c2abed: verified data refresh + hardening; gate PASS",
+            "lastLine": "done \u2014 dashboard http://localhost:8787/index.html",
             "progress": 0
           }
         }

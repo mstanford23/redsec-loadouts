@@ -1,16 +1,15 @@
 # STATUS — redsec-loadouts
 
-_Cold-restart context. Updated 2026-07-05._
+_Cold-restart context. Updated 2026-08-09._
 
 ## In Flight
-- none — 2026-07-05 refresh shipped as commit `0c2abed` on `claude/gracious-satoshi-2523b6` (gate: BLOCK → 4 fixes → PASS).
+- 2026-08-09 data refresh: multi-agent research sweep running (what changed since Jul 5 / Update 1.3.3.0), then verify → edit → browser check → Codex D8 gate → merge to main. Branch state: `git log origin/main..HEAD` answers what's unmerged.
 
 ## Blocked
 - none
 
 ## Next Up
-- Merge/push `claude/gracious-satoshi-2523b6` when Mark approves (not pushed — needs explicit go-ahead).
-- Future (optional): re-check KORD attachment build when a post-1.3.3.0 AR guide publishes; revisit Match Grade ammo once sources re-evaluate its doubled drag penalty.
+- During the Aug 9 refresh: re-check KORD attachment build (post-1.3.3.0 guide) and Match Grade ammo re-evaluation — both were open source-gaps from Jul 5.
 
 ## Open Questions
 - Sniper chest-vs-armor multiplier post-1.3.3.0 is ambiguous in sources (limb 0.8→0.67 is confirmed; chest unstated) — modeled conservatively at ×1.0 and disclosed on-page.
