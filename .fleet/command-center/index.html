@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>create-project command center</title>
+  <link rel="icon" href="data:," />
+  <style>
+    :root {
+      --ink:#15130f; --muted:#6c665a; --paper:#f5f1e8; --panel:#fffaf0;
+      --line:#d9cfbc; --coal:#24231f; --green:#2f7d4f; --red:#b43d31;
+      --amber:#b57922; --blue:#236a92; --violet:#6957a8;
+      --shadow:0 18px 45px rgba(43,35,20,.16);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; color:var(--ink); background:
+        linear-gradient(90deg, rgba(21,19,15,.035) 1px, transparent 1px) 0 0/26px 26px,
+        radial-gradient(circle at 18% 0%, rgba(181,121,34,.16), transparent 26rem),
+        radial-gradient(circle at 88% 12%, rgba(35,106,146,.13), transparent 24rem),
+        var(--paper);
+      font:14px/1.45 "Avenir Next", "Segoe UI", sans-serif;
+    }
+    .shell{max-width:1440px;margin:0 auto;padding:28px}
+    header{display:grid;grid-template-columns:1.2fr auto;gap:24px;align-items:end;margin-bottom:22px}
+    h1{
+      margin:0; font:800 clamp(34px,5vw,76px)/.9 "Iowan Old Style", Georgia, serif;
+      letter-spacing:0; max-width:850px;
+    }
+    .subtitle{margin:12px 0 0;color:var(--muted);font-size:15px;max-width:760px}
+    .stamp{
+      border:1px solid var(--line); background:rgba(255,250,240,.78); box-shadow:var(--shadow);
+      padding:14px 16px; min-width:260px; text-align:right;
+    }
+    .stamp b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+    .stamp span{font:700 22px/1.1 "Avenir Next", sans-serif}
+    .metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin:20px 0}
+    .metric{background:var(--coal);color:#f8f0df;padding:14px;border-radius:3px;min-height:86px;border:1px solid #000}
+    .metric .n{font:800 31px/1 "Avenir Next", sans-serif}
+    .metric .l{margin-top:8px;color:#cabfaa;font-size:12px;text-transform:uppercase;letter-spacing:.1em}
+    .layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(360px,.9fr);gap:18px}
+    .panel{background:rgba(255,250,240,.88);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:4px;overflow:hidden}
+    .panel h2{margin:0;padding:13px 15px;border-bottom:1px solid var(--line);font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:12px 14px;border-bottom:1px solid rgba(217,207,188,.75);vertical-align:top;text-align:left}
+    th{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700}
+    tr:last-child td{border-bottom:0}
+    .project-name{font-weight:800;font-size:15px}
+    .goal{display:block;color:var(--muted);margin-top:3px;max-width:520px}
+    .pill{display:inline-flex;align-items:center;gap:7px;padding:5px 8px;border-radius:999px;font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+    .pill:before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+    .running{color:var(--green);background:rgba(47,125,79,.13)}
+    .blocked,.failed{color:var(--red);background:rgba(180,61,49,.13)}
+    .paused,.stalled{color:var(--amber);background:rgba(181,121,34,.15)}
+    .done{color:var(--blue);background:rgba(35,106,146,.13)}
+    .bar{height:8px;background:#ebe1cf;border:1px solid var(--line);border-radius:999px;overflow:hidden;min-width:120px}
+    .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--blue));width:0}
+    .leftoff{font-weight:650}
+    .actions{display:flex;gap:8px;flex-wrap:wrap}
+    .btn{color:var(--coal);border:1px solid var(--coal);text-decoration:none;padding:7px 9px;border-radius:3px;font-weight:800;background:#fff;cursor:pointer;font:inherit}
+    .stack{display:grid;gap:12px;padding:13px}
+    .issue,.verify,.feature{
+      border:1px solid var(--line);background:#fffdf7;padding:12px;border-left:5px solid var(--amber);
+      border-radius:3px;
+    }
+    .issue.blocker{border-left-color:var(--red)}
+    .issue.fixed,.verify.pass{border-left-color:var(--green)}
+    .item-top{display:flex;gap:10px;justify-content:space-between;align-items:start}
+    .item-top b{font-size:14px}
+    .meta{color:var(--muted);font-size:12px;margin-top:4px}
+    .hyp{font-family:"SF Mono",Consolas,monospace;font-size:12px;color:#3b3429;background:#f2ead9;padding:8px;margin-top:8px;white-space:pre-wrap}
+    .empty{padding:26px;color:var(--muted);text-align:center}
+    .human{border-left-color:var(--violet)}
+    @media (max-width:1000px){.layout,header{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}.stamp{text-align:left}}
+    @media (max-width:680px){.shell{padding:16px}.metrics{grid-template-columns:1fr}table,tbody,tr,td,th{display:block}thead{display:none}td{border-bottom:0;padding:8px 12px}tr{border-bottom:1px solid var(--line);padding:8px 0}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div>
+        <h1>Project Command Center</h1>
+        <p class="subtitle">Live status for every create-project run: where each project left off, open issues, new features, verification evidence, and what needs human attention.</p>
+      </div>
+      <div class="stamp"><b>Updated</b><span id="updated">waiting for projects.json</span></div>
+    </header>
+    <section class="metrics" id="metrics"></section>
+    <section class="layout">
+      <div class="panel">
+        <h2>Projects</h2>
+        <table>
+          <thead><tr><th>Project</th><th>Status</th><th>Progress</th><th>Left off</th><th>Links</th></tr></thead>
+          <tbody id="projects"></tbody>
+        </table>
+      </div>
+      <div class="stack">
+        <section class="panel"><h2>Human Attention</h2><div id="human" class="stack"></div></section>
+        <section class="panel"><h2>Open Issues</h2><div id="issues" class="stack"></div></section>
+        <section class="panel"><h2>New Features</h2><div id="features" class="stack"></div></section>
+        <section class="panel"><h2>Verification Feed</h2><div id="verify" class="stack"></div></section>
+      </div>
+    </section>
+  </main>
+  <script>
+    const statusOrder = ["blocked","failed","stalled","paused","running","done"];
+    const esc = (v) => String(v ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const ago = (iso) => {
+      const t = Date.parse(iso || ""); if (Number.isNaN(t)) return "unknown";
+      const s = Math.max(0, Math.round((Date.now() - t) / 1000));
+      if (s < 60) return `${s}s ago`; if (s < 3600) return `${Math.floor(s/60)}m ago`;
+      if (s < 86400) return `${Math.floor(s/3600)}h ago`; return `${Math.floor(s/86400)}d ago`;
+    };
+    function metric(label, n){ return `<div class="metric"><div class="n">${esc(n)}</div><div class="l">${esc(label)}</div></div>`; }
+    function render(data){
+      const projects = (data.projects || []).slice().sort((a,b) => statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status));
+      document.getElementById("updated").textContent = ago(data.updatedAt);
+      const counts = Object.fromEntries(statusOrder.map(s => [s, projects.filter(p => p.status === s).length]));
+      const openIssues = projects.flatMap(p => (p.issues || []).map(i => ({...i, project:p.name}))).filter(i => i.status !== "fixed");
+      const features = projects.flatMap(p => (p.newFeatures || []).map(f => ({project:p.name, feature:f})));
+      const verifications = projects.flatMap(p => (p.verification || []).map(v => ({...v, project:p.name}))).slice(-12).reverse();
+      const human = projects.filter(p => p.awaitingHuman?.active || (p.nextActions || []).some(a => /approval|secret|key|human|confirm/i.test(a)));
+      document.getElementById("metrics").innerHTML =
+        metric("running", counts.running || 0) + metric("blocked", (counts.blocked||0)+(counts.failed||0)) +
+        metric("stalled", counts.stalled || 0) + metric("done", counts.done || 0) +
+        metric("open issues", openIssues.length) + metric("features", features.length);
+      document.getElementById("projects").innerHTML = projects.length ? projects.map(p => `
+        <tr>
+          <td><span class="project-name">${esc(p.name)}</span><span class="goal">${esc(p.goal)}</span></td>
+          <td><span class="pill ${esc(p.status)}">${esc(p.status || "unknown")}</span><div class="meta">${esc(p.phase || "")}</div></td>
+          <td><div class="bar"><i style="width:${Math.round((Number(p.progress)||0)*100)}%"></i></div><div class="meta">${Math.round((Number(p.progress)||0)*100)}%</div></td>
+          <td><span class="leftoff">${esc(p.leftOff || "not recorded")}</span><div class="meta">${esc((p.nextActions || [])[0] || "")}</div></td>
+          <td><div class="actions">${p.dashboardUrl ? `<a class="btn" href="${esc(p.dashboardUrl)}">dashboard</a>` : ""}${p.repo ? `<a class="btn" href="${esc(p.repo)}">repo</a>` : ""}<button class="btn" data-resume="${esc(p.repo || p.name)}">resume</button></div></td>
+        </tr>`).join("") : `<tr><td colspan="5"><div class="empty">No projects registered yet.</div></td></tr>`;
+      document.getElementById("human").innerHTML = human.length ? human.map(p => card("human", p.name, p.awaitingHuman?.question || (p.nextActions || []).join(" | "), "Requires attention")).join("") : empty("No human input needed.");
+      document.getElementById("issues").innerHTML = openIssues.length ? openIssues.map(i => card(i.severity === "blocker" ? "issue blocker" : "issue", `${i.project}: ${i.title}`, i.hypothesis || i.symptom || i.nextAction, i.rootCause ? `root cause: ${i.rootCause}` : `next: ${i.nextAction || "investigate"}`)).join("") : empty("No open issues.");
+      document.getElementById("features").innerHTML = features.length ? features.map(f => card("feature", f.project, f.feature, "new feature")).join("") : empty("No shipped features recorded yet.");
+      document.getElementById("verify").innerHTML = verifications.length ? verifications.map(v => card(`verify ${v.result}`, `${v.project}: ${v.claim}`, v.evidence, v.result || "unknown")).join("") : empty("No verification evidence yet.");
+      document.querySelectorAll("[data-resume]").forEach(b => b.addEventListener("click", () => navigator.clipboard?.writeText(`/create-project resume ${b.dataset.resume}`)));
+    }
+    function card(cls,title,body,meta){ return `<article class="${cls}"><div class="item-top"><b>${esc(title)}</b><span class="meta">${esc(meta)}</span></div>${body ? `<div class="hyp">${esc(body)}</div>` : ""}</article>`; }
+    function empty(text){ return `<div class="empty">${esc(text)}</div>`; }
+    async function load(){
+      try { const r = await fetch("projects.json?t=" + Date.now(), {cache:"no-cache"}); render(await r.json()); }
+      catch(e){ document.getElementById("projects").innerHTML = `<tr><td colspan="5"><div class="empty">Could not load projects.json. Serve over http://localhost or publish with the JSON beside this file.</div></td></tr>`; }
+    }
+    load(); setInterval(load, 5000);
+  </script>
+</body>
+</html>

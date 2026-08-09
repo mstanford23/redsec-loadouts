@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "name": "redsec-loadouts",
+    "goal": "Update REDSEC loadout site with live-verified July 2026 meta data per class and fix HTML defects, browser-verified",
+    "startedAt": "2026-07-05T16:27:32Z",
+    "updatedAt": "2026-07-05T17:03:03Z",
+    "runId": "run-20260705-162732-redsec-loadouts",
+    "status": "done"
+  },
+  "progress": {
+    "overall": 0,
+    "tasksTotal": 0,
+    "tasksDone": 0,
+    "tasksInProgress": 0,
+    "tasksBlocked": 0
+  },
+  "eta": {
+    "readyAt": null,
+    "remainingSeconds": null,
+    "confidence": "low",
+    "method": "init",
+    "basis": {}
+  },
+  "awaitingHuman": {
+    "active": false
+  },
+  "divisions": [
+    {
+      "id": "research",
+      "label": "Research",
+      "color": "#6b7280",
+      "status": "active",
+      "progress": 0,
+      "weight": 1,
+      "agents": [
+        {
+          "id": "meta-wave",
+          "name": "meta-wave",
+          "status": "working",
+          "currentTask": {
+            "title": "14-agent live research: July 1 patch, 4 class metas, tiers, new weapons",
+            "lastLine": "workflow launched, verifiers chained",
+            "progress": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "swe",
+      "label": "Swe",
+      "color": "#6b7280",
+      "status": "active",
+      "progress": 0,
+      "weight": 1,
+      "agents": [
+        {
+          "id": "html-hardening",
+          "name": "html-hardening",
+          "status": "done",
+          "currentTask": {
+            "title": "3 defects fixed + browser-verified (storage guard, modal-free save/delete, href share)",
+            "lastLine": "awaiting research wave for data refresh",
+            "progress": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "review",
+      "label": "Review",
+      "color": "#6b7280",
+      "status": "active",
+      "progress": 0,
+      "weight": 1,
+      "agents": [
+        {
+          "id": "codex-gate",
+          "name": "codex-gate",
+          "status": "working",
+          "currentTask": {
+            "title": "3-pass adversarial review on uncommitted diff",
+            "lastLine": "browser verification green: 50 weapons, TTK model + hardening verified live",
+            "progress": 0
+          }
+        },
+        {
+          "id": "claude-fallback-gate",
+          "name": "claude-fallback-gate",
+          "status": "working",
+          "currentTask": {
+            "title": "Codex out of credits until Jul 6 \u2014 3-pass gate running on fresh-context Claude reviewers (fallback, disclosed)",
+            "lastLine": "3 reviewers launched",
+            "progress": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "system",
+      "label": "System",
+      "color": "#6b7280",
+      "status": "active",
+      "progress": 0,
+      "weight": 1,
+      "agents": [
+        {
+          "id": "orchestrator",
+          "name": "orchestrator",
+          "status": "done",
+          "currentTask": {
+            "title": "Shipped 0c2abed: verified data refresh + hardening; gate PASS",
+            "lastLine": "done \u2014 dashboard http://localhost:8787/index.html",
+            "progress": 0
+          }
+        }
+      ]
+    }
+  ],
+  "queue": [],
+  "errors": [],
+  "reviews": [],
+  "previews": [],
+  "issues": [],
+  "verification": [],
+  "newFeatures": [],
+  "repo": {
+    "integrationBranch": null,
+    "worktrees": [],
+    "merged": []
+  },
+  "activity": [
+    {
+      "ts": "2026-07-05T16:27:32Z",
+      "division": "system",
+      "level": "info",
+      "msg": "Project initialized."
+    },
+    {
+      "ts": "2026-07-05T16:32:36Z",
+      "division": "system",
+      "level": "error",
+      "msg": "Watchdog: no heartbeat for >300s \u2014 the run may have died."
+    }
+  ],
+  "phases": [
+    {
+      "id": "ph-spec",
+      "label": "Spec",
+      "status": "active",
+      "startedAt": "2026-07-05T16:27:32Z",
+      "endedAt": null,
+      "progress": 0
+    },
+    {
+      "id": "ph-plan",
+      "label": "Plan",
+      "status": "pending"
+    },
+    {
+      "id": "ph-build",
+      "label": "Build",
+      "status": "pending"
+    },
+    {
+      "id": "ph-review",
+      "label": "Review",
+      "status": "pending"
+    },
+    {
+      "id": "ph-verify",
+      "label": "Verify",
+      "status": "pending"
+    },
+    {
+      "id": "ph-polish",
+      "label": "Polish",
+      "status": "pending"
+    },
+    {
+      "id": "ph-ship",
+      "label": "Ship",
+      "status": "pending"
+    }
+  ]
+}

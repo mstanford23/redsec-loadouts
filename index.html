@@ -943,10 +943,10 @@
 <header>
   <div class="eyebrow">Battlefield 6 // REDSEC // Tactical Brief</div>
   <h1>Loadout <span class="accent">Matrix</span></h1>
-  <p class="subtitle">Simulated TTK and meta analysis across all four operator classes. Each loadout below is the consensus S-tier pick from the current meta as of late April 2026. Pros and cons evaluated against engagement range, recoil, mag economy, and survivability.</p>
+  <p class="subtitle">Simulated TTK and meta analysis across all four operator classes. Each loadout below is the consensus meta pick as of <strong>August 9, 2026</strong> (Season 4 · Pacific Front), live-verified against current sources (wzstats.gg Aug 09 snapshot, EA's official 1.4.1.0 / 1.4.1.5 notes, KeenGamer, GameRant). Pros and cons evaluated against engagement range, recoil, mag economy, and survivability.</p>
   <div class="meta-row">
-    <span><strong>VERSION</strong>S1 // Apr 2026</span>
-    <span><strong>METHOD</strong>TTK_ms = (STK−1) × (60000/RPM)</span>
+    <span><strong>VERSION</strong>S4 · 1.4.1.5 // Aug 2026</span>
+    <span><strong>METHOD</strong>TTK_ms = (STK−1) × (60000/RPM) · armor mults applied</span>
     <span><strong>BASELINE</strong>180 HP · REDSEC (100 + 80 armor)</span>
     <span><strong>OPERATOR</strong>markstanford23</span>
   </div>
@@ -970,12 +970,12 @@
     <div class="class-num">00</div>
     <div class="class-title">
       <h2>Tier List</h2>
-      <div class="role">All 46 weapons ranked // S → C</div>
+      <div class="role">All 62 weapons ranked // S → C</div>
     </div>
-    <div class="tier-badge">Season 3 Meta</div>
+    <div class="tier-badge">Season 4 Meta</div>
   </div>
 
-  <p class="subtitle" style="margin-bottom: 24px;">Every weapon ranked by current meta strength. <strong>★ = class meta pick.</strong> Filter by class, and click any weapon to load it straight into the Builder.</p>
+  <p class="subtitle" style="margin-bottom: 24px;">Every weapon ranked by current meta strength. <strong>★ = class meta pick.</strong> Filter by class, and click any weapon with verified stats to load it straight into the Builder — "no data" chips are display-only until their stats verify. Tiers follow wzstats' Aug 09 REDSEC list; its D tier (2 weapons) is folded into C here — noted on the affected rows.</p>
 
   <div class="tier-filter" id="tier-filter"></div>
   <div class="tier-rows" id="tier-rows"></div>
@@ -992,7 +992,7 @@
     <div class="tier-badge">Interactive</div>
   </div>
 
-  <p class="subtitle" style="margin-bottom: 20px;">Pick a weapon. Equip attachments. Watch every stat shift in real time. Numbers shown as <strong>base → modified</strong> with the delta. Pick-100 budget enforced live — when you hit the cap, options exceeding remaining points get locked out.</p>
+  <p class="subtitle" style="margin-bottom: 20px;">Pick a weapon. Equip attachments. Watch every stat shift in real time. Numbers shown as <strong>base → modified</strong> with the delta. Point budget enforced live (100 per primary, 60 per secondary — per EA's loadout rules) — when you hit the cap, options exceeding remaining points get locked out.</p>
 
   <!-- TTK target toggle (REDSEC armor baseline) -->
   <div class="bw-hp-toggle">
@@ -1050,7 +1050,7 @@
       <div class="bw-budget" id="bw-budget" style="display:none">
         <div class="bw-budget-row">
           <span class="bw-budget-label">Pick-100 Budget</span>
-          <span class="bw-budget-val"><span id="bw-points">0</span> / 100</span>
+          <span class="bw-budget-val"><span id="bw-points">0</span> / <span id="bw-cap">100</span></span>
         </div>
         <div class="bw-budget-bar"><div class="bw-budget-fill" id="bw-budget-fill" style="width:0%"></div></div>
         <button class="bw-reset" id="bw-reset">// Reset Loadout</button>
@@ -1124,7 +1124,7 @@
     <div class="class-num">00</div>
     <div class="class-title">
       <h2>Full Armory</h2>
-      <div class="role">All 46 weapons // Raw stats // Sort & filter</div>
+      <div class="role">All 62 weapons // Raw stats // Sort & filter</div>
     </div>
     <div class="tier-badge">Verify Yourself</div>
   </div>
@@ -1192,9 +1192,9 @@
         <div class="weapon-name">KORD 6P67</div>
         <div class="weapon-cat">Assault Rifle</div>
       </div>
-      <p class="weapon-tagline">The most forgiving meta AR. ~900 RPM with near-zero recoil makes it the safest pick in any 1v1. Tap or burst to extend its effective range.</p>
+      <p class="weapon-tagline">Still the #1 AR through Season 4 (wzstats, Aug 09) — it survived both the 1.3.3.0 rework and the new EF88's arrival (which ranks just #10 in REDSEC despite multiplayer hype). ~900 RPM with near-zero recoil. Tap or burst to extend its effective range.</p>
       <div class="stats">
-        <div class="stat-row"><span class="stat-label">TTK</span><div class="stat-bar" style="--w:88%"></div><span class="stat-val">385ms</span></div>
+        <div class="stat-row"><span class="stat-label">TTK</span><div class="stat-bar" style="--w:88%"></div><span class="stat-val">400ms</span></div>
         <div class="stat-row"><span class="stat-label">CQB</span><div class="stat-bar" style="--w:75%"></div><span class="stat-val">7.5</span></div>
         <div class="stat-row"><span class="stat-label">Mid</span><div class="stat-bar" style="--w:95%"></div><span class="stat-val">9.5</span></div>
         <div class="stat-row"><span class="stat-label">Long</span><div class="stat-bar" style="--w:60%"></div><span class="stat-val">6.0</span></div>
@@ -1205,18 +1205,18 @@
     <div class="procon">
       <h3 class="pros">Advantages</h3>
       <ul>
-        <li>Near-zero recoil — beam at mid-range</li>
-        <li>900 RPM + high dmg/shot — best raw TTK of the meta ARs vs armor (~385ms)</li>
-        <li>Versatile across CQB and mid engagements</li>
+        <li>Near-zero recoil — beam at mid-range (1.3.3.0 cut recoil variation 35.3° → 28.9°)</li>
+        <li>900 RPM + high dmg/shot — ~400ms TTK vs armor, best of the meta ARs</li>
+        <li>Survived the 1.3.3.0 rework better than rivals (smallest practical velocity cut, −4.7%)</li>
         <li>Forgiving for new players — laser-like accuracy</li>
         <li>Pairs with shotgun secondary (Assault dual primary)</li>
       </ul>
       <h3 class="cons">Disadvantages</h3>
       <ul>
-        <li>3STK ARs (M433, SOR-556) edge it on raw TTK</li>
-        <li>Damage falloff hurts past ~50m</li>
+        <li>1.3.3.0 body-vs-armor mult (×0.84) adds a bullet to spray kills — aim heads (HS mult raised to 1.4×)</li>
+        <li>Bullet drag +40% patch-wide — lead targets past ~50m</li>
         <li>Ammo-hungry on full-auto sprays</li>
-        <li>Tap-fire required for max effective range</li>
+        <li>VCR-2 (#2 AR, wzstats Aug 09) matches its 900 RPM in a faster-handling bullpup; SOR-556 MK2 holds #3</li>
       </ul>
     </div>
   </div>
@@ -1251,9 +1251,9 @@
         <div class="weapon-name">SGX</div>
         <div class="weapon-cat">Submachine Gun</div>
       </div>
-      <p class="weapon-tagline">CQB shredder at 950 RPM (~442ms TTK vs armor). Default unlock means attachments come fast. Built for aggressive flanks and building clears — wins close range on mobility &amp; hipfire, not raw TTK.</p>
+      <p class="weapon-tagline">Still the #1 SMG through Season 4 (wzstats, Aug 09) — the whole SMG top-4 (SGX, PP-19, PW5A3, USG-90) is unchanged since July and all four sit in the META group. 830 RPM verified (~578ms TTK vs armor). Built for aggressive flanks and building clears — wins close range on mobility &amp; hipfire, not raw TTK.</p>
       <div class="stats">
-        <div class="stat-row"><span class="stat-label">TTK</span><div class="stat-bar" style="--w:70%"></div><span class="stat-val">442ms</span></div>
+        <div class="stat-row"><span class="stat-label">TTK</span><div class="stat-bar" style="--w:70%"></div><span class="stat-val">578ms</span></div>
         <div class="stat-row"><span class="stat-label">CQB</span><div class="stat-bar" style="--w:98%"></div><span class="stat-val">9.8</span></div>
         <div class="stat-row"><span class="stat-label">Mid</span><div class="stat-bar" style="--w:55%"></div><span class="stat-val">5.5</span></div>
         <div class="stat-row"><span class="stat-label">Long</span><div class="stat-bar" style="--w:20%"></div><span class="stat-val">2.0</span></div>
@@ -1264,18 +1264,18 @@
     <div class="procon">
       <h3 class="pros">Advantages</h3>
       <ul>
-        <li>950 RPM — fastest practical TTK in CQB</li>
+        <li>Recoil variation cut 20.4% in 1.3.3.0 — noticeably more consistent sprays</li>
         <li>Excellent hipfire for surprise pushes</li>
         <li>Fast ADS and high mobility</li>
         <li>Default unlock — easy for fresh accounts</li>
-        <li>Pairs with RPG-7V2 for AV + cover-busting</li>
+        <li>Pairs with RPG-7V2 — buffed in 1.3.3.0 (vs tanks 188–500, was 173–460; vs helis 1125). Note: its zeroing was cut 100m → 22m back in 1.3.2.0 (still in effect) — arc your long shots</li>
       </ul>
       <h3 class="cons">Disadvantages</h3>
       <ul>
-        <li>Damage drops off hard past ~20m</li>
+        <li>Damage drops off hard past ~20m (velocity also cut 402 → 378 m/s)</li>
         <li>Smaller mag than LMGs — bad in extended fights</li>
         <li>Loses every long-range duel — must close distance</li>
-        <li>KV9 has slightly higher RPM ceiling (1000)</li>
+        <li>PP-19 holds #2 SMG; CZ3A1 (#6, newly tracked here) is TheGamer's S4 pick — watch it</li>
       </ul>
     </div>
   </div>
@@ -1286,9 +1286,11 @@
       <div class="att"><div class="att-slot">Optic</div><div class="att-pick">Iron Sights</div></div>
       <div class="att"><div class="att-slot">Muzzle</div><div class="att-pick">Standard Suppressor</div></div>
       <div class="att"><div class="att-slot">Barrel</div><div class="att-pick">8" Extended</div></div>
+      <div class="att"><div class="att-slot">Underbarrel</div><div class="att-pick">Slim Angled</div></div>
       <div class="att"><div class="att-slot">Magazine</div><div class="att-pick">41 Rnd</div></div>
-      <div class="att"><div class="att-slot">Accessory</div><div class="att-pick">120 MW Blue</div></div>
-      <div class="att"><div class="att-slot">Gadget</div><div class="att-pick">RPG-7V2</div></div>
+      <div class="att"><div class="att-slot">Ammo</div><div class="att-pick">FMJ</div></div>
+      <div class="att"><div class="att-slot">Accessory</div><div class="att-pick">50 MW Blue</div></div>
+      <div class="att"><div class="att-slot">Gadget</div><div class="att-pick">RPG-7V2 · alt MBT-LAW</div></div>
     </div>
   </div>
 </section>
@@ -1307,34 +1309,34 @@
   <div class="weapon-card">
     <div class="weapon-info">
       <div class="weapon-name-row">
-        <div class="weapon-name">DRS-IAR</div>
+        <div class="weapon-name">KTS100 MK8</div>
         <div class="weapon-cat">Light Machine Gun</div>
       </div>
-      <p class="weapon-tagline">AR/LMG hybrid — handles like a rifle, holds an LMG mag. The current top Support meta. Holds lanes, suppresses, and never runs dry mid-fight.</p>
+      <p class="weapon-tagline">Still the #1 LMG through Season 4 (wzstats, Aug 09) — the top LMG trio (KTS100, RPK-74M, DRS-IAR) is unchanged since July and all three sit in the META group. Best-in-class recoil control with a big box mag for holding lanes and suppressing multiple pushes.</p>
       <div class="stats">
-        <div class="stat-row"><span class="stat-label">TTK</span><div class="stat-bar" style="--w:80%"></div><span class="stat-val">417ms</span></div>
-        <div class="stat-row"><span class="stat-label">CQB</span><div class="stat-bar" style="--w:65%"></div><span class="stat-val">6.5</span></div>
-        <div class="stat-row"><span class="stat-label">Mid</span><div class="stat-bar" style="--w:90%"></div><span class="stat-val">9.0</span></div>
-        <div class="stat-row"><span class="stat-label">Long</span><div class="stat-bar" style="--w:75%"></div><span class="stat-val">7.5</span></div>
-        <div class="stat-row"><span class="stat-label">Recoil</span><div class="stat-bar" style="--w:90%"></div><span class="stat-val">9.0</span></div>
-        <div class="stat-row"><span class="stat-label">Mobility</span><div class="stat-bar" style="--w:55%"></div><span class="stat-val">5.5</span></div>
+        <div class="stat-row"><span class="stat-label">TTK</span><div class="stat-bar" style="--w:72%"></div><span class="stat-val">529ms</span></div>
+        <div class="stat-row"><span class="stat-label">CQB</span><div class="stat-bar" style="--w:55%"></div><span class="stat-val">5.5</span></div>
+        <div class="stat-row"><span class="stat-label">Mid</span><div class="stat-bar" style="--w:88%"></div><span class="stat-val">8.8</span></div>
+        <div class="stat-row"><span class="stat-label">Long</span><div class="stat-bar" style="--w:90%"></div><span class="stat-val">9.0</span></div>
+        <div class="stat-row"><span class="stat-label">Recoil</span><div class="stat-bar" style="--w:95%"></div><span class="stat-val">9.5</span></div>
+        <div class="stat-row"><span class="stat-label">Mobility</span><div class="stat-bar" style="--w:45%"></div><span class="stat-val">4.5</span></div>
       </div>
     </div>
     <div class="procon">
       <h3 class="pros">Advantages</h3>
       <ul>
-        <li>AR-like handling on an LMG chassis</li>
-        <li>36-round mag — wins extended trades + 1v2s</li>
-        <li>Low recoil ceiling for sustained fire</li>
-        <li>Best lane-holding tool in REDSEC</li>
-        <li>Defib + ammo crate make Support a force multiplier</li>
+        <li>#1 LMG (wzstats, Aug 09 2026 — held through Season 4's launch)</li>
+        <li>Lowest recoil variation in the LMG slot (10.9° → 9.5° after 1.3.3.0)</li>
+        <li>GamesRadar: "unquestionably the best LMG" for REDSEC and Multiplayer</li>
+        <li>Smallest velocity cut of the top LMGs in 1.3.3.0 (−3.81%)</li>
+        <li>Defib + Deployable Cover make Support a force multiplier</li>
       </ul>
       <h3 class="cons">Disadvantages</h3>
       <ul>
-        <li>Slower TTK than Kord at peak performance</li>
-        <li>Mobility hit vs. true ARs (heavier weapon)</li>
-        <li>ADS slower than AR-class — punished in surprise CQB</li>
-        <li>Bipod required for max accuracy when holding angles</li>
+        <li>REDSEC meta is still AR/SMG-first — LMG is a role pick, not a raw-TTK pick (GamesRadar)</li>
+        <li>Body-vs-armor ×0.84 slows spray TTK — headshots now matter more</li>
+        <li>Heavy chassis — mobility and ADS penalties vs ARs</li>
+        <li>RPK-74M (#2) and DRS-IAR (#3) remain close behind; M121 A2 (#7, newly tracked here) adds S2 competition</li>
       </ul>
     </div>
   </div>
@@ -1342,12 +1344,13 @@
   <div class="attachments">
     <h3>// Recommended Attachments</h3>
     <div class="att-grid">
-      <div class="att"><div class="att-slot">Optic</div><div class="att-pick">Baker 3.00x</div></div>
-      <div class="att"><div class="att-slot">Muzzle</div><div class="att-pick">Lightened Suppressor</div></div>
-      <div class="att"><div class="att-slot">Barrel</div><div class="att-pick">20" SDM-R</div></div>
-      <div class="att"><div class="att-slot">Underbarrel</div><div class="att-pick">6H64 Vertical</div></div>
-      <div class="att"><div class="att-slot">Magazine</div><div class="att-pick">36 Rnd</div></div>
-      <div class="att"><div class="att-slot">Ammo</div><div class="att-pick">Polymer Case</div></div>
+      <div class="att"><div class="att-slot">Optic</div><div class="att-pick">BF-2M 2.50x</div></div>
+      <div class="att"><div class="att-slot">Muzzle</div><div class="att-pick">Standard Suppressor</div></div>
+      <div class="att"><div class="att-slot">Barrel</div><div class="att-pick">508mm MK8</div></div>
+      <div class="att"><div class="att-slot">Underbarrel</div><div class="att-pick">Stippled Stubby</div></div>
+      <div class="att"><div class="att-slot">Magazine</div><div class="att-pick">60 Rnd</div></div>
+      <div class="att"><div class="att-slot">Ammo</div><div class="att-pick">FMJ</div></div>
+      <div class="att"><div class="att-slot">Accessory</div><div class="att-pick">50 MW Violet</div></div>
       <div class="att"><div class="att-slot">Gadget</div><div class="att-pick">Defibrillator</div></div>
     </div>
   </div>
@@ -1370,7 +1373,7 @@
         <div class="weapon-name">M2010 ESR</div>
         <div class="weapon-cat">Sniper Rifle</div>
       </div>
-      <p class="weapon-tagline">One-shot headshot at any range with high bullet velocity. Most accessible sniper in REDSEC — easy to learn, lethal once you do.</p>
+      <p class="weapon-tagline">Still the #1 sniper through Season 4 (wzstats, Aug 09) — though the order below it reshuffled: PSR up to #2, L115 down to #4. One-shot headshot at any range; one-shot-to-body sweet spot 75–100m (narrowed in 1.3.3.0, but cut the least of any bolt-action). Play a step closer than before.</p>
       <div class="stats">
         <div class="stat-row"><span class="stat-label">TTK</span><div class="stat-bar" style="--w:99%"></div><span class="stat-val">1-shot HS</span></div>
         <div class="stat-row"><span class="stat-label">CQB</span><div class="stat-bar" style="--w:25%"></div><span class="stat-val">2.5</span></div>
@@ -1384,18 +1387,19 @@
       <h3 class="pros">Advantages</h3>
       <ul>
         <li>One-shot headshot at any range</li>
-        <li>High bullet velocity — minimal lead required</li>
-        <li>DLC Bolt: cycle next shot without unscoping</li>
+        <li>High bullet velocity — softens the patch's +40% bullet drag better than rivals</li>
+        <li>Sweet spot narrowed least of all bolt-actions in 1.3.3.0 (75–100m); PSR is now #2, SV-98 #3 (wzstats Aug 09)</li>
         <li>Beginner-friendly compared to PSR / SV-98</li>
         <li>Map-control tool — spots and intel for the squad</li>
       </ul>
       <h3 class="cons">Disadvantages</h3>
       <ul>
         <li>8-round mag with slow follow-up</li>
-        <li>Useless in CQB without secondary</li>
-        <li>Scope glint exposes position to other snipers</li>
-        <li>Slow ADS — punished by aggressive pushes</li>
-        <li>Body shots leave you in a 1.2s+ TTK fight</li>
+        <li>Bullet drag +40% patch-wide — and +100% on Match Grade ammo (see Data note)</li>
+        <li>Limb / lower-torso multiplier cut 0.8× → 0.67× — punishes sloppy shots</li>
+        <li>Useless in CQB without secondary; scope glint exposes you</li>
+        <li>Body shots outside 75–100m leave you in a long follow-up fight</li>
+        <li>Watch Aug 18: the Top Gun update adds the Interdictor — billed by EA as BF6's longest-range sniper (not live yet; re-evaluate then)</li>
       </ul>
     </div>
   </div>
@@ -1406,9 +1410,9 @@
       <div class="att"><div class="att-slot">Scope</div><div class="att-pick">LERT 8.00x</div></div>
       <div class="att"><div class="att-slot">Muzzle</div><div class="att-pick">Standard Suppressor</div></div>
       <div class="att"><div class="att-slot">Barrel</div><div class="att-pick">26" Carbon</div></div>
-      <div class="att"><div class="att-slot">Underbarrel</div><div class="att-pick">Slim Angled</div></div>
-      <div class="att"><div class="att-slot">Magazine</div><div class="att-pick">5 Rnd</div></div>
-      <div class="att"><div class="att-slot">Ammo</div><div class="att-pick">Match Grade</div></div>
+      <div class="att"><div class="att-slot">Underbarrel</div><div class="att-pick">Full Angled (optional)</div></div>
+      <div class="att"><div class="att-slot">Magazine</div><div class="att-pick">8 Rnd</div></div>
+      <div class="att"><div class="att-slot">Ammo</div><div class="att-pick">Match Grade*</div></div>
       <div class="att"><div class="att-slot">Accessory</div><div class="att-pick">Range Finder</div></div>
       <div class="att"><div class="att-slot">Optic Coat</div><div class="att-pick">Anti-Glare Coating</div></div>
     </div>
@@ -1436,28 +1440,28 @@
         <td>Assault</td>
         <td>Kord 6P67</td>
         <td><span class="badge-mid">MID</span></td>
-        <td>385ms</td>
+        <td>400ms</td>
         <td>Low</td>
         <td>Frontline DPS</td>
-        <td>M433 / SOR-556</td>
+        <td>VCR-2 / SOR-556 MK2</td>
       </tr>
       <tr>
         <td>Engineer</td>
         <td>SGX</td>
         <td><span class="badge-cqb">CQB</span></td>
-        <td>442ms</td>
+        <td>578ms</td>
         <td>Low</td>
         <td>Flanker / AV</td>
-        <td>KV9 / UMG-40</td>
+        <td>PP-19 / PW5A3</td>
       </tr>
       <tr>
         <td>Support</td>
-        <td>DRS-IAR</td>
+        <td>KTS100 MK8</td>
         <td><span class="badge-mid">MID</span></td>
-        <td>417ms</td>
+        <td>529ms</td>
         <td>Medium</td>
         <td>Anchor / Healer</td>
-        <td>RPKM / L110</td>
+        <td>RPK-74M / DRS-IAR</td>
       </tr>
       <tr>
         <td>Recon</td>
@@ -1466,12 +1470,12 @@
         <td>1-shot HS*</td>
         <td>High</td>
         <td>Intel / Picks</td>
-        <td>PSR / SVK-8.6</td>
+        <td>PSR / SVDM</td>
       </tr>
     </tbody>
   </table>
   </div>
-  <p class="subtitle" style="margin-top:16px; font-size:14px;">TTK figures use the <strong>REDSEC armored baseline (180 HP)</strong>. *M2010 one-shots to the head on bare/lightly-armored targets; a fully-plated 180 HP target takes 2. Switch baselines with the toggle in the Builder.</p>
+  <p class="subtitle" style="margin-top:16px; font-size:14px;">TTK figures use the <strong>REDSEC armored baseline (180 HP)</strong> and apply Update 1.3.3.0's chest-vs-armor multipliers (automatics ×0.84, DMRs ×0.91 — per EA's official patch notes). *M2010 one-shots to the head on bare/lightly-armored targets; a fully-plated 180 HP target takes 2. Switch baselines with the toggle in the Builder.</p>
 </section>
 
 <div class="data-note">
@@ -1487,7 +1491,15 @@
     </div>
     <div class="data-note-item verified">
       <span class="dn-tag">VERIFIED</span>
-      <strong>Meta picks &amp; the loadouts in the four class cards.</strong> Cross-referenced against battlefieldmeta.gg (Season 3, updated May 25 2026), Gamerant, Dexerto &amp; wzstats.gg.
+      <strong>Meta picks &amp; the loadouts in the four class cards.</strong> Live-verified <strong>August 9, 2026</strong> (Season 4) against wzstats.gg's Aug 09 REDSEC tier pages (its underlying tier data last touched Jul 26 — read from the page's own embedded JSON, not just the rendered text), EA's official patch notes, KeenGamer &amp; GameRant — each finding independently re-checked by an adversarial verification pass. All four class picks (KORD 6P67, SGX, KTS100 MK8, M2010 ESR) held their #1 spots through Season 4's launch; the one meta flip is at DMR, where <strong>SVDM displaced M39 EMR as #1</strong> (confirmed on wzstats <em>and</em> the independently-owned battlefinity.gg). July's disclosed KORD gap is closed: its build above is the Season-4-stamped guide (battlefieldmeta/wzstats — one network, disclosed as a single source). *Current sniper guides <em>still</em> recommend Match Grade ammo despite 1.3.3.0's doubled drag penalty — as of Aug 09 no source has re-evaluated that trade-off; community forums actively dispute it.
+    </div>
+    <div class="data-note-item verified">
+      <span class="dn-tag">VERIFIED</span>
+      <strong>Season 4 "Pacific Front" (Update 1.4.1.0, live July 21) + Update 1.4.1.5 (Aug 4).</strong> Per EA's official notes: three new weapons (EF88 AR, BROD 3 carbine, VSSM DMR — all free Battle Pass unlocks), new attachments (Extended Barrel for the four shotguns; 1P86 LPVO 1.50x/4.50x), an M320A1 Grenadier-trait nerf (REDSEC Signature Set: Cluster Munitions 6→3 bomblets, blast 30→20), and Ranked BR changes (Vehicle Keycards/MBTs/IFVs removed; assists now equal kills in RP; APC Emergency Repair → Smoke Generator in BR). <strong>Neither update rebalanced base weapon damage, TTK, armor, or the 1.3.3.0 multipliers for ordinary combat</strong> — the TTK model on this page is unchanged. The one new damage mechanic is underwater attenuation (1.4.1.0: bullets lose damage traveling through water, eventually to zero — added with the naval content and <em>not modeled by this simulator</em>). 1.4.1.5 is QoL-only. DICE's Aug 6 community post acknowledges time-to-death rose after "the last major gunplay update" (i.e. 1.3.3.0, our dating) and says balance adjustments are being explored — none of those broader adjustments have shipped. One balance change did ship <em>outside</em> the numbered patches: a Jul 27 server-side correction moved BROD 3 and EF88 (plus their ammo attachments) from their mistaken 1.34× launch value to the intended 1.4× base headshot multiplier (the in-game UI may still show 1.34×; headshots aren't modeled by this simulator). Next content drop: <strong>Top Gun, Aug 18</strong> (Interdictor sniper — not live yet, not listed here).
+    </div>
+    <div class="data-note-item verified">
+      <span class="dn-tag">VERIFIED</span>
+      <strong>Update 1.3.3.0 gunplay rework (live June 30, 2026).</strong> Per EA's official notes: bullet drag +40% (+100% on Match Grade), muzzle velocity −4–7% on nearly every primary (KV9 the sole +4% exception), headshot multipliers raised to 1.4×/1.57×/1.8×, chest-vs-armor / stomach / limb multipliers cut to ×0.84 (automatics) and ×0.91 (DMRs) with shotguns &amp; sidearms exempt, sniper limb multiplier 0.8 → 0.67, bolt-action one-shot sweet spots narrowed across the board. The armored-mode (180 HP) TTKs on this page now apply the ×0.84 / ×0.91 chest multipliers.
     </div>
     <div class="data-note-item verified">
       <span class="dn-tag">VERIFIED</span>
@@ -1499,112 +1511,147 @@
     </div>
     <div class="data-note-item estimate">
       <span class="dn-tag est">APPROX</span>
-      <strong>Armory damage / RPM / mag figures.</strong> Pulled from community trackers (battlefieldredsec.space, skycoach). Some differ from in-game values — treat as directional. Verified figures where known: SGX 830 RPM / 217ms TTK, M2010 ESR ~43 RPM / 1-shot / 900 m/s.
+      <strong>Armory damage / RPM / mag figures.</strong> Re-sourced <strong>Aug 9, 2026</strong>: the old primary tracker (battlefieldredsec.space) turned out to be frozen at Season 1 (Dec 2025), and every one of the seven weapons we re-checked against current trackers had stale numbers. Figures whose armory note says "verified" are triangulated across 2–5 independent current sources (rnkd.gg + CharlieIntel wiki as the primary pair, plus Dexerto wiki and a sym.gg-pinned data-mine). Figures marked "directional" still trace to older trackers and await the same treatment. A "—" means <em>that specific field</em> (dmg, RPM or mag) has no verified value — a weapon can have some fields verified and others dashed (e.g. BROD 3's RPM is verified while its damage is a live tracker conflict). A weapon missing dmg or RPM is additionally excluded from TTK and the Builder. Long-standing verified figures unchanged: SGX 830 RPM, M2010 ESR 43 RPM / 1-shot HS / 760 m/s (post-1.3.3.0 per EA notes; one tracker cluster still lists the pre-patch 900 — we keep EA's figure).
     </div>
   </div>
 </div>
 
 <footer>
-  <div>// Verified sources — Season 3, May 2026</div>
+  <div>// Verified sources — Season 4 · Update 1.4.1.5 · re-verified August 9, 2026</div>
   <div class="src-list">
+    <a href="https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-game-update-1-4-1-0" target="_blank">EA Official (1.4.1.0 / Season 4)</a>
+    <a href="https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-game-update-1-4-1-5" target="_blank">EA Official (1.4.1.5)</a>
+    <a href="https://www.ea.com/en/games/battlefield/battlefield-6/news/battlefield-6-game-update-1-3-3-0" target="_blank">EA Official (1.3.3.0 gunplay rework)</a>
+    <a href="https://www.ea.com/games/battlefield/redsec/news/season-4-roadmap-everything-you-need-to-know" target="_blank">EA Official (S4 roadmap)</a>
+    <a href="https://www.ea.com/games/battlefield/battlefield-6/news/battlefield-6-community-update-top-gun-incoming" target="_blank">EA Official (Aug 6 community update)</a>
+    <a href="https://wzstats.gg/battlefield-6/meta" target="_blank">WZStats (REDSEC meta, Aug 09)</a>
+    <a href="https://rnkd.gg/battlefield6/" target="_blank">rnkd.gg (weapon stats)</a>
+    <a href="https://www.charlieintel.com/battlefield-6/" target="_blank">Charlie INTEL (weapon wiki)</a>
+    <a href="https://battlefinity.gg/best-weapons/dmr" target="_blank">Battlefinity (independent DMR tiers)</a>
+    <a href="https://www.keengamer.com/articles/guides/battlefield-6-season-4-meta-5-best-weapons-ranked/" target="_blank">KeenGamer (S4 meta)</a>
+    <a href="https://gamerant.com/battlefield-6-season-4-preview/" target="_blank">GameRant (S4 hands-on)</a>
     <a href="https://www.ea.com/en/games/battlefield/battlefield-6/news/loadout-creation-and-weapon-classes" target="_blank">EA Official (system)</a>
-    <a href="https://battlefieldmeta.gg/" target="_blank">BattlefieldMeta.gg (loadouts)</a>
-    <a href="https://wzstats.gg/battlefield-6/meta" target="_blank">WZStats</a>
-    <a href="https://gamerant.com/battlefield-6-best-lmg-machine-gun-bf6-season-3/" target="_blank">Gamerant (LMG meta)</a>
-    <a href="https://www.dexerto.com/battlefield/" target="_blank">Dexerto</a>
-    <a href="https://www.charlieintel.com/battlefield-6/" target="_blank">Charlie INTEL</a>
-    <a href="https://www.shacknews.com/article/146283/how-to-customize-weapons-bf6" target="_blank">Shacknews (system)</a>
   </div>
 </footer>
 
 </div>
 
 <script>
-  // Weapon dmg/RPM/mag: community trackers (battlefieldredsec.space, skycoach) — APPROXIMATE,
-  //   some differ from in-game values. Verified figures noted in the Data & Sources panel.
-  // Tier flags + meta picks: verified vs battlefieldmeta.gg Season 3 (May 2026).
-  // 'attach' arrays here are slot-default suggestions, not the verified meta loadouts —
-  //   the verified per-class meta builds live in the four class cards above.
+  // Weapon dmg/RPM/mag: entries whose note says "verified Aug 09" are triangulated across
+  //   2-5 independent current trackers (rnkd.gg + CharlieIntel primary pair); entries marked
+  //   "directional" still trace to older trackers. Details in the Data & Sources panel.
+  // Tier flags + meta picks: live-verified vs wzstats.gg REDSEC tier pages (Aug 09 2026,
+  //   Season 4 — read from the page's embedded JSON), KeenGamer, GameRant + EA official
+  //   1.4.1.0/1.4.1.5 patch notes. null = that FIELD is unverified (renders "—"); a weapon
+  //   can be partially verified. Missing dmg or rpm additionally excludes it from TTK/Builder.
+  // 'attach' arrays are slot-default suggestions, EXCEPT the four ★ meta picks (KORD 6P67,
+  //   SGX, KTS100 Mk8, M2010 ESR), whose arrays mirror the verified class-card builds above.
   // mag null = source did not list mag size.
   const WEAPONS = [
     // Assault Rifles
-    { name: 'M433',         category: 'AR',      tier: 'S', dmg: 35, rpm: 720,  mag: null, attach: ['1.50x',       'Compensator',    'Heavy Profile',  'Vert Grip',    'Ext Mag'],   note: 'Starter AR. Fastest 3STK in slot.' },
-    { name: 'B36A4',        category: 'AR',      tier: 'A', dmg: 38, rpm: 680,  mag: null, attach: ['2.00x',       'Compensator',    'Heavy Profile',  'Vert Grip',    'Ext Mag'],   note: 'High dmg, slower fire' },
-    { name: 'SOR-556 MK2',  category: 'AR',      tier: 'S', dmg: 34, rpm: 750,  mag: null, attach: ['1.50x',       'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: 'Lowest TTK in AR slot' },
-    { name: 'AK4D',         category: 'AR',      tier: 'A', dmg: 40, rpm: 650,  mag: null, attach: ['1.50x',       'Suppressor',     'Heavy Profile',  'Angled Grip',  'Ext Mag'],   note: 'Highest dmg AR' },
-    { name: 'TR-7',         category: 'AR',      tier: 'B', dmg: 36, rpm: 700,  mag: null, attach: ['1.50x',       'Compensator',    'Heavy Profile',  'Vert Grip',    'Ext Mag'],   note: 'Solid mid-tier' },
-    { name: 'KORD 6P67',    category: 'AR',      tier: 'S', dmg: 33, rpm: 780,  mag: 30,   attach: ['2.00x',       'Comp Brake',     'Heavy Profile',  'Vert Grip',    'Ext Mag'],   note: 'My pick — recoil king', meta: true },
-    { name: 'NVO-228E',     category: 'AR',      tier: 'A', dmg: 32, rpm: 710,  mag: null, attach: ['1.50x',       'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: '4STK weakness' },
-    { name: 'L85A3',        category: 'AR',      tier: 'A', dmg: 37, rpm: 690,  mag: null, attach: ['1.50x',       'Compensator',    'Bullpup Std',    'Vert Grip',    'Ext Mag'],   note: 'Bullpup handling' },
+    { name: 'M433',         category: 'AR',      tier: 'A', dmg: 26, rpm: 830,  mag: 30,   attach: ['1.50x',       'Compensator',    'Heavy Profile',  'Vert Grip',    'Ext Mag'],   note: '#8 AR (wzstats Aug 09). Stats re-verified Aug 09 (rnkd + CharlieIntel — old 35/720 was stale)' },
+    { name: 'B36A4',        category: 'AR',      tier: 'A', dmg: 26, rpm: 720,  mag: 30,   attach: ['2.00x',       'Compensator',    'Heavy Profile',  'Vert Grip',    'Ext Mag'],   note: '#4 AR (wzstats Aug 09). Stats verified Aug 09 (rnkd + CharlieIntel + Dexerto)' },
+    { name: 'SOR-556 MK2',  category: 'AR',      tier: 'A', dmg: 25, rpm: 568,  mag: 30,   attach: ['1.50x',       'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: '#3 AR (wzstats Aug 09). Stats verified Aug 09 vs 4 trackers (old 34/750 was stale)' },
+    { name: 'AK4D',         category: 'AR',      tier: 'A', dmg: 35, rpm: 514,  mag: 20,   attach: ['1.50x',       'Suppressor',     'Heavy Profile',  'Angled Grip',  'Ext Mag'],   note: '#9 AR (wzstats Aug 09). 514 RPM/20 mag verified; dmg 33–35 across trackers' },
+    { name: 'TR-7',         category: 'AR',      tier: 'C', dmg: 36, rpm: 700,  mag: null, attach: ['1.50x',       'Compensator',    'Heavy Profile',  'Vert Grip',    'Ext Mag'],   note: '#11 AR (wzstats Aug 09). Stats directional' },
+    { name: 'KORD 6P67',    category: 'AR',      tier: 'S', dmg: 33, rpm: 900,  mag: 30,   attach: ['Baker 3.00x', 'Lightened Supp.','415mm Prototype','6H64 Vertical', '36rnd'],    note: '#1 AR (wzstats Aug 09) — recoil king; 900 RPM per KeenGamer. Loadout = verified S4 build (see Assault card)', meta: true },
+    { name: 'NVO-228E',     category: 'AR',      tier: 'A', dmg: 32, rpm: 710,  mag: null, attach: ['1.50x',       'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: '#7 AR (wzstats Aug 09). 4STK weakness; stats directional' },
+    { name: 'L85A3',        category: 'AR',      tier: 'A', dmg: 37, rpm: 690,  mag: null, attach: ['1.50x',       'Compensator',    'Bullpup Std',    'Vert Grip',    'Ext Mag'],   note: '#6 AR (wzstats Aug 09). Bullpup handling; stats directional' },
+    { name: 'M16A4',        category: 'AR',      tier: 'A', dmg: 25, rpm: 771,  mag: 30,   attach: ['1.50x',       'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: '#5 AR (wzstats Aug 09). S3 Warlords weapon (May 12); dmg/RPM from sym.gg data-mine + battlefinity' },
+    { name: 'VCR-2',        category: 'AR',      tier: 'A', dmg: 26, rpm: 900,  mag: 30,   attach: ['Red Dot',     'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: '#2 AR (wzstats Aug 09). S2 weapon (Feb 17) the armory had missed — EA: high-RPM bullpup. Stats: rnkd (dmg/mag approx)' },
+    { name: 'EF88',         category: 'AR',      tier: 'A', dmg: null, rpm: null, mag: null, attach: ['Red Dot',    'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: 'New S4 (Jul 21, free BP). #10 AR in REDSEC (wzstats Aug 09) though MP outlets call it S4\'s best overall — launch stat sheets bugged, no verified figures yet' },
 
     // Carbines
-    { name: 'M4A1',         category: 'Carbine', tier: 'S', dmg: 32, rpm: 800,  mag: null, attach: ['Red Dot',     'Flash Hider',    'Standard',       'Vert Grip',    'Ext Mag'],   note: 'Carbine benchmark' },
-    { name: 'M277',         category: 'Carbine', tier: 'B', dmg: 31, rpm: 820,  mag: null, attach: ['Red Dot',     'Compensator',    'Short',          'Angled Grip',  'Ext Mag'],   note: '6.8mm platform' },
-    { name: 'AK-205',       category: 'Carbine', tier: 'A', dmg: 35, rpm: 750,  mag: null, attach: ['Red Dot',     'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: 'Hard hitting' },
-    { name: 'M417 A2',      category: 'Carbine', tier: 'B', dmg: 42, rpm: 580,  mag: null, attach: ['1.50x',       'Heavy Comp',     'Heavy Profile',  'Bipod',        'Std Mag'],   note: 'Slow but heavy' },
-    { name: 'GRTZ-BC',      category: 'Carbine', tier: 'B', dmg: 33, rpm: 780,  mag: null, attach: ['Red Dot',     'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: 'Balanced' },
-    { name: 'QBZ-192',      category: 'Carbine', tier: 'S', dmg: 30, rpm: 810,  mag: null, attach: ['Red Dot',     'Flash Hider',    'Standard',       'Vert Grip',    'Ext Mag'],   note: 'High RPM, low dmg' },
-    { name: 'SG-554R',      category: 'Carbine', tier: 'A', dmg: 31, rpm: 840,  mag: null, attach: ['Red Dot',     'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: 'Highest carbine RPM' },
-    { name: 'SOR-300SC',    category: 'Carbine', tier: 'C', dmg: 34, rpm: 790,  mag: null, attach: ['Red Dot',     'Suppressor',     'Standard',       'Vert Grip',    'Ext Mag'],   note: 'Best paper TTK in armory' },
+    { name: 'M4A1',         category: 'Carbine', tier: 'A', dmg: 32, rpm: 800,  mag: null, attach: ['Red Dot',     'Flash Hider',    'Standard',       'Vert Grip',    'Ext Mag'],   note: '#6 carbine (wzstats Aug 09). Ex-benchmark; displaced by SG 553R' },
+    { name: 'M277',         category: 'Carbine', tier: 'B', dmg: 31, rpm: 820,  mag: null, attach: ['Red Dot',     'Compensator',    'Short',          'Angled Grip',  'Ext Mag'],   note: '#8 carbine (wzstats Aug 09). 6.8mm platform' },
+    { name: 'AK-205',       category: 'Carbine', tier: 'S', dmg: 35, rpm: 750,  mag: null, attach: ['Red Dot',     'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: 'Hard hitting — #2 carbine (wzstats Aug 09), now in the META group' },
+    { name: 'M417 A2',      category: 'Carbine', tier: 'A', dmg: 42, rpm: 580,  mag: null, attach: ['1.50x',       'Heavy Comp',     'Heavy Profile',  'Bipod',        'Std Mag'],   note: '#5 carbine (wzstats Aug 09). Slow but heavy' },
+    { name: 'GRTZ-BC',      category: 'Carbine', tier: 'C', dmg: 33, rpm: 780,  mag: null, attach: ['Red Dot',     'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: '#9 carbine (wzstats Aug 09, D tier there — folded into C; wzstats lists it as GRT-BC)' },
+    { name: 'QBZ-192',      category: 'Carbine', tier: 'A', dmg: 30, rpm: 810,  mag: null, attach: ['Red Dot',     'Flash Hider',    'Standard',       'Vert Grip',    'Ext Mag'],   note: '#3 carbine (wzstats Aug 09). High RPM, low dmg' },
+    { name: 'SG 553R',      category: 'Carbine', tier: 'S', dmg: 31, rpm: 840,  mag: null, attach: ['Red Dot',     'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: '#1 carbine (wzstats Aug 09); name corrected from SG-554R' },
+    { name: 'SOR-300SC',    category: 'Carbine', tier: 'A', dmg: 34, rpm: 790,  mag: null, attach: ['Red Dot',     'Suppressor',     'Standard',       'Vert Grip',    'Ext Mag'],   note: '#4 carbine (wzstats Aug 09, up from C). Best paper TTK in armory' },
+    { name: 'BROD 3',       category: 'Carbine', tier: 'B', dmg: null, rpm: 830, mag: null, attach: ['Red Dot',    'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: 'New S4 (Jul 21, free BP). #7 carbine (wzstats Aug 09). GameRant: plays like an SMG but never quite competes. Dmg is a live 26-vs-35 tracker conflict — shown as —' },
 
     // SMGs
-    { name: 'SGX',          category: 'SMG',     tier: 'S', dmg: 25, rpm: 950,  mag: null, attach: ['Red Dot',     'CQB Suppressor', '8" Extended',    'Alloy Vert',   'Ext Mag'],   note: 'My pick — Engineer starter', meta: true },
-    { name: 'PW5A3',        category: 'SMG',     tier: 'A', dmg: 28, rpm: 880,  mag: null, attach: ['Red Dot',     'Flash Hider',    'Standard',       'Vert Grip',    'Ext Mag'],   note: 'MP5 platform, balanced' },
-    { name: 'PW7A2',        category: 'SMG',     tier: 'B', dmg: 29, rpm: 860,  mag: null, attach: ['Red Dot',     'Suppressor',     'Short',          'Vert Grip',    'Ext Mag'],   note: 'MP7-style' },
-    { name: 'UMG-40',       category: 'SMG',     tier: 'S', dmg: 27, rpm: 820,  mag: null, attach: ['Red Dot',     'Suppressor',     'Standard',       'Vert Grip',    'Ext Mag'],   note: 'Some sources S-tier' },
-    { name: 'USG-90',       category: 'SMG',     tier: 'C', dmg: 26, rpm: 920,  mag: null, attach: ['Red Dot',     'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: 'P90-style' },
-    { name: 'KV9',          category: 'SMG',     tier: 'A', dmg: 24, rpm: 1000, mag: null, attach: ['Red Dot',     'Flash Hider',    'Standard',       'Vert Grip',    'Ext Mag'],   note: 'Highest RPM, but 5STK' },
-    { name: 'SCW-10',       category: 'SMG',     tier: 'B', dmg: 26, rpm: 850,  mag: null, attach: ['Red Dot',     'Heavy Comp',     'Standard',       'Angled Grip',  'Ext Mag'],   note: '10mm stopping power' },
-    { name: 'SL9',          category: 'SMG',     tier: 'S', dmg: 28, rpm: 890,  mag: null, attach: ['Red Dot',     'Suppressor',     'Standard',       'Vert Grip',    'Ext Mag'],   note: 'Strong mid-range SMG' },
+    { name: 'SGX',          category: 'SMG',     tier: 'S', dmg: 25, rpm: 830,  mag: 30,   attach: ['Iron Sights', 'Std Suppressor', '8" Extended',    'Slim Angled',  '41rnd'],     note: '#1 SMG (wzstats Aug 09) — Engineer starter; 830 RPM verified, mag 30 verified Aug 09. Loadout = verified S4 build (see Engineer card)', meta: true },
+    { name: 'PW5A3',        category: 'SMG',     tier: 'S', dmg: 26, rpm: 771,  mag: 30,   attach: ['Red Dot',     'Flash Hider',    'Standard',       'Vert Grip',    'Ext Mag'],   note: '#3 SMG (wzstats Aug 09). MP5 platform. Stats re-verified Aug 09 (old 28/880 was stale)' },
+    { name: 'PW7A2',        category: 'SMG',     tier: 'A', dmg: 29, rpm: 860,  mag: null, attach: ['Red Dot',     'Suppressor',     'Short',          'Vert Grip',    'Ext Mag'],   note: '#7 SMG (wzstats Aug 09). MP7-style; stats directional' },
+    { name: 'UMG-40',       category: 'SMG',     tier: 'A', dmg: 27, rpm: 820,  mag: null, attach: ['Red Dot',     'Suppressor',     'Standard',       'Vert Grip',    'Ext Mag'],   note: '#9 SMG (wzstats Aug 09); fell from META in July' },
+    { name: 'USG-90',       category: 'SMG',     tier: 'S', dmg: 20, rpm: 900,  mag: 50,   attach: ['Red Dot',     'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: '#4 SMG (wzstats Aug 09). P90-style. Stats verified Aug 09 — unanimous across 4 trackers (old 26/920 was stale)' },
+    { name: 'KV9',          category: 'SMG',     tier: 'A', dmg: 24, rpm: 1000, mag: null, attach: ['Red Dot',     'Flash Hider',    'Standard',       'Vert Grip',    'Ext Mag'],   note: '#10 SMG (wzstats Aug 09). Highest RPM; got 1.3.3.0\'s only velocity buff (+4%)' },
+    { name: 'SCW-10',       category: 'SMG',     tier: 'A', dmg: 26, rpm: 850,  mag: null, attach: ['Red Dot',     'Heavy Comp',     'Standard',       'Angled Grip',  'Ext Mag'],   note: '#5 SMG (wzstats Aug 09, up from B). 10mm stopping power' },
+    { name: 'SL9',          category: 'SMG',     tier: 'A', dmg: 28, rpm: 890,  mag: null, attach: ['Red Dot',     'Suppressor',     'Standard',       'Vert Grip',    'Ext Mag'],   note: '#8 SMG (wzstats Aug 09)' },
+    { name: 'PP-19',        category: 'SMG',     tier: 'S', dmg: 25, rpm: 720,  mag: 30,   attach: ['Red Dot',     'Suppressor',     'Standard',       'Vert Grip',    'Ext Mag'],   note: '#2 SMG (wzstats Aug 09); added S3 Blastpoint (Jun 09). Stats: GameRant/battlefieldmeta' },
+    { name: 'CZ3A1',        category: 'SMG',     tier: 'A', dmg: null, rpm: null, mag: null, attach: ['Red Dot',   'Suppressor',     'Standard',       'Vert Grip',    'Ext Mag'],   note: '#6 SMG (wzstats Aug 09) — the armory had missed it; TheGamer\'s S4 best-SMG pick. Stats unverified' },
 
     // LMGs
-    { name: 'L110',         category: 'LMG',     tier: 'S', dmg: 30, rpm: 750,  mag: 100,  attach: ['1.50x',       'Suppressor',     'Standard',       'Bipod',        '100rd'],     note: 'High mag, smooth' },
-    { name: 'DRS-IAR',      category: 'LMG',     tier: 'A', dmg: 32, rpm: 720,  mag: 75,   attach: ['CCO 2.00x',   'Long Suppressor','16.5" Fluted',   '6H64 Vert',    '36rnd'],     note: 'My pick — AR/LMG hybrid', meta: true },
-    { name: 'M60',          category: 'LMG',     tier: 'A', dmg: 38, rpm: 580,  mag: 150,  attach: ['1.50x',       'Compensator',    'Heavy Profile',  'Bipod',        '150rd'],     note: 'Heavy hitter' },
-    { name: 'RPKM',         category: 'LMG',     tier: 'S', dmg: 36, rpm: 650,  mag: 100,  attach: ['1.50x',       'Compensator',    'Heavy Profile',  'Vert Grip',    '100rd'],     note: 'Faster TTK than DRS-IAR' },
-    { name: 'M123K',        category: 'LMG',     tier: 'A', dmg: 33, rpm: 700,  mag: 200,  attach: ['1.50x',       'Compensator',    'Standard',       'Bipod',        '200rd'],     note: 'Largest mag in slot' },
-    { name: 'M250',         category: 'LMG',     tier: 'C', dmg: 34, rpm: 730,  mag: 100,  attach: ['2.00x',       'Compensator',    'Standard',       'Vert Grip',    '100rd'],     note: '3STK — fastest LMG TTK' },
-    { name: 'KTS100 Mk8',   category: 'LMG',     tier: 'A', dmg: 35, rpm: 680,  mag: 100,  attach: ['2.00x',       'Suppressor',     'Long',           'Bipod',        '100rd'],     note: 'Long-range LMG' },
-    { name: 'M240L',        category: 'LMG',     tier: 'B', dmg: 37, rpm: 650,  mag: 150,  attach: ['1.50x',       'Compensator',    'Heavy Profile',  'Bipod',        '150rd'],     note: 'Heavy chassis' },
+    { name: 'L110',         category: 'LMG',     tier: 'A', dmg: 30, rpm: 750,  mag: 100,  attach: ['1.50x',       'Suppressor',     'Standard',       'Bipod',        '100rd'],     note: '#5 LMG (wzstats Aug 09); out of the top trio' },
+    { name: 'DRS-IAR',      category: 'LMG',     tier: 'S', dmg: 32, rpm: 720,  mag: 75,   attach: ['CCO 2.00x',   'Long Suppressor','16.5" Fluted',   '6H64 Vert',    '36rnd'],     note: '#3 LMG (wzstats Aug 09) — ex-meta pick; AR/LMG hybrid' },
+    { name: 'M60',          category: 'LMG',     tier: 'A', dmg: 38, rpm: 580,  mag: 150,  attach: ['1.50x',       'Compensator',    'Heavy Profile',  'Bipod',        '150rd'],     note: '#8 LMG (wzstats Aug 09). Heavy hitter' },
+    { name: 'RPKM',         category: 'LMG',     tier: 'A', dmg: 36, rpm: 650,  mag: 100,  attach: ['1.50x',       'Compensator',    'Heavy Profile',  'Vert Grip',    '100rd'],     note: '#6 LMG (wzstats Aug 09); NOT the same gun as RPK-74M' },
+    { name: 'M123K',        category: 'LMG',     tier: 'B', dmg: 33, rpm: 700,  mag: 200,  attach: ['1.50x',       'Compensator',    'Standard',       'Bipod',        '200rd'],     note: '#9 LMG (wzstats Aug 09). Largest mag in slot' },
+    { name: 'M250',         category: 'LMG',     tier: 'A', dmg: 34, rpm: 730,  mag: 100,  attach: ['2.00x',       'Compensator',    'Standard',       'Vert Grip',    '100rd'],     note: '#4 LMG (wzstats Aug 09, up from C). 3STK vs bare 100 HP — fastest LMG unarmored; 7 BTK vs 180 HP armored' },
+    { name: 'KTS100 Mk8',   category: 'LMG',     tier: 'S', dmg: 35, rpm: 680,  mag: 100,  attach: ['BF-2M 2.50x', 'Std Suppressor', '508mm MK8',      'Stippled Stubby','60rnd'],   note: '#1 LMG (wzstats Aug 09); lowest recoil variation in slot. Loadout = verified S4 build (see Support card)', meta: true },
+    { name: 'M240L',        category: 'LMG',     tier: 'B', dmg: 37, rpm: 650,  mag: 150,  attach: ['1.50x',       'Compensator',    'Heavy Profile',  'Bipod',        '150rd'],     note: '#10 LMG (wzstats Aug 09). Heavy chassis' },
+    { name: 'RPK-74M',      category: 'LMG',     tier: 'S', dmg: 20, rpm: 686,  mag: 45,   attach: ['1.50x',       'Compensator',    'Standard',       'Vert Grip',    'Ext Mag'],   note: '#2 LMG (wzstats Aug 09); "best new S3 weapon" (KeenGamer). Stats reconfirmed Aug 09 vs rnkd (685)' },
+    { name: 'M121 A2',      category: 'LMG',     tier: 'A', dmg: null, rpm: null, mag: null, attach: ['1.50x',     'Compensator',    'Standard',       'Bipod',        '100rd'],     note: '#7 LMG (wzstats Aug 09) — S2 weapon (Feb 2026) the armory had missed (per Dexerto). Stats unverified' },
 
     // DMRs
-    { name: 'M39 EMR',      category: 'DMR',     tier: 'A', dmg: 50, rpm: 350,  mag: null, attach: ['3.00x',       'Suppressor',     'Heavy Profile',  'Vert Grip',    'Ext Mag'],   note: '2STK at any range' },
-    { name: 'LMR-27',       category: 'DMR',     tier: 'B', dmg: 58, rpm: 300,  mag: null, attach: ['4.00x',       'Suppressor',     'Heavy Profile',  'Bipod',        'Ext Mag'],   note: 'Highest DMR dmg' },
-    { name: 'SVK-8.6',      category: 'DMR',     tier: 'S', dmg: 55, rpm: 320,  mag: 10,   attach: ['3.00x',       'Suppressor',     'Heavy Profile',  'Vert Grip',    '10rnd'],     note: 'Top DMR meta' },
-    { name: 'SVDM',         category: 'DMR',     tier: 'A', dmg: 52, rpm: 340,  mag: null, attach: ['3.00x',       'Suppressor',     'Standard',       'Vert Grip',    'Ext Mag'],   note: 'Solid 2STK' },
+    { name: 'M39 EMR',      category: 'DMR',     tier: 'A', dmg: 41, rpm: 257,  mag: 20,   attach: ['3.00x',       'Suppressor',     'Heavy Profile',  'Vert Grip',    'Ext Mag'],   note: '#2 DMR (wzstats Aug 09) — displaced by SVDM. Stats verified Aug 09 (rnkd + battlefinity; old 50/350 was stale)' },
+    { name: 'LMR-27',       category: 'DMR',     tier: 'C', dmg: 58, rpm: 300,  mag: null, attach: ['4.00x',       'Suppressor',     'Heavy Profile',  'Bipod',        'Ext Mag'],   note: '#6 DMR (wzstats Aug 09, D tier there — folded into C). Stats directional' },
+    { name: 'SVK-8.6',      category: 'DMR',     tier: 'B', dmg: 55, rpm: 320,  mag: 10,   attach: ['3.00x',       'Suppressor',     'Heavy Profile',  'Vert Grip',    '10rnd'],     note: '#4 DMR (wzstats Aug 09). Stats directional' },
+    { name: 'SVDM',         category: 'DMR',     tier: 'S', dmg: 41, rpm: 300,  mag: 10,   attach: ['3.00x',       'Suppressor',     'Standard',       'Vert Grip',    '10rnd'],     note: '#1 DMR (wzstats Aug 09) — first DMR ever in the META group; displaced M39 EMR. Stats verified Aug 09 (rnkd + battlefinity)' },
+    { name: 'VSSM',         category: 'DMR',     tier: 'A', dmg: 35, rpm: 450,  mag: 20,   attach: ['3.00x',       'Integrated Supp.','Standard',      'Vert Grip',    '20rnd'],     note: 'New S4 (Jul 21, free BP tier 5). #3 DMR (wzstats Aug 09). Integrated suppressor + subsonic ammo. Builder simulates STOCK SEMI-AUTO (450 RPM) only — the paid full-auto mod (~800 RPM) is not modeled. Stats: community-tested (Steam + dtgre)' },
+    { name: 'GRT-CPS',      category: 'DMR',     tier: 'B', dmg: null, rpm: 360, mag: 20,  attach: ['3.00x',       'Suppressor',     'Standard',       'Vert Grip',    '20rnd'],     note: '#5 DMR (wzstats Aug 09) — S2 weapon the armory had missed. 360 RPM/20 mag verified; dmg unconfirmed' },
 
     // Snipers
-    { name: 'M2010 ESR',    category: 'Sniper',  tier: 'A', dmg: 100, rpm: 50,  mag: 8,    attach: ['S-VPS 6.00x', 'Lt Suppressor',  '26" Carbon',     'QD Grip Pod',  '8rnd'],      note: 'My pick — easy OHK', meta: true },
-    { name: 'SV-98',        category: 'Sniper',  tier: 'A', dmg: 95,  rpm: 55,  mag: null, attach: ['6.00x',       'Suppressor',     '24" Heavy',      'Bipod',        'Std Mag'],   note: 'Body shot 2STK' },
-    { name: 'PSR',          category: 'Sniper',  tier: 'S', dmg: 98,  rpm: 52,  mag: null, attach: ['8.00x',       'Suppressor',     'Long',           'Bipod',        'Std Mag'],   note: 'Top-tier sniper, harder to use' },
-    { name: 'Mini Scout',   category: 'Sniper',  tier: 'B', dmg: 85,  rpm: 60,  mag: null, attach: ['4.00x',       'Compensator',    'Short',          'Vert Grip',    'Ext Mag'],   note: '2STK to body' },
+    { name: 'M2010 ESR',    category: 'Sniper',  tier: 'S', dmg: 100, rpm: 43,  mag: 8,    attach: ['LERT 8.00x',  'Std Suppressor', '26" Carbon',     'Full Angled',  '8rnd'],      note: '#1 sniper (wzstats Aug 09); sweet spot 75–100m post-1.3.3.0. 43 RPM verified (3 sources)', meta: true },
+    { name: 'SV-98',        category: 'Sniper',  tier: 'A', dmg: 95,  rpm: 55,  mag: null, attach: ['6.00x',       'Suppressor',     '24" Heavy',      'Bipod',        'Std Mag'],   note: '#3 sniper (wzstats Aug 09). Sweet spot cut to 54–75m in 1.3.3.0' },
+    { name: 'PSR',          category: 'Sniper',  tier: 'A', dmg: 98,  rpm: 52,  mag: null, attach: ['8.00x',       'Suppressor',     'Long',           'Bipod',        'Std Mag'],   note: '#2 sniper (wzstats Aug 09, up from #3); sweet spot 90–120m' },
+    { name: 'Mini Scout',   category: 'Sniper',  tier: 'A', dmg: 85,  rpm: 60,  mag: null, attach: ['4.00x',       'Compensator',    'Short',          'Vert Grip',    'Ext Mag'],   note: '#5 sniper (wzstats Aug 09, up from B). 2STK to body vs bare 100 HP (3 vs armored 180)' },
+    { name: 'L115',         category: 'Sniper',  tier: 'A', dmg: 80,  rpm: 46,  mag: 5,    attach: ['6.00x',       'Suppressor',     'Long',           'Bipod',        'Std Mag'],   note: '#4 sniper (wzstats Aug 09 — was #2 in July). Sweet spot 100–133m. Stats: sym.gg data-mine' },
 
     // Shotguns
-    { name: 'M87A1',        category: 'Shotgun', tier: 'S', dmg: 120, rpm: 80,  mag: null, attach: ['Red Dot',     'Choke',          'Standard',       'Vert Grip',    'Ext Tube'],  note: 'Pump-action OHK' },
-    { name: 'M1014',        category: 'Shotgun', tier: 'A', dmg: 95,  rpm: 240, mag: null, attach: ['Red Dot',     'Choke',          'Standard',       'Vert Grip',    'Ext Tube'],  note: 'Semi-auto follow-up' },
-    { name: '18.5 KS-K',    category: 'Shotgun', tier: 'B', dmg: 100, rpm: 100, mag: null, attach: ['Red Dot',     'Mod Choke',      'Short',          'Vert Grip',    'Std Tube'],  note: 'Pump 1STK potential' },
+    { name: 'M87A1',        category: 'Shotgun', tier: 'A', dmg: 120, rpm: 80,  mag: null, attach: ['Red Dot',     'Choke',          'Standard',       'Vert Grip',    'Ext Tube'],  note: '#1 shotgun (wzstats Aug 09 — no shotgun makes META). Pump-action OHK vs bare 100 HP (2STK vs armored 180)' },
+    { name: 'M1014',        category: 'Shotgun', tier: 'C', dmg: 95,  rpm: 240, mag: null, attach: ['Red Dot',     'Choke',          'Standard',       'Vert Grip',    'Ext Tube'],  note: '#3 shotgun (wzstats Aug 09). Semi-auto follow-up' },
+    { name: '18.5 KS-K',    category: 'Shotgun', tier: 'B', dmg: 100, rpm: 100, mag: null, attach: ['Red Dot',     'Mod Choke',      'Short',          'Vert Grip',    'Std Tube'],  note: '#2 shotgun (wzstats Aug 09). Pump 1STK potential vs bare 100 HP only' },
+    { name: 'DB-12',        category: 'Shotgun', tier: 'C', dmg: null, rpm: null, mag: null, attach: ['Red Dot',   'Choke',          'Extended Barrel','Vert Grip',    'Std Tube'],  note: '#4 shotgun (wzstats Aug 09) — S1 double-barrel pump the armory had missed; gained Extended Barrel support in 1.4.1.0. Stats unverified' },
 
     // Pistols
-    { name: 'P18',          category: 'Pistol',  tier: 'A', dmg: 35, rpm: 300,  mag: null, attach: ['Mini RDS',    'Suppressor',     'Standard',       '—',            'Ext Mag'],   note: 'Starter sidearm' },
-    { name: 'ES-5-7',       category: 'Pistol',  tier: 'S', dmg: 32, rpm: 400,  mag: null, attach: ['Mini RDS',    'Compensator',    'Standard',       '—',            'Ext Mag'],   note: 'High-cap, fast' },
-    { name: 'M44',          category: 'Pistol',  tier: 'A', dmg: 60, rpm: 180,  mag: null, attach: ['Mini RDS',    'Compensator',    'Heavy Profile',  '—',            'Speedloader'], note: 'Magnum, 2STK' }
+    { name: 'P18',          category: 'Pistol',  tier: 'A', dmg: 35, rpm: 300,  mag: null, attach: ['Mini RDS',    'Suppressor',     'Standard',       '—',            'Ext Mag'],   note: '#3 secondary (wzstats Aug 09). Starter sidearm' },
+    { name: 'ES-5-7',       category: 'Pistol',  tier: 'C', dmg: 32, rpm: 400,  mag: null, attach: ['Mini RDS',    'Compensator',    'Standard',       '—',            'Ext Mag'],   note: '#7 secondary (wzstats Aug 09, listed there as ES 5.7) — fell from S. High-cap, fast' },
+    { name: 'M44',          category: 'Pistol',  tier: 'A', dmg: 60, rpm: 180,  mag: null, attach: ['Mini RDS',    'Compensator',    'Heavy Profile',  '—',            'Speedloader'], note: '#1 secondary (wzstats Aug 09). Magnum — 2STK vs bare 100 HP (3 vs armored 180)' },
+    { name: 'vz. 61',       category: 'Pistol',  tier: 'A', dmg: null, rpm: null, mag: null, attach: ['Mini RDS',  'Suppressor',     'Standard',       '—',            'Ext Mag'],   note: '#2 secondary (wzstats Aug 09) — machine pistol the armory had missed. Stats unverified' },
+    { name: 'GGH-22',       category: 'Pistol',  tier: 'B', dmg: null, rpm: null, mag: null, attach: ['Mini RDS',  'Compensator',    'Standard',       '—',            'Ext Mag'],   note: '#4 secondary (wzstats Aug 09) — the armory had missed it. Stats unverified' },
+    { name: 'M357 TRAIT',   category: 'Pistol',  tier: 'B', dmg: null, rpm: null, mag: null, attach: ['Mini RDS',  'Compensator',    'Heavy Profile',  '—',            'Speedloader'], note: '#5 secondary (wzstats Aug 09) — the armory had missed it. Stats unverified' },
+    { name: 'M45A1',        category: 'Pistol',  tier: 'C', dmg: null, rpm: null, mag: null, attach: ['Mini RDS',  'Compensator',    'Standard',       '—',            'Ext Mag'],   note: '#6 secondary (wzstats Aug 09) — the armory had missed it. Stats unverified' }
   ];
 
   // TTK baseline. REDSEC default = 180 effective HP (100 health + 80 armor / 2 plates,
   // per EA's official REDSEC armor page). Toggle to 100 = bare health (no armor / MP-style).
   let TARGET_HP = 180;
 
+  // Update 1.3.3.0 chest-vs-armor multipliers (EA patch notes, live 2026-06-30):
+  // automatics ×0.84, DMRs ×0.91; shotguns & sidearms exempt. Snipers unchanged here —
+  // their 0.8→0.67 cut is limb/lower-torso, not chest. Applied only in armored (180) mode.
+  const ARMOR_MULT = { AR: 0.84, Carbine: 0.84, SMG: 0.84, LMG: 0.84, DMR: 0.91, Sniper: 1.0, Shotgun: 1.0, Pistol: 1.0 };
+  function armorMult(cat) { return TARGET_HP === 180 ? (ARMOR_MULT[cat] ?? 1) : 1; }
+
   // Compute BTK and TTK against the current TARGET_HP, and re-tag fastest-in-class.
+  // Weapons with unverified stats (dmg/rpm null) get null BTK/TTK — never invented numbers.
   function recomputeTTK() {
     WEAPONS.forEach(w => {
-      w.btk = Math.ceil(TARGET_HP / w.dmg);
-      w.ttk = Math.round((w.btk - 1) * (60000 / w.rpm));
       w.fastest = false;
+      if (w.dmg == null || w.rpm == null) { w.btk = null; w.ttk = null; return; }
+      w.btk = Math.ceil(TARGET_HP / (w.dmg * armorMult(w.category)));
+      w.ttk = Math.round((w.btk - 1) * (60000 / w.rpm));
     });
     const byCat = {};
     WEAPONS.forEach(w => { (byCat[w.category] ||= []).push(w); });
     Object.values(byCat).forEach(arr => {
-      const minTTK = Math.min(...arr.map(w => w.ttk));
+      const ttks = arr.map(w => w.ttk).filter(t => t != null);
+      if (!ttks.length) return;
+      const minTTK = Math.min(...ttks);
       arr.filter(w => w.ttk === minTTK).forEach(w => w.fastest = true);
     });
   }
@@ -1613,6 +1660,9 @@
   const tierVal = { S: 4, A: 3, B: 2, C: 1 };
 
   let state = { sort: 'ttk', dir: 'asc', cat: 'all', search: '' };
+
+  // Escape a string for safe interpolation into a double-quoted HTML attribute.
+  const escAttr = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 
   function render() {
     const tbody = document.getElementById('armory-body');
@@ -1634,21 +1684,21 @@
 
     tbody.innerHTML = rows.map(w => {
       const ttkClass = w.ttk === 0 ? 'ohk' : (w.fastest ? 'fastest' : '');
-      const ttkDisplay = w.ttk === 0 ? 'OHK' : w.ttk;
+      const ttkDisplay = w.ttk == null ? '—' : (w.ttk === 0 ? 'OHK' : w.ttk);
       const metaBadge = w.meta ? '<span class="badge-inline badge-meta">META</span>' : '';
       const fastBadge = w.fastest && w.ttk > 0 ? '<span class="badge-inline badge-fast">FAST</span>' : '';
       const slotLabels = ['Optic','Muzzle','Barrel','Underbarrel','Magazine'];
       const loadout = (w.attach || []).map((a, i) =>
         `<span class="att-chip" title="${slotLabels[i]}"><span class="att-chip-slot">${slotLabels[i].slice(0,3).toUpperCase()}</span>${a}</span>`
       ).join('');
-      return `<tr class="${w.meta ? 'meta-pick' : ''}" title="${w.note || ''}">
+      return `<tr class="${w.meta ? 'meta-pick' : ''}" title="${escAttr(w.note || '')}">
         <td>${w.name}${metaBadge}${fastBadge}</td>
         <td style="color:var(--text-dim)">${w.category}</td>
         <td class="tier-cell tier-${w.tier}">${w.tier}</td>
-        <td>${w.dmg}</td>
-        <td>${w.rpm}</td>
+        <td>${w.dmg ?? '—'}</td>
+        <td>${w.rpm ?? '—'}</td>
         <td>${w.mag ?? '—'}</td>
-        <td>${w.btk}</td>
+        <td>${w.btk ?? '—'}</td>
         <td class="ttk-cell ${ttkClass}">${ttkDisplay}</td>
         <td class="loadout-cell">${loadout}</td>
       </tr>`;
@@ -1765,7 +1815,23 @@
     equipped: { Optic: null, Muzzle: null, Barrel: null, Underbarrel: null, Magazine: null, Stock: null }
   };
 
-  let presets = JSON.parse(localStorage.getItem('redsec-presets') || '[]');
+  // Storage that never throws: sandboxed iframes (chat previews) block localStorage
+  // entirely — an unguarded access here would kill the whole script and every button.
+  const store = (() => {
+    try {
+      const t = '__redsec_t'; localStorage.setItem(t, '1'); localStorage.removeItem(t);
+      return localStorage;
+    } catch (e) {
+      const mem = {};
+      return {
+        getItem: k => (k in mem ? mem[k] : null),
+        setItem: (k, v) => { mem[k] = String(v); },
+        removeItem: k => { delete mem[k]; }
+      };
+    }
+  })();
+  let presets = [];
+  try { presets = JSON.parse(store.getItem('redsec-presets') || '[]'); } catch (e) { presets = []; }
   let snapshots = { A: null, B: null };
 
   function getCurrentStats(overrideEquipped) {
@@ -1776,7 +1842,7 @@
     const stats = {
       damage: w.dmg,
       rpm: w.rpm,
-      magSize: w.mag || 30,
+      magSize: w.mag,
       magMult: 1,
       recoilControl: base.recoilControl,
       range: base.range,
@@ -1800,12 +1866,13 @@
         else stats[k] = (stats[k] || 0) + v;
       });
     });
-    stats.magSize = Math.round(stats.magSize * stats.magMult);
-    baseStats.magSize = w.mag || 30;
-    // BTK + TTK vs current REDSEC HP baseline
-    stats.btk = Math.ceil(TARGET_HP / stats.damage);
+    stats.magSize = stats.magSize == null ? null : Math.round(stats.magSize * stats.magMult);
+    baseStats.magSize = w.mag;
+    // BTK + TTK vs current REDSEC HP baseline (1.3.3.0 armor multipliers in 180 mode)
+    const am = armorMult(w.category);
+    stats.btk = Math.ceil(TARGET_HP / (stats.damage * am));
     stats.ttk = Math.round((stats.btk - 1) * (60000 / stats.rpm));
-    baseStats.btk = Math.ceil(TARGET_HP / baseStats.damage);
+    baseStats.btk = Math.ceil(TARGET_HP / (baseStats.damage * am));
     baseStats.ttk = Math.round((baseStats.btk - 1) * (60000 / baseStats.rpm));
     return { stats, base: baseStats, points };
   }
@@ -1815,7 +1882,7 @@
     document.getElementById('picker-tabs').innerHTML = cats.map(c =>
       `<button class="picker-tab ${bs.activeCat === c ? 'active' : ''}" data-cat="${c}">${c}</button>`
     ).join('');
-    const list = WEAPONS.filter(w => w.category === bs.activeCat);
+    const list = WEAPONS.filter(w => w.category === bs.activeCat && w.dmg != null && w.rpm != null);
     document.getElementById('picker-section-h').innerHTML =
       `<span class="lhs">Weapons in ${bs.activeCat}</span><span class="count">${list.length} available — click to select</span>`;
     document.getElementById('picker-list').innerHTML = list.map(w =>
@@ -1851,7 +1918,7 @@
     "L85A3": "images/l85a3.webp",
     "AK-205": "images/ak-205.webp",
     "QBZ-192": "images/qbz-192.webp",
-    "SG-554R": "images/sg-554r.webp",
+    "SG 553R": "images/sg-554r.webp",
     "SOR-300SC": "images/sor-300sc.webp",
     "SGX": "images/sgx.webp",
     "PW5A3": "images/pw5a3.webp",
@@ -2268,15 +2335,21 @@
     `;
   }
 
+  // EA's documented point budget (Data & Sources panel): 100 per primary, 60 per secondary.
+  const budgetFor = w => (w && w.category === 'Pistol') ? 60 : 100;
+
   function renderBudget() {
     const r = getCurrentStats();
     if (!r) return;
-    const pct = Math.min(100, (r.points / 100) * 100);
+    const cap = budgetFor(bs.weapon);
+    const pct = Math.min(100, (r.points / cap) * 100);
     document.getElementById('bw-budget').style.display = 'block';
     document.getElementById('bw-points').textContent = r.points;
+    document.getElementById('bw-cap').textContent = cap;
+    document.querySelector('.bw-budget-label').textContent = `Pick-${cap} Budget`;
     const fill = document.getElementById('bw-budget-fill');
     fill.style.width = pct + '%';
-    if (r.points > 100) {
+    if (r.points > cap) {
       fill.classList.add('over');
       document.querySelector('.bw-budget-val').classList.add('over');
     } else {
@@ -2315,7 +2388,7 @@
     const currentPoints = r ? r.points : 0;
     const equippedIdx = bs.equipped[slot];
     const currentCost = equippedIdx != null ? ATTACHMENT_DATA[slot][equippedIdx].cost : 0;
-    const remaining = 100 - currentPoints + currentCost;
+    const remaining = budgetFor(bs.weapon) - currentPoints + currentCost;
 
     document.getElementById('bw-options').innerHTML = opts.map((o, i) => {
       const isEquipped = equippedIdx === i;
@@ -2377,6 +2450,14 @@
     document.getElementById('bw-stats-grid').innerHTML = rows.map(rw => {
       const v = stats[rw.key];
       const bv = base[rw.key];
+      if (v == null || bv == null) {
+        // Unverified base value (e.g. mag size) — never invent a number (data-honesty rule)
+        return `<div class="bw-stat">
+          <div class="bw-stat-label">${rw.label}</div>
+          <div class="bw-stat-bar"></div>
+          <div class="bw-stat-val"><span class="bw-stat-num" title="not verified by any checked source">—</span></div>
+        </div>`;
+      }
       const delta = v - bv;
       const max = rw.type === 'pct' ? 100 : rw.max;
       const fillPct = Math.max(0, Math.min(100, (v / max) * 100));
@@ -2447,7 +2528,7 @@
       equipped: { ...bs.equipped },
       created: Date.now()
     });
-    localStorage.setItem('redsec-presets', JSON.stringify(presets));
+    store.setItem('redsec-presets', JSON.stringify(presets));
     renderPresets();
   }
 
@@ -2465,7 +2546,7 @@
 
   function deletePreset(idx) {
     presets.splice(idx, 1);
-    localStorage.setItem('redsec-presets', JSON.stringify(presets));
+    store.setItem('redsec-presets', JSON.stringify(presets));
     renderPresets();
   }
 
@@ -2505,7 +2586,13 @@
       renderComparison();
     }));
     document.querySelectorAll('.bw-preset-del').forEach(b => b.addEventListener('click', () => {
-      if (confirm('Delete this preset?')) deletePreset(parseInt(b.dataset.idx));
+      // Two-click confirm instead of confirm(): modal dialogs are blocked in
+      // sandboxed iframes, which made delete a silent no-op there.
+      if (b.dataset.armed === '1') { deletePreset(parseInt(b.dataset.idx)); return; }
+      b.dataset.armed = '1';
+      const orig = b.textContent;
+      b.textContent = '✓?';
+      setTimeout(() => { b.dataset.armed = ''; b.textContent = orig; }, 2500);
     }));
   }
 
@@ -2516,7 +2603,7 @@
     if (!w) return null;
     const base = { ...CATEGORY_BASES[w.category] };
     const stats = {
-      damage: w.dmg, rpm: w.rpm, magSize: w.mag || 30, magMult: 1,
+      damage: w.dmg, rpm: w.rpm, magSize: w.mag, magMult: 1,
       recoilControl: base.recoilControl, range: base.range, mobility: base.mobility,
       adsSpeed: base.adsSpeed, velocity: base.velocity, accuracy: base.accuracy,
       stealth: base.stealth, reloadSpeed: 50
@@ -2533,8 +2620,11 @@
         else stats[k] = (stats[k] || 0) + v;
       });
     });
-    stats.magSize = Math.round(stats.magSize * stats.magMult);
-    stats.btk = Math.ceil(TARGET_HP / stats.damage);
+    stats.magSize = stats.magSize == null ? null : Math.round(stats.magSize * stats.magMult);
+    // Same 1.3.3.0 armor-multiplier treatment as recomputeTTK/getCurrentStats —
+    // Compare + Squad panels must agree with the Builder and armory.
+    const am = armorMult(w.category);
+    stats.btk = Math.ceil(TARGET_HP / (stats.damage * am));
     stats.ttk = Math.round((stats.btk - 1) * (60000 / stats.rpm));
     return { stats, weapon: w, points };
   }
@@ -2580,7 +2670,7 @@
         <div class="bw-compare-col-h">
           <div>
             <div class="bw-compare-col-name">${r.weapon.name}</div>
-            <div class="bw-compare-col-meta">${r.weapon.category} · ${r.weapon.tier}-tier · ${r.points}/100 pts</div>
+            <div class="bw-compare-col-meta">${r.weapon.category} · ${r.weapon.tier}-tier · ${r.points}/${budgetFor(r.weapon)} pts</div>
           </div>
           <span class="bw-compare-col-tag">BUILD ${label}</span>
         </div>
@@ -2615,6 +2705,18 @@
     document.getElementById('bw-compare-stats').innerHTML = rows.map(r => {
       const av = A.stats[r.key];
       const bv = B.stats[r.key];
+      if (av == null || bv == null) {
+        // One side lacks a verified value — show dashes, declare no winner
+        return `<div class="bw-compare-stat">
+          <div class="bw-compare-stat-label">${r.label}</div>
+          <div class="bw-compare-stat-val va">${av == null ? '—' : Math.round(av)}</div>
+          <div class="bw-compare-bar-a"></div>
+          <div class="bw-compare-vs">vs</div>
+          <div class="bw-compare-bar-b"></div>
+          <div class="bw-compare-stat-val vb">${bv == null ? '—' : Math.round(bv)}</div>
+          <div class="bw-compare-delta">—</div>
+        </div>`;
+      }
       const aBetter = r.lowerBetter ? av < bv : av > bv;
       const bBetter = r.lowerBetter ? bv < av : bv > av;
       const aClass = av === bv ? '' : (aBetter ? 'winner' : 'loser');
@@ -2640,9 +2742,14 @@
   /* ============== EVENT WIRING ============== */
   document.getElementById('bw-save-preset').addEventListener('click', () => {
     if (!bs.weapon) return;
-    const defaultName = `${bs.weapon.name} #${presets.filter(p => p.weapon === bs.weapon.name).length + 1}`;
-    const name = prompt('Preset name:', defaultName);
-    if (name && name.trim()) savePreset(name.trim());
+    // No prompt(): modal dialogs are blocked in sandboxed iframes and some in-app
+    // browsers, which made this button a silent no-op. Auto-name + visual confirm.
+    const name = `${bs.weapon.name} #${presets.filter(p => p.weapon === bs.weapon.name).length + 1}`;
+    savePreset(name);
+    const btn = document.getElementById('bw-save-preset');
+    const orig = btn.textContent;
+    btn.textContent = '✓ Saved';
+    setTimeout(() => { btn.textContent = orig; }, 1400);
   });
   document.getElementById('bw-snap-a').addEventListener('click', () => setSnapshot('A'));
   document.getElementById('bw-snap-b').addEventListener('click', () => setSnapshot('B'));
@@ -2681,7 +2788,7 @@
   function scoreEquipped(equipped, weights) {
     const r = getCurrentStats(equipped);
     if (!r) return -Infinity;
-    if (r.points > 100) return -Infinity;
+    if (r.points > budgetFor(bs.weapon)) return -Infinity;
     let s = 0;
     Object.entries(weights).forEach(([k, w]) => { s += (r.stats[k] || 0) * w; });
     return s;
@@ -2704,7 +2811,7 @@
       dfs(slotIdx + 1, eq, points);
       // Try each option
       ATTACHMENT_DATA[slot].forEach((opt, idx) => {
-        if (points + opt.cost > 100) return;
+        if (points + opt.cost > budgetFor(bs.weapon)) return;
         eq[slot] = idx;
         dfs(slotIdx + 1, eq, points + opt.cost);
       });
@@ -2820,6 +2927,7 @@
     if (parts.length < 2) return null;
     const w = WEAPONS.find(w => w.name === decodeURIComponent(parts[0]));
     if (!w) return null;
+    if (w.dmg == null || w.rpm == null) return null; // stats unverified — same guard as all other load paths
     const arr = parts[1].split(',');
     const equipped = { Optic: null, Muzzle: null, Barrel: null, Underbarrel: null, Magazine: null, Stock: null };
     SLOT_ORDER.forEach((sl, i) => {
@@ -2829,10 +2937,28 @@
     return { weapon: w, equipped };
   }
 
+  // Visible fallback when both clipboard and prompt() are unavailable
+  // (sandboxed iframes block prompt; file:// often lacks clipboard permission).
+  function showShareLink(url) {
+    let el = document.getElementById('bw-share-fallback');
+    if (!el) {
+      el = document.createElement('input');
+      el.id = 'bw-share-fallback';
+      el.readOnly = true;
+      el.setAttribute('aria-label', 'Shareable build link');
+      el.style.cssText = 'width:100%;margin-top:8px;padding:8px 10px;font:12px var(--mono);background:var(--bg-3);color:var(--text);border:1px solid var(--line-strong);border-radius:8px;';
+      document.getElementById('bw-share-btn').insertAdjacentElement('afterend', el);
+    }
+    el.value = url;
+    el.focus(); el.select();
+  }
+
   document.getElementById('bw-share-btn').addEventListener('click', () => {
     if (!bs.weapon) return;
     const hash = '#b=' + encodeBuild(bs.weapon, bs.equipped);
-    const url = window.location.origin + window.location.pathname + hash;
+    // href-based, not origin-based: location.origin is "null"/"file://" when the
+    // page is opened by double-clicking the file, which produced broken links.
+    const url = window.location.href.split('#')[0] + hash;
     const btn = document.getElementById('bw-share-btn');
     const orig = btn.textContent;
     const done = () => {
@@ -2841,12 +2967,12 @@
       setTimeout(() => { btn.classList.remove('copied'); btn.textContent = orig; }, 1800);
     };
     if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(url).then(done).catch(() => prompt('Share link:', url));
+      navigator.clipboard.writeText(url).then(done).catch(() => showShareLink(url));
     } else {
       const ta = document.createElement('textarea');
       ta.value = url; ta.style.position = 'fixed'; ta.style.left = '-9999px';
       document.body.appendChild(ta); ta.select();
-      try { document.execCommand('copy'); done(); } catch(e) { prompt('Share link:', url); }
+      try { document.execCommand('copy'); done(); } catch(e) { showShareLink(url); }
       document.body.removeChild(ta);
     }
   });
@@ -2909,7 +3035,7 @@
             <div class="summary-line"><span>Weapon</span><strong>${r.weapon.name}</strong></div>
             <div class="summary-line"><span>TTK</span><strong>${r.stats.ttk === 0 ? 'OHK' : r.stats.ttk + 'ms'}</strong></div>
             <div class="summary-line"><span>Range</span><strong>${ranges || '—'}</strong></div>
-            <div class="summary-line"><span>Points</span><strong>${r.points}/100</strong></div>
+            <div class="summary-line"><span>Points</span><strong>${r.points}/${budgetFor(r.weapon)}</strong></div>
             <div class="summary-line"><span>Tier</span><strong>${r.weapon.tier}</strong></div>
           </div>`;
         }
@@ -3011,6 +3137,7 @@
   const TIER_NAME = { S: 'Meta', A: 'Strong', B: 'Viable', C: 'Niche' };
 
   function loadWeaponIntoBuilder(w) {
+    if (w.dmg == null || w.rpm == null) return; // stats not yet verified — no simulated build
     bs.weapon = w;
     bs.activeCat = w.category;
     bs.equipped = { Optic: null, Muzzle: null, Barrel: null, Underbarrel: null, Magazine: null, Stock: null };
@@ -3056,7 +3183,21 @@
           ch.append(document.createTextNode(w.name));
           const cat = document.createElement('span'); cat.className = 'tc-cat'; cat.textContent = w.category;
           ch.appendChild(cat);
-          ch.addEventListener('click', () => loadWeaponIntoBuilder(w));
+          ch.title = w.note || '';
+          if (w.dmg == null || w.rpm == null) {
+            // No verified dmg/rpm → Builder can't simulate it. Disable the control honestly
+            // instead of leaving a click that silently does nothing.
+            ch.title = (w.note ? w.note + ' — ' : '') + 'stats not yet verified; Builder unavailable';
+            ch.disabled = true;
+            ch.setAttribute('aria-disabled', 'true');
+            ch.style.opacity = '0.55';
+            ch.style.cursor = 'not-allowed';
+            const na = document.createElement('span');
+            na.className = 'tc-cat'; na.textContent = 'no data';
+            ch.appendChild(na);
+          } else {
+            ch.addEventListener('click', () => loadWeaponIntoBuilder(w));
+          }
           chips.appendChild(ch);
         });
       }
