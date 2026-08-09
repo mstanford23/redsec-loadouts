@@ -3,22 +3,26 @@
 _Cold-restart context. Updated 2026-08-09._
 
 ## In Flight
-- 2026-08-09 data refresh: multi-agent research sweep running (what changed since Jul 5 / Update 1.3.3.0), then verify → edit → browser check → Codex D8 gate → merge to main. Branch state: `git log origin/main..HEAD` answers what's unmerged.
+- none — 2026-08-09 Season 4 refresh shipped from `claude/gracious-satoshi-2523b6`. Codex D8 gate: 3 parallel passes + 3 confirmation rounds, 14 unique defects/accuracy gaps fixed, final verdict **approve**. `git log origin/main..HEAD` answers what's unmerged.
 
 ## Blocked
 - none
 
 ## Next Up
-- During the Aug 9 refresh: re-check KORD attachment build (post-1.3.3.0 guide) and Match Grade ammo re-evaluation — both were open source-gaps from Jul 5.
+- 2026-08-18: Top Gun update ships (Interdictor sniper, Wake Island) → [issue #1](https://github.com/mstanford23/redsec-loadouts/issues/1).
+- Re-verify remaining "directional" armory stats → [issue #2](https://github.com/mstanford23/redsec-loadouts/issues/2).
+- Fill 10 null-stat weapons; resolve BROD 3 dmg conflict + GRTZ-BC naming → [issue #3](https://github.com/mstanford23/redsec-loadouts/issues/3).
 
 ## Open Questions
-- Sniper chest-vs-armor multiplier post-1.3.3.0 is ambiguous in sources (limb 0.8→0.67 is confirmed; chest unstated) — modeled conservatively at ×1.0 and disclosed on-page.
+- Sniper chest-vs-armor multiplier post-1.3.3.0 remains modeled at ×1.0 and disclosed on-page (unchanged; no patch since has clarified it).
+- VSSM full-auto mod (~800 RPM) is not modeled in the Builder — needs verified point cost + handling penalties before simulation.
 
-## Recently Completed (2026-07-05)
-- Live-verified Season 3 / Update 1.3.3.0 meta for all four classes (14-agent research + adversarial verify; 6 confirmed, 1 plausible-with-corrections). Support meta changed: DRS-IAR → KTS100 MK8. DMR order now M39 EMR > SVDM > SVK-8.6.
-- Fixed 3 real HTML defects: unguarded localStorage (killed whole script in sandboxed iframes), prompt()/confirm() silent no-ops, origin-based share URL broken on file://. All browser-verified.
-- Added 4 missing Season 3 weapons (M16A4, RPK-74M, L115, PP-19) with data-mined stats; SG-554R name corrected to SG 553R; armory now 50 weapons.
-- TTK model applies EA's 1.3.3.0 chest-vs-armor multipliers (autos ×0.84, DMR ×0.91) in 180-HP mode.
+## Recently Completed (2026-08-09)
+- Season 4 refresh: rebranded S3/1.3.3.0 → S4 "Pacific Front"/1.4.1.5; armory 50 → 62 weapons (3 new S4 + 9 that were always missing, incl. VCR-2 #2 AR and 4 secondaries — now full parity with wzstats' REDSEC roster).
+- Meta flip published: SVDM #1 DMR (displaced M39 EMR; first DMR in META group); sniper order reshuffled below M2010 ESR. All four class picks held #1.
+- 9 weapons' stats corrected from a source proven stale (battlefieldredsec.space frozen at Dec 2025); rnkd.gg + CharlieIntel now the verified pair.
+- Codex gate fixes: null-mag fabrication removed from Builder (honest "—"), tooltip attribute escaping, D-tier fold disclosed, per-baseline STK qualifiers, disabled no-data tier chips, KORD/SGX/KTS100 armory loadouts aligned to verified card builds, underwater-attenuation + Jul-27 server-side HS-mult correction disclosed.
+- 19-agent research+verify pipeline (2 workflows), 3+1-round Codex D8 gate, browser-verified throughout. Issues #1–#3 filed.
 
 ## See Also
-- `.fleet/decisions.md` (PM decision register) · `.fleet/forensics/issue-log.md` (3 fixed defects with evidence) · `.fleet/journal/2026-07-05-data-refresh-and-hardening.md` (D1 entry) · `.fleet/dashboard/` (live build dashboard)
+- `.fleet/decisions.md` (PM decision register) · `.fleet/journal/2026-08-09-season4-data-refresh.md` (D1 entry, this refresh) · `.fleet/journal/2026-07-05-data-refresh-and-hardening.md` (July refresh) · `.fleet/dashboard/` (build dashboard) · GitHub issues (live tracker: `gh issue list`)

@@ -1,7 +1,7 @@
 # redsec-loadouts — Wiki
 
 ## Architecture
-Single self-contained `index.html` (no build step, no dependencies): CSS + HTML sections (Tier List, Builder, Squad, Armory, 4 class cards, Matrix, Data & Sources) + one classic script. Data lives in the `WEAPONS` array (50 entries: name/category/tier/dmg/rpm/mag/attach/note, `meta` flag for class picks, `dmg/rpm: null` = stats not yet verified → rendered "—", excluded from Builder). TTK model: `btk = ceil(HP / (dmg × armorMult))`, armorMult applies EA 1.3.3.0 chest-vs-armor multipliers (autos ×0.84, DMR ×0.91) in 180-HP mode only. Storage goes through a throw-safe `store` wrapper (in-memory fallback for sandboxed iframes). Weapon images self-hosted in `/images` with procedural-SVG fallback.
+Single self-contained `index.html` (no build step, no dependencies): CSS + HTML sections (Tier List, Builder, Squad, Armory, 4 class cards, Matrix, Data & Sources) + one classic script. Data lives in the `WEAPONS` array (62 entries: name/category/tier/dmg/rpm/mag/attach/note, `meta` flag for class picks, `dmg/rpm: null` = stats not yet verified → rendered "—", excluded from Builder). TTK model: `btk = ceil(HP / (dmg × armorMult))`, armorMult applies EA 1.3.3.0 chest-vs-armor multipliers (autos ×0.84, DMR ×0.91) in 180-HP mode only. Storage goes through a throw-safe `store` wrapper (in-memory fallback for sandboxed iframes). Weapon images self-hosted in `/images` with procedural-SVG fallback.
 
 ## Glossary
 - **TTK / BTK / STK** — time / bullets / shots to kill. **Pick-100** — BF6's 100-point attachment budget per primary.

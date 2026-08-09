@@ -1,8 +1,8 @@
 # redsec-loadouts
 
-Interactive Battlefield 6 / REDSEC loadout site: per-class meta picks (Assault / Engineer / Support / Recon), a 50-weapon tier list and armory, a Pick-100 weapon builder with live TTK simulation, A/B compare, presets, shareable build links, and squad-coverage analysis. Single self-contained `index.html` + local `/images`.
+Interactive Battlefield 6 / REDSEC loadout site: per-class meta picks (Assault / Engineer / Support / Recon), a 62-weapon tier list and armory, a Pick-100 weapon builder with live TTK simulation, A/B compare, presets, shareable build links, and squad-coverage analysis. Single self-contained `index.html` + local `/images`.
 
-Data honesty: every meta claim on the page is sourced and dated (see the on-page "Data & Sources" panel). Last live verification: **July 5, 2026**, post-Update 1.3.3.0.
+Data honesty: every meta claim on the page is sourced and dated (see the on-page "Data & Sources" panel). Last live verification: **August 9, 2026**, Season 4 (Update 1.4.1.5).
 
 ## Run it
 
